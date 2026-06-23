@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Inquiry {
+  id               String   @id @default(cuid())
+  name             String
+  email            String
+  phone            String
+  service          String
+  preferredDate    DateTime?
+  location         String
+  message          String
+  preferredContact String?
+  status           String   @default("new")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model PortfolioItem {
+  id          String   @id @default(cuid())
+  titleBg     String
+  titleEn     String
+  category    String
+  imageUrl    String
+  description String?
+  location    String?
+  shootYear   Int?
+  clientType  String?
+  featured    Boolean  @default(false)
+  showOnHome  Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model PortfolioCategory {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  labelBg   String
+  labelEn   String
+  visible   Boolean  @default(true)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SiteSetting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

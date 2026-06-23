@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: parkov-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: parkov
+      POSTGRES_PASSWORD: parkov
+      POSTGRES_DB: parkov
+    ports:
+      - "5433:5432"
+    volumes:
+      - parkov-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U parkov -d parkov"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  parkov-postgres-data:

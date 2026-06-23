@@ -1,0 +1,350 @@
+{
+  "seo": {
+    "title": "Parkov Photography | Photographer in Bulgaria",
+    "description": "Premium bilingual photography website for weddings, portraits, events, products, business, family sessions, and real estate across Bulgaria."
+  },
+  "common": {
+    "language": "Change language",
+    "theme": "Toggle light or dark mode",
+    "menu": "Open menu",
+    "closeMenu": "Close menu",
+    "close": "Close"
+  },
+  "nav": {
+    "about": "About",
+    "work": "Portfolio",
+    "services": "Services",
+    "pricing": "Packages",
+    "process": "Process",
+    "contact": "Request"
+  },
+  "home": {
+    "hero": {
+      "eyebrow": "Photography across Bulgaria",
+      "title": "Frames that stay with you.",
+      "copy": "Parkov creates wedding, portrait, event, and commercial photography with a clean visual style, calm communication, and attention to real moments.",
+      "primary": "Send request",
+      "secondary": "View portfolio"
+    },
+    "stats": {
+      "years": "years behind the camera",
+      "projects": "stories photographed",
+      "rating": "average rating",
+      "reply": "request response time"
+    },
+    "portfolio": {
+      "eyebrow": "Selected work",
+      "title": "A portfolio with character, not just a gallery.",
+      "copy": "The first version uses sample photography. Then we replace everything with Parkov's real work and organize categories around Bulgarian client demand.",
+      "cta": "Open full gallery",
+      "categories": {
+        "all": "All",
+        "weddings": "Weddings",
+        "portraits": "Portraits",
+        "events": "Events",
+        "commercial": "Commercial",
+        "business": "Business",
+        "realEstate": "Real estate",
+        "family": "Family"
+      }
+    },
+    "about": {
+      "eyebrow": "About Parkov",
+      "title": "Calm direction, sharp timing, and photographs made to feel personal.",
+      "copy": "The website is being shaped for a photographer who can handle many kinds of work without feeling generic. The tone should feel local, reliable, and premium for clients in Bulgaria.",
+      "points": {
+        "calm": "Clear guidance during the session",
+        "local": "Built around Bulgarian client habits",
+        "edited": "Edited galleries ready to share",
+        "flexible": "Flexible coverage for different projects"
+      }
+    },
+    "services": {
+      "eyebrow": "Services",
+      "title": "Everything from personal sessions to full event coverage.",
+      "items": {
+        "weddings": { "title": "Weddings", "copy": "Full-day coverage of the details, emotion, people, and celebration." },
+        "portraits": { "title": "Portraits", "copy": "Personal, artistic, and professional portraits for profiles or campaigns." },
+        "events": { "title": "Events", "copy": "Corporate events, birthdays, proms, baptisms, concerts, and private moments." },
+        "products": { "title": "Products", "copy": "Clean product images for online stores, menus, catalogs, and ads." },
+        "business": { "title": "Business", "copy": "Team photos, LinkedIn portraits, office atmosphere, and employer branding." },
+        "realEstate": { "title": "Real estate", "copy": "Interior and exterior photography for properties, hotels, and venues." },
+        "family": { "title": "Family sessions", "copy": "Relaxed photographs at home, outdoors, or in studio with a natural feel." },
+        "creative": { "title": "Creative projects", "copy": "Fashion, concepts, campaigns, retouching, and visual direction." }
+      }
+    },
+    "process": {
+      "eyebrow": "Process",
+      "title": "Clear from the first message to the final gallery.",
+      "steps": {
+        "brief": { "title": "Request", "copy": "The client sends date, location, shoot type, and expectations." },
+        "shoot": { "title": "Session", "copy": "A planned shoot with direction, calm pacing, and attention to detail." },
+        "delivery": { "title": "Delivery", "copy": "Selection, editing, and an online gallery ready to share." }
+      }
+    },
+    "packages": {
+      "eyebrow": "Packages",
+      "title": "Simple starting points, customized after the request.",
+      "copy": "Prices are mock placeholders for now. Later the owner can decide whether to show fixed pricing, starting prices, or private quotes only.",
+      "featured": "Popular",
+      "cta": "Ask for availability",
+      "items": {
+        "portrait": {
+          "title": "Portrait session",
+          "copy": "For personal portraits, business profiles, couples, family moments, and smaller creative sessions.",
+          "price": "from 180 BGN"
+        },
+        "event": {
+          "title": "Event coverage",
+          "copy": "For weddings, proms, baptisms, corporate events, birthdays, and celebrations across Bulgaria.",
+          "price": "custom quote"
+        },
+        "commercial": {
+          "title": "Commercial shoot",
+          "copy": "For products, spaces, restaurants, real estate, brand campaigns, and business content.",
+          "price": "from 320 BGN"
+        }
+      }
+    },
+    "testimonials": {
+      "eyebrow": "Client words",
+      "title": "Trust signals that will later use real client reviews.",
+      "items": {
+        "maria": {
+          "quote": "The session felt easy and the photos looked natural. Communication before and after was very clear.",
+          "name": "Maria D.",
+          "role": "Portrait client"
+        },
+        "nikolay": {
+          "quote": "Fast response, good direction during the event, and a gallery that was ready to share with the team.",
+          "name": "Nikolay P.",
+          "role": "Corporate event"
+        },
+        "elena": {
+          "quote": "The details, atmosphere, and people were captured beautifully. Exactly the feeling we wanted.",
+          "name": "Elena V.",
+          "role": "Wedding client"
+        }
+      }
+    },
+    "faq": {
+      "eyebrow": "FAQ",
+      "title": "Questions Bulgarian clients usually ask before booking.",
+      "items": {
+        "travel": {
+          "question": "Do you travel outside one city?",
+          "answer": "Yes. The site is planned for Bulgaria-wide work. Travel costs can be included in the final quote depending on the location."
+        },
+        "delivery": {
+          "question": "How fast are photos delivered?",
+          "answer": "Delivery depends on the shoot type. The final site should show realistic timing for previews and full edited galleries."
+        },
+        "deposit": {
+          "question": "Is a deposit required?",
+          "answer": "For larger events, a deposit is usually recommended to reserve the date. We will confirm the exact policy with Parkov."
+        },
+        "raw": {
+          "question": "Are RAW files included?",
+          "answer": "Usually clients receive edited final images. RAW delivery can be handled as a separate policy if the owner wants it."
+        },
+        "languages": {
+          "question": "Can clients use Bulgarian or English?",
+          "answer": "Yes. The site supports both languages, with Bulgarian as the default and English available for international clients."
+        }
+      }
+    },
+    "contact": {
+      "eyebrow": "Bookings",
+      "title": "Tell us what you want photographed.",
+      "copy": "The form is built for serious inquiries, while quick actions stay available for phone, Viber, WhatsApp, and email.",
+      "location": "Based in Bulgaria. Travel available depending on the project.",
+      "methods": {
+        "phone": "Call now",
+        "viber": "Message on Viber",
+        "whatsapp": "Message on WhatsApp",
+        "email": "Send email"
+      }
+    },
+    "footer": {
+      "copy": "Mock contact and social details for now. Real brand details will replace them later.",
+      "socials": {
+        "instagram": "Instagram",
+        "facebook": "Facebook",
+        "tiktok": "TikTok"
+      }
+    }
+  },
+  "gallery": {
+    "seoTitle": "Portfolio gallery | Parkov Photography",
+    "seoDescription": "Browse Parkov photography work by category, including weddings, portraits, events, commercial work, business portraits, real estate, and family sessions.",
+    "backHome": "Back home",
+    "eyebrow": "Full gallery",
+    "title": "Browse the work by mood, format, and assignment.",
+    "copy": "This gallery reads from the owner-managed portfolio database when photos are available. Until real Parkov work is added, it keeps the site useful with carefully chosen sample images.",
+    "itemCount": "photos shown",
+    "emptyTitle": "No photos in this category yet",
+    "emptyCopy": "Choose another category or check back after more portfolio work has been added.",
+    "stats": {
+      "curated": { "value": "01", "label": "Curated portfolio view for real client decisions." },
+      "categories": { "value": "07", "label": "Category structure ready for Parkov's main services." },
+      "database": { "value": "DB", "label": "Connected to owner-managed portfolio items." }
+    }
+  },
+  "request": {
+    "name": "Full name",
+    "email": "Email",
+    "phone": "Phone",
+    "preferredContact": "Preferred contact method",
+    "service": "Shoot type",
+    "date": "Preferred date",
+    "location": "City / location",
+    "message": "Tell us more about the project",
+    "submit": "Send request",
+    "submitting": "Sending...",
+    "success": "Thank you. Your request has been saved and is ready for the owner to review.",
+    "submitError": "Something went wrong while sending. Please try again or use phone, Viber, WhatsApp, or email.",
+    "error": "Please fill this correctly.",
+    "services": {
+      "wedding": "Wedding",
+      "portrait": "Portrait",
+      "event": "Event",
+      "product": "Product",
+      "business": "Business",
+      "realEstate": "Real estate",
+      "family": "Family session",
+      "other": "Other"
+    },
+    "contactMethods": {
+      "phone": "Phone call",
+      "viber": "Viber",
+      "whatsapp": "WhatsApp",
+      "email": "Email"
+    }
+  },
+  "admin": {
+    "eyebrow": "Admin",
+    "title": "Site management",
+    "viewSite": "View site",
+    "authNote": "This is the first admin skeleton. Next we add real authentication, roles, and database connection before it is used publicly.",
+    "manage": "Manage",
+    "logout": "Log out",
+    "loggingOut": "Logging out...",
+    "cards": {
+      "photos": { "title": "Photos and portfolio", "copy": "Upload, reorder, categorize, and feature images on the homepage." },
+      "categories": { "title": "Gallery categories", "copy": "Create, order, show, and hide the category structure used by the public gallery." },
+      "services": { "title": "Services and packages", "copy": "Edit services, descriptions, pricing, and section visibility." },
+      "requests": { "title": "Client requests", "copy": "Review inquiries, statuses, preferred contact method, and notes." },
+      "settings": { "title": "Settings", "copy": "Contacts, social links, language, SEO, and homepage imagery." }
+    }
+  },
+  "adminCategories": {
+    "back": "Back to admin",
+    "eyebrow": "Categories",
+    "title": "Gallery categories",
+    "copy": "Manage the category keys, labels, visibility, and display order used by the public gallery and portfolio form.",
+    "formTitle": "Add category",
+    "key": "Category key",
+    "labelBg": "Bulgarian label",
+    "labelEn": "English label",
+    "visible": "Show publicly",
+    "submit": "Add category",
+    "saving": "Saving...",
+    "submitError": "Could not save this category.",
+    "duplicateError": "This category key already exists.",
+    "deleteError": "Could not delete this category. Remove or move portfolio items that use it first.",
+    "keyError": "Use a key like editorial or realEstate.",
+    "error": "This field is required.",
+    "empty": "No categories yet.",
+    "items": "items",
+    "shown": "Shown",
+    "hidden": "Hidden",
+    "moveUp": "Move up",
+    "moveDown": "Move down",
+    "hide": "Hide category",
+    "show": "Show category",
+    "delete": "Delete category",
+    "deleteBlocked": "This category is used by portfolio items"
+  },
+  "adminRequests": {
+    "back": "Back to admin",
+    "eyebrow": "Requests",
+    "title": "Client inquiries",
+    "copy": "This table reads from local PostgreSQL. Authentication and status editing come next before production use.",
+    "emptyTitle": "No inquiries yet",
+    "emptyCopy": "Submitted client requests will appear here.",
+    "noDate": "No date",
+    "noContact": "Not specified",
+    "saving": "Saving...",
+    "statusError": "Could not save status.",
+    "statuses": {
+      "new": "New",
+      "contacted": "Contacted",
+      "booked": "Booked",
+      "closed": "Closed"
+    },
+    "contactMethods": {
+      "phone": "Phone",
+      "viber": "Viber",
+      "whatsapp": "WhatsApp",
+      "email": "Email"
+    },
+    "table": {
+      "client": "Client",
+      "service": "Service",
+      "contact": "Contact",
+      "location": "Location",
+      "date": "Preferred date",
+      "status": "Status",
+      "message": "Message"
+    }
+  },
+  "adminPortfolio": {
+    "back": "Back to admin",
+    "eyebrow": "Portfolio",
+    "title": "Photos and portfolio",
+    "copy": "First version uses image URLs. Later this will connect to upload storage so the owner can upload files directly.",
+    "formTitle": "Add portfolio item",
+    "titleBg": "Bulgarian title",
+    "titleEn": "English title",
+    "category": "Category",
+    "imageUrl": "Image URL",
+    "uploadImage": "Upload image",
+    "uploadingImage": "Uploading...",
+    "uploadHelp": "JPG, PNG, WebP, or AVIF up to 8 MB. The upload fills the image URL automatically.",
+    "uploadError": "Image upload failed. Choose a JPG, PNG, WebP, or AVIF file under 8 MB.",
+    "description": "Description",
+    "location": "Location",
+    "shootYear": "Year",
+    "clientType": "Client type",
+    "featured": "Featured",
+    "showOnHome": "Show on homepage",
+    "hiddenFromHome": "Hidden from homepage",
+    "submit": "Add item",
+    "saving": "Saving...",
+    "submitError": "Could not save this portfolio item.",
+    "error": "This field is required.",
+    "urlError": "Enter a valid image URL.",
+    "yearError": "Enter a year between 2000 and 2100.",
+    "empty": "No portfolio items have been added yet.",
+    "delete": "Delete item",
+    "categories": {
+      "weddings": "Weddings",
+      "portraits": "Portraits",
+      "events": "Events",
+      "commercial": "Commercial",
+      "business": "Business",
+      "realEstate": "Real estate",
+      "family": "Family"
+    }
+  },
+  "ownerLogin": {
+    "eyebrow": "Owner access",
+    "title": "Sign in",
+    "copy": "This area is for the site owner. The URL is intentionally uncommon, and access now also requires credentials.",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Enter owner portal",
+    "loading": "Checking...",
+    "error": "The email or password is incorrect."
+  }
+}
