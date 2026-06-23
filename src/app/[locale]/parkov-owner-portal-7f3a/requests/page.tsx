@@ -16,6 +16,17 @@ export default async function AdminRequestsPage({
   const { locale } = await params;
   await requireOwnerSession(locale);
   const t = await getTranslations("adminRequests");
+  const requestT = await getTranslations("request");
+  const serviceKeys = [
+    "wedding",
+    "portrait",
+    "event",
+    "product",
+    "business",
+    "realEstate",
+    "family",
+    "other",
+  ];
   const inquiries = await prisma.inquiry.findMany({
     orderBy: { createdAt: "desc" },
     take: 50,
@@ -74,7 +85,11 @@ export default async function AdminRequestsPage({
                           {inquiry.phone}
                         </a>
                       </td>
-                      <td className="px-5 py-4 font-bold">{inquiry.service}</td>
+                      <td className="px-5 py-4 font-bold">
+                        {serviceKeys.includes(inquiry.service)
+                          ? requestT(`services.${inquiry.service}`)
+                          : inquiry.service}
+                      </td>
                       <td className="px-5 py-4">
                         {inquiry.preferredContact
                           ? t(`contactMethods.${inquiry.preferredContact}`)
@@ -83,7 +98,9 @@ export default async function AdminRequestsPage({
                       <td className="px-5 py-4">{inquiry.location}</td>
                       <td className="px-5 py-4">
                         {inquiry.preferredDate
-                          ? new Intl.DateTimeFormat("bg-BG").format(inquiry.preferredDate)
+                          ? new Intl.DateTimeFormat(
+                              locale === "bg" ? "bg-BG" : "en-GB",
+                            ).format(inquiry.preferredDate)
                           : t("noDate")}
                       </td>
                       <td className="px-5 py-4">

@@ -49,6 +49,7 @@ This file is the shared build tracker for the Parkov photography website. Keep i
 - [x] Browser check completed for desktop/mobile first pass
 - [x] Public navigation and locale routing QA completed
 - [x] Staggered section and card motion polish added
+- [x] Inquiry form and owner status workflow tested end to end
 
 ## Stage 1: Foundation
 
@@ -152,7 +153,7 @@ This file is the shared build tracker for the Parkov photography website. Keep i
 - [x] Test all public navigation links
 - [ ] Test both languages fully
 - [ ] Test light/dark mode across all sections
-- [ ] Test request form backend flow
+- [x] Test request form backend flow
 - [x] Test admin auth
 - [x] Test image upload flow
 - [ ] Accessibility pass
@@ -182,6 +183,6 @@ This file is the shared build tracker for the Parkov photography website. Keep i
 ## Next Recommended Work
 
 1. Enter the real Parkov contact details, images, logo, and approved bilingual copy through owner settings.
-2. Test the request form backend flow end to end.
+2. Configure a production email provider and verify real notification delivery.
 3. Inspect the reference site animations more deeply and polish the remaining motion.
 4. Complete accessibility, performance, and deployment preparation.

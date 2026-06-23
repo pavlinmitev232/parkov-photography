@@ -402,7 +402,7 @@
     "back": "Back to admin",
     "eyebrow": "Requests",
     "title": "Client inquiries",
-    "copy": "This table reads from local PostgreSQL. Authentication and status editing come next before production use.",
+    "copy": "Inquiries are stored in the database and can be tracked from new to contacted, booked, or closed.",
     "emptyTitle": "No inquiries yet",
     "emptyCopy": "Submitted client requests will appear here.",
     "noDate": "No date",

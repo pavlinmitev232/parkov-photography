@@ -14,6 +14,7 @@ export function RequestForm() {
   const t = useTranslations("request");
   const [sent, setSent] = useState(false);
   const [submitError, setSubmitError] = useState(false);
+  const [formCycle, setFormCycle] = useState(0);
   const {
     register,
     handleSubmit,
@@ -26,7 +27,7 @@ export function RequestForm() {
 
   useEffect(() => {
     setValue("startedAt", Date.now());
-  }, [setValue]);
+  }, [formCycle, setValue]);
 
   async function onSubmit(values: InquiryValues) {
     setSent(false);
@@ -47,6 +48,7 @@ export function RequestForm() {
 
     setSent(true);
     reset();
+    setFormCycle((value) => value + 1);
   }
 
   const inputClass =
