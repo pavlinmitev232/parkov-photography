@@ -38,6 +38,8 @@ This file is the shared build tracker for the Parkov photography website. Keep i
 - [x] Owner gallery category management added
 - [x] Portfolio metadata and homepage visibility added
 - [x] Owner services and pricing management added
+- [x] Owner brand, contact, social, image, SEO, and copy settings added
+- [x] Owner testimonial and FAQ management added
 - [x] Public gallery reads database portfolio items with mock fallback
 - [x] Admin dashboard skeleton added
 - [x] Prisma schema draft added
@@ -122,9 +124,9 @@ This file is the shared build tracker for the Parkov photography website. Keep i
 - [x] Manage gallery categories
 - [x] Manage services
 - [x] Manage packages/pricing
-- [ ] Manage testimonials
-- [ ] Manage FAQ
-- [ ] Manage contact/social details
+- [x] Manage testimonials
+- [x] Manage FAQ
+- [x] Manage contact/social details
 - [x] View client inquiries
 - [x] Update inquiry status
 - [x] Add image upload/storage
@@ -179,7 +181,7 @@ This file is the shared build tracker for the Parkov photography website. Keep i
 
 ## Next Recommended Work
 
-1. Inspect the reference site animations more deeply and polish our motion.
-2. Replace Unsplash placeholder images with real Parkov photography.
-3. Test the request form backend flow end to end.
-4. Add owner management for testimonials and FAQ content.
+1. Enter the real Parkov contact details, images, logo, and approved bilingual copy through owner settings.
+2. Test the request form backend flow end to end.
+3. Inspect the reference site animations more deeply and polish the remaining motion.
+4. Complete accessibility, performance, and deployment preparation.

@@ -25,6 +25,8 @@
 *.pem
 /public/uploads/portfolio/*
 !/public/uploads/portfolio/.gitkeep
+/public/uploads/site/*
+!/public/uploads/site/.gitkeep
 
 # debug
 npm-debug.log*

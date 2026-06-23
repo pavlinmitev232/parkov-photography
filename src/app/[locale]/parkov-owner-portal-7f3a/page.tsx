@@ -19,6 +19,7 @@ export default async function AdminPage({
     categories: `${adminPath}/categories`,
     services: `${adminPath}/content`,
     requests: `${adminPath}/requests`,
+    settings: `${adminPath}/settings`,
   };
 
   return (

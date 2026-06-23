@@ -100,23 +100,6 @@ export const stats = [
   { value: "24h", key: "reply" },
 ];
 
-export const testimonials = ["maria", "nikolay", "elena"];
-
-export const faqs = ["travel", "delivery", "deposit", "raw", "languages"];
-
-export const requestMethods = [
-  { key: "phone", href: "tel:+359888000000" },
-  { key: "viber", href: "viber://chat?number=%2B359888000000" },
-  { key: "whatsapp", href: "https://wa.me/359888000000" },
-  { key: "email", href: "mailto:hello@parkov.photo" },
-];
-
-export const socials = [
-  { key: "instagram", href: "https://instagram.com/parkov.photo" },
-  { key: "facebook", href: "https://facebook.com/parkov.photo" },
-  { key: "tiktok", href: "https://tiktok.com/@parkov.photo" },
-];
-
 export const adminCards = [
   { key: "photos", icon: Aperture },
   { key: "categories", icon: Tags },

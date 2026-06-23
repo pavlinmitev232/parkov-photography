@@ -23,12 +23,8 @@ import {
 import { RequestForm } from "@/components/request-form";
 import { ThemeToggle } from "@/components/theme-toggle";
 import {
-  faqs,
-  requestMethods,
   serviceIcons,
-  socials,
   stats,
-  testimonials,
 } from "@/lib/site-data";
 import {
   getPublicPricingPackages,
@@ -36,6 +32,13 @@ import {
 } from "@/lib/site-content";
 import { getPublicPortfolioItems } from "@/lib/portfolio";
 import { getPublicPortfolioCategories } from "@/lib/portfolio-categories";
+import { getPublicFaqs, getPublicTestimonials } from "@/lib/reviews-faq";
+import {
+  getContactMethods,
+  getSiteSettings,
+  getSocialLinks,
+  localizedSettings,
+} from "@/lib/site-settings";
 
 export async function generateMetadata({
   params,
@@ -43,11 +46,14 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "seo" });
+  const settings = await getSiteSettings();
 
   return {
-    title: t("title"),
-    description: t("description"),
+    title: locale === "bg" ? settings.seoTitleBg : settings.seoTitleEn,
+    description:
+      locale === "bg"
+        ? settings.seoDescriptionBg
+        : settings.seoDescriptionEn,
   };
 }
 
@@ -61,13 +67,27 @@ export default async function HomePage({
   const nav = await getTranslations("nav");
   const common = await getTranslations("common");
   const alternateLocale = locale === "bg" ? "en" : "bg";
-  const [portfolioItems, portfolioCategories, publicServices, publicPackages] =
+  const [
+    portfolioItems,
+    portfolioCategories,
+    publicServices,
+    publicPackages,
+    settings,
+    publicTestimonials,
+    publicFaqs,
+  ] =
     await Promise.all([
       getPublicPortfolioItems(locale),
       getPublicPortfolioCategories(locale),
       getPublicServices(locale),
       getPublicPricingPackages(locale),
+      getSiteSettings(),
+      getPublicTestimonials(locale),
+      getPublicFaqs(locale),
     ]);
+  const content = localizedSettings(settings, locale);
+  const requestMethods = getContactMethods(settings);
+  const socials = getSocialLinks(settings);
   const portfolioCategoryKeys = new Set(portfolioCategories.map((category) => category.key));
   const displayPortfolioItems = portfolioItems.filter((item) =>
     portfolioCategoryKeys.has(item.category) && item.showOnHome,
@@ -87,7 +107,13 @@ export default async function HomePage({
       category.label,
     ]),
   ]);
-  const navLinks = ["about", "work", "services", "pricing", "contact"].map((item) => ({
+  const navLinks = [
+    ...(settings.showAbout ? ["about"] : []),
+    "work",
+    ...(settings.showServices ? ["services"] : []),
+    ...(settings.showPricing ? ["pricing"] : []),
+    ...(settings.showContact ? ["contact"] : []),
+  ].map((item) => ({
     href: `#${item}`,
     label: nav(item),
   }));
@@ -102,7 +128,17 @@ export default async function HomePage({
       >
         <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 md:px-8">
           <Link href="/" className="font-serif text-2xl font-bold tracking-wide">
-            Parkov
+            {settings.logoImageUrl ? (
+              <Image
+                src={settings.logoImageUrl}
+                alt={content.brandName}
+                width={150}
+                height={44}
+                className="h-10 w-auto object-contain"
+              />
+            ) : (
+              content.brandName
+            )}
           </Link>
           <nav className="hidden items-center gap-7 text-sm font-semibold text-muted md:flex">
             {navLinks.map((item) => (
@@ -134,7 +170,7 @@ export default async function HomePage({
       <section className="relative flex min-h-screen items-end pt-28">
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1537633552985-df8429e8048b?auto=format&fit=crop&w=2200&q=85"
+            src={settings.heroImageUrl}
             alt=""
             fill
             priority
@@ -153,13 +189,13 @@ export default async function HomePage({
           >
             <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-2 text-sm font-bold backdrop-blur">
               <Camera size={16} />
-              {t("hero.eyebrow")}
+              {content.heroEyebrow}
             </p>
             <h1 className="font-serif text-5xl font-bold leading-[0.95] text-white drop-shadow-[0_3px_24px_rgba(0,0,0,.55)] md:text-7xl lg:text-8xl">
-              {t("hero.title")}
+              {content.heroTitle}
             </h1>
             <p className="mt-7 max-w-2xl text-base font-medium leading-7 text-white/92 drop-shadow md:text-lg md:leading-8">
-              {t("hero.copy")}
+              {content.heroCopy}
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a
@@ -198,7 +234,7 @@ export default async function HomePage({
         </div>
       </section>
 
-      <section id="about" className="border-b border-line bg-surface px-5 py-24 md:px-8">
+      {settings.showAbout && <section id="about" className="border-b border-line bg-surface px-5 py-24 md:px-8">
         <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[.9fr_1.1fr] lg:items-center">
           <MotionDiv
             initial={{ y: 32, opacity: 0 }}
@@ -208,8 +244,8 @@ export default async function HomePage({
             className="relative min-h-[520px] overflow-hidden rounded-md"
           >
             <Image
-              src="https://images.unsplash.com/photo-1554048612-b6a482bc67e5?auto=format&fit=crop&w=1300&q=82"
-              alt="Parkov behind the camera"
+              src={settings.aboutImageUrl}
+              alt={content.brandName}
               fill
               sizes="(min-width: 1024px) 45vw, 100vw"
               className="object-cover"
@@ -221,9 +257,9 @@ export default async function HomePage({
             viewport={{ once: true, amount: 0.25 }}
             transition={{ duration: 0.65, delay: 0.08 }}
           >
-            <p className="section-kicker">{t("about.eyebrow")}</p>
-            <h2 className="section-title">{t("about.title")}</h2>
-            <p className="mt-6 text-lg leading-8 text-muted">{t("about.copy")}</p>
+            <p className="section-kicker">{content.aboutEyebrow}</p>
+            <h2 className="section-title">{content.aboutTitle}</h2>
+            <p className="mt-6 text-lg leading-8 text-muted">{content.aboutCopy}</p>
             <MotionGroup className="mt-8 grid gap-3 sm:grid-cols-2">
               {["calm", "local", "edited", "flexible"].map((item) => (
                 <MotionItem key={item}>
@@ -236,7 +272,7 @@ export default async function HomePage({
             </MotionGroup>
           </MotionDiv>
         </div>
-      </section>
+      </section>}
 
       <MotionSection
         id="work"
@@ -271,10 +307,10 @@ export default async function HomePage({
         </div>
       </MotionSection>
 
-      <section id="services" className="border-y border-line bg-surface px-5 py-24 md:px-8">
+      {settings.showServices && <section id="services" className="border-y border-line bg-surface px-5 py-24 md:px-8">
         <div className="mx-auto max-w-7xl">
-          <p className="section-kicker">{t("services.eyebrow")}</p>
-          <h2 className="section-title max-w-3xl">{t("services.title")}</h2>
+          <p className="section-kicker">{content.servicesEyebrow}</p>
+          <h2 className="section-title max-w-3xl">{content.servicesTitle}</h2>
           <MotionGroup
             className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
             staggerChildren={0.07}
@@ -298,9 +334,9 @@ export default async function HomePage({
             })}
           </MotionGroup>
         </div>
-      </section>
+      </section>}
 
-      <section id="process" className="px-5 py-24 md:px-8">
+      {settings.showProcess && <section id="process" className="px-5 py-24 md:px-8">
         <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[.8fr_1.2fr]">
           <div>
             <p className="section-kicker">{t("process.eyebrow")}</p>
@@ -320,16 +356,16 @@ export default async function HomePage({
             ))}
           </MotionGroup>
         </div>
-      </section>
+      </section>}
 
-      <section id="pricing" className="border-y border-line bg-surface px-5 py-24 md:px-8">
+      {settings.showPricing && <section id="pricing" className="border-y border-line bg-surface px-5 py-24 md:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="mb-10 flex flex-col justify-between gap-5 md:flex-row md:items-end">
             <div>
-              <p className="section-kicker">{t("packages.eyebrow")}</p>
-              <h2 className="section-title">{t("packages.title")}</h2>
+              <p className="section-kicker">{content.packagesEyebrow}</p>
+              <h2 className="section-title">{content.packagesTitle}</h2>
             </div>
-            <p className="max-w-xl text-muted">{t("packages.copy")}</p>
+            <p className="max-w-xl text-muted">{content.packagesCopy}</p>
           </div>
           <MotionGroup className="grid gap-4 lg:grid-cols-3" staggerChildren={0.11}>
             {publicPackages.map((item) => (
@@ -370,15 +406,15 @@ export default async function HomePage({
             ))}
           </MotionGroup>
         </div>
-      </section>
+      </section>}
 
-      <section className="px-5 py-24 md:px-8">
+      {settings.showTestimonials && <section className="px-5 py-24 md:px-8">
         <div className="mx-auto max-w-7xl">
-          <p className="section-kicker">{t("testimonials.eyebrow")}</p>
-          <h2 className="section-title max-w-4xl">{t("testimonials.title")}</h2>
+          <p className="section-kicker">{content.testimonialsEyebrow}</p>
+          <h2 className="section-title max-w-4xl">{content.testimonialsTitle}</h2>
           <MotionGroup className="mt-12 grid gap-4 lg:grid-cols-3" staggerChildren={0.12}>
-            {testimonials.map((item) => (
-              <MotionItem className="h-full" key={item} lift>
+            {publicTestimonials.map((item) => (
+              <MotionItem className="h-full" key={item.id} lift>
                 <div className="h-full rounded-md border border-line bg-surface p-6 transition-colors hover:border-accent/45">
                   <Quote className="text-accent" size={30} />
                   <div className="mt-6 flex gap-1 text-accent">
@@ -386,43 +422,43 @@ export default async function HomePage({
                       <Star fill="currentColor" size={16} key={index} />
                     ))}
                   </div>
-                  <p className="mt-5 leading-7 text-muted">{t(`testimonials.items.${item}.quote`)}</p>
-                  <strong className="mt-6 block">{t(`testimonials.items.${item}.name`)}</strong>
-                  <span className="text-sm text-muted">{t(`testimonials.items.${item}.role`)}</span>
+                  <p className="mt-5 leading-7 text-muted">{item.quote}</p>
+                  <strong className="mt-6 block">{item.name}</strong>
+                  <span className="text-sm text-muted">{item.role}</span>
                 </div>
               </MotionItem>
             ))}
           </MotionGroup>
         </div>
-      </section>
+      </section>}
 
-      <section className="border-y border-line bg-surface px-5 py-24 md:px-8">
+      {settings.showFaq && <section className="border-y border-line bg-surface px-5 py-24 md:px-8">
         <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[.75fr_1.25fr]">
           <div>
-            <p className="section-kicker">{t("faq.eyebrow")}</p>
-            <h2 className="section-title">{t("faq.title")}</h2>
+            <p className="section-kicker">{content.faqEyebrow}</p>
+            <h2 className="section-title">{content.faqTitle}</h2>
           </div>
           <MotionGroup className="grid gap-3" staggerChildren={0.07}>
-            {faqs.map((item) => (
-              <MotionItem key={item}>
+            {publicFaqs.map((item) => (
+              <MotionItem key={item.id}>
                 <details className="group rounded-md border border-line bg-background p-5">
                   <summary className="cursor-pointer list-none text-lg font-bold">
-                    {t(`faq.items.${item}.question`)}
+                    {item.question}
                   </summary>
-                  <p className="mt-4 leading-7 text-muted">{t(`faq.items.${item}.answer`)}</p>
+                  <p className="mt-4 leading-7 text-muted">{item.answer}</p>
                 </details>
               </MotionItem>
             ))}
           </MotionGroup>
         </div>
-      </section>
+      </section>}
 
-      <section id="contact" className="bg-foreground px-5 py-24 text-background md:px-8">
+      {settings.showContact && <section id="contact" className="bg-foreground px-5 py-24 text-background md:px-8">
         <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[.8fr_1.2fr]">
           <div>
-            <p className="section-kicker text-accent">{t("contact.eyebrow")}</p>
-            <h2 className="font-serif text-4xl font-bold md:text-6xl">{t("contact.title")}</h2>
-            <p className="mt-6 leading-8 text-background/72">{t("contact.copy")}</p>
+            <p className="section-kicker text-accent">{content.contactEyebrow}</p>
+            <h2 className="font-serif text-4xl font-bold md:text-6xl">{content.contactTitle}</h2>
+            <p className="mt-6 leading-8 text-background/72">{content.contactCopy}</p>
             <div className="mt-8 grid gap-3">
               {requestMethods.map((method) => (
                 <a
@@ -437,20 +473,20 @@ export default async function HomePage({
             </div>
             <p className="mt-8 inline-flex items-center gap-2 text-sm text-background/62">
               <MapPin size={16} />
-              {t("contact.location")}
+              {content.location}
             </p>
           </div>
           <div className="rounded-md bg-background p-5 text-foreground md:p-8">
             <RequestForm />
           </div>
         </div>
-      </section>
+      </section>}
 
       <footer className="bg-background px-5 py-10 md:px-8">
         <div className="mx-auto flex max-w-7xl flex-col justify-between gap-6 border-t border-line pt-8 md:flex-row md:items-center">
           <div>
-            <strong className="font-serif text-2xl">Parkov</strong>
-            <p className="mt-2 text-sm text-muted">{t("footer.copy")}</p>
+            <strong className="font-serif text-2xl">{content.brandName}</strong>
+            <p className="mt-2 text-sm text-muted">{content.footerCopy}</p>
           </div>
           <div className="flex flex-wrap gap-3">
             {socials.map((social) => (

@@ -79,6 +79,32 @@ model PricingPackage {
   updatedAt DateTime @updatedAt
 }
 
+model Testimonial {
+  id        String   @id @default(cuid())
+  nameBg    String
+  nameEn    String
+  roleBg    String
+  roleEn    String
+  quoteBg   String
+  quoteEn   String
+  visible   Boolean  @default(true)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model FaqItem {
+  id         String   @id @default(cuid())
+  questionBg String
+  questionEn String
+  answerBg   String
+  answerEn   String
+  visible    Boolean  @default(true)
+  sortOrder  Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
 model SiteSetting {
   id        String   @id @default(cuid())
   key       String   @unique
