@@ -12,16 +12,16 @@ import {
   Users,
 } from "lucide-react";
 
-export const services = [
-  { key: "weddings", icon: Heart },
-  { key: "portraits", icon: Camera },
-  { key: "events", icon: PartyPopper },
-  { key: "products", icon: Gem },
-  { key: "business", icon: Building2 },
-  { key: "realEstate", icon: Home },
-  { key: "family", icon: Users },
-  { key: "creative", icon: Sparkles },
-];
+export const serviceIcons = {
+  heart: Heart,
+  camera: Camera,
+  party: PartyPopper,
+  gem: Gem,
+  building: Building2,
+  home: Home,
+  users: Users,
+  sparkles: Sparkles,
+};
 
 export const portfolio = [
   {
@@ -98,12 +98,6 @@ export const stats = [
   { value: "480+", key: "projects" },
   { value: "4.9", key: "rating" },
   { value: "24h", key: "reply" },
-];
-
-export const packages = [
-  { key: "portrait", featured: false },
-  { key: "event", featured: true },
-  { key: "commercial", featured: false },
 ];
 
 export const testimonials = ["maria", "nikolay", "elena"];

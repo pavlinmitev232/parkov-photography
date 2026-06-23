@@ -24,13 +24,16 @@ import { RequestForm } from "@/components/request-form";
 import { ThemeToggle } from "@/components/theme-toggle";
 import {
   faqs,
-  packages,
   requestMethods,
-  services,
+  serviceIcons,
   socials,
   stats,
   testimonials,
 } from "@/lib/site-data";
+import {
+  getPublicPricingPackages,
+  getPublicServices,
+} from "@/lib/site-content";
 import { getPublicPortfolioItems } from "@/lib/portfolio";
 import { getPublicPortfolioCategories } from "@/lib/portfolio-categories";
 
@@ -58,8 +61,13 @@ export default async function HomePage({
   const nav = await getTranslations("nav");
   const common = await getTranslations("common");
   const alternateLocale = locale === "bg" ? "en" : "bg";
-  const portfolioItems = await getPublicPortfolioItems(locale);
-  const portfolioCategories = await getPublicPortfolioCategories(locale);
+  const [portfolioItems, portfolioCategories, publicServices, publicPackages] =
+    await Promise.all([
+      getPublicPortfolioItems(locale),
+      getPublicPortfolioCategories(locale),
+      getPublicServices(locale),
+      getPublicPricingPackages(locale),
+    ]);
   const portfolioCategoryKeys = new Set(portfolioCategories.map((category) => category.key));
   const displayPortfolioItems = portfolioItems.filter((item) =>
     portfolioCategoryKeys.has(item.category) && item.showOnHome,
@@ -271,17 +279,23 @@ export default async function HomePage({
             className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
             staggerChildren={0.07}
           >
-            {services.map(({ key, icon: Icon }) => (
-              <MotionItem className="h-full" key={key} lift>
+            {publicServices.map((item) => {
+              const Icon =
+                serviceIcons[item.icon as keyof typeof serviceIcons] ??
+                serviceIcons.camera;
+
+              return (
+              <MotionItem className="h-full" key={item.id} lift>
                 <div className="h-full rounded-md border border-line bg-background p-6 transition-colors hover:border-accent/50">
                   <Icon className="mb-8 text-accent" size={30} />
-                  <h3 className="text-xl font-bold">{t(`services.items.${key}.title`)}</h3>
+                  <h3 className="text-xl font-bold">{item.title}</h3>
                   <p className="mt-3 text-sm leading-6 text-muted">
-                    {t(`services.items.${key}.copy`)}
+                    {item.copy}
                   </p>
                 </div>
               </MotionItem>
-            ))}
+              );
+            })}
           </MotionGroup>
         </div>
       </section>
@@ -318,8 +332,8 @@ export default async function HomePage({
             <p className="max-w-xl text-muted">{t("packages.copy")}</p>
           </div>
           <MotionGroup className="grid gap-4 lg:grid-cols-3" staggerChildren={0.11}>
-            {packages.map((item) => (
-              <MotionItem className="h-full" key={item.key} lift>
+            {publicPackages.map((item) => (
+              <MotionItem className="h-full" key={item.id} lift>
                 <div
                   className={`h-full rounded-md border p-6 ${
                     item.featured
@@ -328,7 +342,7 @@ export default async function HomePage({
                   }`}
                 >
                   <div className="flex items-center justify-between gap-4">
-                    <h3 className="text-2xl font-bold">{t(`packages.items.${item.key}.title`)}</h3>
+                    <h3 className="text-2xl font-bold">{item.title}</h3>
                     {item.featured && (
                       <span className="rounded-full bg-accent px-3 py-1 text-xs font-bold text-accent-foreground">
                         {t("packages.featured")}
@@ -336,10 +350,10 @@ export default async function HomePage({
                     )}
                   </div>
                   <p className={`mt-3 text-sm leading-6 ${item.featured ? "text-background/72" : "text-muted"}`}>
-                    {t(`packages.items.${item.key}.copy`)}
+                    {item.copy}
                   </p>
                   <strong className="mt-8 block font-serif text-4xl">
-                    {t(`packages.items.${item.key}.price`)}
+                    {item.price}
                   </strong>
                   <a
                     href="#contact"

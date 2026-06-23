@@ -17,6 +17,7 @@ export default async function AdminPage({
   const cardLinks: Record<string, string> = {
     photos: `${adminPath}/portfolio`,
     categories: `${adminPath}/categories`,
+    services: `${adminPath}/content`,
     requests: `${adminPath}/requests`,
   };
 
