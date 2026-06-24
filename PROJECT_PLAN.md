@@ -75,8 +75,7 @@ Codex must be restarted before a new chat so these skills are loaded.
 2. Run owner login, database management, Storage upload/replacement/deletion,
    inquiry persistence, notification delivery, and status-update checks on the
    deployed staging site.
-3. Improve inquiry-form validation feedback using the implementation plan below.
-4. Later, add optional automatic customer confirmations and owner-portal custom
+3. Later, add optional automatic customer confirmations and owner-portal custom
    email sending. These are not implemented yet; manual replies currently work
    through the owner inbox because notifications set the customer as `replyTo`.
 
@@ -264,15 +263,16 @@ Do not expose secrets in source control, terminal summaries, screenshots, or cha
 The server and client currently require a project message of at least 10
 characters, but the UI shows only a generic error. Before launch:
 
-- [ ] Add field-specific Bulgarian and English messages for every inquiry field.
-- [ ] Tell users that the project message must contain at least 10 characters.
-- [ ] Add a visible helper or character counter so the requirement is known
+- [x] Add field-specific Bulgarian and English messages for every inquiry field.
+- [x] Tell users that the project message must contain at least 10 characters.
+- [x] Add a visible helper or character counter so the requirement is known
       before submission.
-- [ ] Mark invalid fields with `aria-invalid` and connect each error using
+- [x] Mark invalid fields with `aria-invalid` and connect each error using
       `aria-describedby`.
-- [ ] Focus or scroll to the first invalid field after a failed submission.
-- [ ] Preserve the same validation rules on client and server.
-- [ ] Test short, whitespace-only, missing, and valid messages in both languages.
+- [x] Focus or scroll to the first invalid field after a failed submission.
+- [x] Preserve the same validation rules on client and server.
+- [x] Test short-message feedback and bilingual helper text.
+- [ ] Test whitespace-only, missing, and valid messages during full staging QA.
 
 ## Stage 8: Free-Tier Production Setup
 

@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Send } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import { useForm, useWatch } from "react-hook-form";
+import { type FieldErrors, useForm, useWatch } from "react-hook-form";
 import {
   inquirySchema,
   type InquiryFormValues,
@@ -21,6 +21,7 @@ export function RequestForm() {
     control,
     handleSubmit,
     reset,
+    setFocus,
     setValue,
     formState: { errors, isSubmitting },
   } = useForm<InquiryFormValues, unknown, InquiryValues>({
@@ -37,6 +38,8 @@ export function RequestForm() {
     },
   });
   const preferredContact = useWatch({ control, name: "preferredContact" });
+  const message = useWatch({ control, name: "message" }) ?? "";
+  const messageLength = message.trim().length;
   const needsPhone = preferredContact
     ? ["phone", "viber", "whatsapp"].includes(preferredContact)
     : false;
@@ -69,10 +72,36 @@ export function RequestForm() {
   }
 
   const inputClass =
-    "min-h-12 w-full rounded-md border border-line bg-background px-4 text-sm outline-none transition placeholder:text-muted focus:border-accent";
+    "min-h-12 w-full rounded-md border border-line bg-background px-4 text-base outline-none transition placeholder:text-muted focus:border-accent sm:text-sm";
+  const invalidInputClass = "border-error focus:border-error";
+  const errorClass = "text-base text-error sm:text-sm";
+  const describedBy = (helpId: string, errorId: string, hasError: boolean) =>
+    hasError ? `${helpId} ${errorId}` : helpId;
+
+  function focusFirstInvalidField(invalidErrors: FieldErrors<InquiryFormValues>) {
+    const fieldOrder: Array<keyof InquiryFormValues> = [
+      "name",
+      "service",
+      "preferredContact",
+      "email",
+      "phone",
+      "date",
+      "location",
+      "message",
+    ];
+    const firstInvalidField = fieldOrder.find((field) => invalidErrors[field]);
+
+    if (firstInvalidField) {
+      setFocus(firstInvalidField);
+    }
+  }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4">
+    <form
+      onSubmit={handleSubmit(onSubmit, focusFirstInvalidField)}
+      className="grid gap-4"
+      noValidate
+    >
       <label className="hidden" aria-hidden="true">
         <span>Company website</span>
         <input
@@ -85,16 +114,27 @@ export function RequestForm() {
       <div className="grid gap-4 md:grid-cols-2">
         <label>
           <span className="sr-only">{t("name")}</span>
-          <input className={inputClass} placeholder={t("name")} {...register("name")} />
-          {errors.name && <small className="text-error">{t("error")}</small>}
+          <input
+            aria-describedby={errors.name ? "request-name-error" : undefined}
+            aria-invalid={Boolean(errors.name)}
+            className={`${inputClass} ${errors.name ? invalidInputClass : ""}`}
+            placeholder={t("name")}
+            {...register("name")}
+          />
+          {errors.name && (
+            <p id="request-name-error" className={errorClass}>
+              {t("nameError")}
+            </p>
+          )}
         </label>
         <label>
           <span className="sr-only">{t("service")}</span>
           <select
             aria-label={t("service")}
-            className={inputClass}
+            aria-describedby={errors.service ? "request-service-error" : undefined}
+            aria-invalid={Boolean(errors.service)}
+            className={`${inputClass} ${errors.service ? invalidInputClass : ""}`}
             defaultValue=""
-            required
             {...register("service")}
           >
             <option value="" disabled>
@@ -108,15 +148,24 @@ export function RequestForm() {
               ),
             )}
           </select>
-          {errors.service && <small className="text-error">{t("error")}</small>}
+          {errors.service && (
+            <p id="request-service-error" className={errorClass}>
+              {t("serviceError")}
+            </p>
+          )}
         </label>
         <label>
           <span className="sr-only">{t("preferredContact")}</span>
           <select
             aria-label={t("preferredContact")}
-            className={inputClass}
+            aria-describedby={
+              errors.preferredContact ? "request-contact-error" : undefined
+            }
+            aria-invalid={Boolean(errors.preferredContact)}
+            className={`${inputClass} ${
+              errors.preferredContact ? invalidInputClass : ""
+            }`}
             defaultValue=""
-            required
             {...register("preferredContact")}
           >
             <option value="" disabled>{t("preferredContact")}</option>
@@ -127,7 +176,9 @@ export function RequestForm() {
             ))}
           </select>
           {errors.preferredContact && (
-            <small className="text-error">{t("contactChoiceRequired")}</small>
+            <p id="request-contact-error" className={errorClass}>
+              {t("contactChoiceRequired")}
+            </p>
           )}
         </label>
         {needsEmail && (
@@ -135,13 +186,18 @@ export function RequestForm() {
             <span className="sr-only">{t("email")}</span>
             <input
               aria-label={t("email")}
-              className={inputClass}
+              aria-describedby={errors.email ? "request-email-error" : undefined}
+              aria-invalid={Boolean(errors.email)}
+              className={`${inputClass} ${errors.email ? invalidInputClass : ""}`}
               type="email"
               placeholder={t("emailRequired")}
-              required
               {...register("email")}
             />
-            {errors.email && <small className="text-error">{t("emailError")}</small>}
+            {errors.email && (
+              <p id="request-email-error" className={errorClass}>
+                {t("emailError")}
+              </p>
+            )}
           </label>
         )}
         {needsPhone && (
@@ -149,35 +205,83 @@ export function RequestForm() {
             <span className="sr-only">{t("phone")}</span>
             <input
               aria-label={t("phone")}
-              className={inputClass}
+              aria-describedby={errors.phone ? "request-phone-error" : undefined}
+              aria-invalid={Boolean(errors.phone)}
+              className={`${inputClass} ${errors.phone ? invalidInputClass : ""}`}
               type="tel"
               placeholder={t("phoneRequired")}
-              required
               {...register("phone")}
             />
-            {errors.phone && <small className="text-error">{t("phoneError")}</small>}
+            {errors.phone && (
+              <p id="request-phone-error" className={errorClass}>
+                {t("phoneError")}
+              </p>
+            )}
           </label>
         )}
         <label>
           <span className="sr-only">{t("date")}</span>
-          <input className={inputClass} type="date" {...register("date")} />
+          <input
+            aria-describedby={errors.date ? "request-date-error" : undefined}
+            aria-invalid={Boolean(errors.date)}
+            className={`${inputClass} ${errors.date ? invalidInputClass : ""}`}
+            type="date"
+            {...register("date")}
+          />
+          {errors.date && (
+            <p id="request-date-error" className={errorClass}>
+              {t("dateError")}
+            </p>
+          )}
         </label>
         <label>
           <span className="sr-only">{t("location")}</span>
-          <input className={inputClass} placeholder={t("location")} {...register("location")} />
-          {errors.location && <small className="text-error">{t("error")}</small>}
+          <input
+            aria-describedby={errors.location ? "request-location-error" : undefined}
+            aria-invalid={Boolean(errors.location)}
+            className={`${inputClass} ${errors.location ? invalidInputClass : ""}`}
+            placeholder={t("location")}
+            {...register("location")}
+          />
+          {errors.location && (
+            <p id="request-location-error" className={errorClass}>
+              {t("locationError")}
+            </p>
+          )}
         </label>
       </div>
       <label>
         <span className="sr-only">{t("message")}</span>
         <textarea
-          className={`${inputClass} min-h-32 resize-none py-3`}
+          aria-describedby={describedBy(
+            "request-message-help",
+            "request-message-error",
+            Boolean(errors.message),
+          )}
+          aria-invalid={Boolean(errors.message)}
+          className={`${inputClass} min-h-32 resize-none py-3 ${
+            errors.message ? invalidInputClass : ""
+          }`}
           placeholder={t("message")}
           {...register("message")}
         />
-        {errors.message && <small className="text-error">{t("error")}</small>}
+        <div
+          id="request-message-help"
+          className="flex items-start justify-between gap-4 text-base text-muted sm:text-sm"
+        >
+          <p>{t("messageHelp")}</p>
+          <p className="shrink-0 tabular-nums">
+            {t("messageCount", { count: messageLength })}
+          </p>
+        </div>
+        {errors.message && (
+          <p id="request-message-error" className={errorClass}>
+            {t("messageError")}
+          </p>
+        )}
       </label>
       <button
+        type="submit"
         disabled={isSubmitting}
         className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-accent px-6 text-sm font-bold text-accent-foreground transition hover:-translate-y-0.5 hover:bg-accent-strong disabled:cursor-not-allowed disabled:opacity-70"
       >
