@@ -514,6 +514,7 @@
     "resetLoading": "Sending...",
     "resetSent": "Check the owner inbox for a password recovery link.",
     "resetError": "The recovery request could not be sent.",
+    "resetRateLimit": "Supabase's temporary email limit has been reached. Wait about one hour before requesting another link.",
     "backToLogin": "Back to login",
     "passwordTitle": "Choose a new password",
     "passwordCopy": "Set a new password for the authenticated owner account.",

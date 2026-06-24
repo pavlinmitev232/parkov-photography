@@ -12,12 +12,12 @@ export function OwnerForgotPasswordForm() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<"rateLimit" | "delivery" | null>(null);
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setLoading(true);
-    setError(false);
+    setError(null);
 
     const response = await fetch("/api/owner-password-reset", {
       method: "POST",
@@ -26,8 +26,14 @@ export function OwnerForgotPasswordForm() {
     });
 
     setLoading(false);
-    setSent(response.ok);
-    setError(!response.ok);
+
+    if (response.ok) {
+      setSent(true);
+      return;
+    }
+
+    setSent(false);
+    setError(response.status === 429 ? "rateLimit" : "delivery");
   }
 
   return (
@@ -58,7 +64,7 @@ export function OwnerForgotPasswordForm() {
       )}
       {error && (
         <p className="rounded-md border border-error/30 bg-error/10 px-4 py-3 text-sm text-error">
-          {t("resetError")}
+          {t(error === "rateLimit" ? "resetRateLimit" : "resetError")}
         </p>
       )}
       <Link

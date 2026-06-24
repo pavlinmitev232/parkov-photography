@@ -20,9 +20,23 @@ export async function POST(request: Request) {
   const redirectTo = new URL("/api/owner-auth-callback", origin);
 
   const supabase = await createSupabaseServerClient();
-  await supabase.auth.resetPasswordForEmail(email, {
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
     redirectTo: redirectTo.toString(),
   });
+
+  if (error) {
+    if (error.status === 429 || error.code === "over_email_send_rate_limit") {
+      return NextResponse.json(
+        { ok: false, error: "rate_limited" },
+        { status: 429 },
+      );
+    }
+
+    return NextResponse.json(
+      { ok: false, error: "delivery_failed" },
+      { status: 503 },
+    );
+  }
 
   // Return the same response whether the account exists or not.
   return NextResponse.json({ ok: true });
