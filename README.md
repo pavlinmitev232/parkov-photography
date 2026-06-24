@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Parkov Photography
 
-## Getting Started
+Next.js 16 photography portfolio and owner-management application for Parkov.
 
-First, run the development server:
+Project status and the next implementation milestone are tracked in
+[`PROJECT_PLAN.md`](PROJECT_PLAN.md). Deployment, staging ownership, secret
+handling, and the eventual client-account transfer are documented in
+[`DEPLOYMENT_AND_HANDOFF.md`](DEPLOYMENT_AND_HANDOFF.md).
+
+## Local Development
+
+Copy `.env.example` to `.env`, configure local values, start PostgreSQL, apply
+development migrations, and run the application:
 
 ```bash
+npm install
+npm run db:up
+npm run db:migrate
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open <http://localhost:3000>. Localized public routes begin at `/bg` and `/en`.
+The owner portal path is recorded in `PROJECT_PLAN.md`. Never put credential
+values in tracked files.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Normal local development uses Docker through `.env`. Supabase staging settings
+live separately in the ignored `.env.staging.local`:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run db:staging:deploy
+npm run dev:staging
+```
 
-## Learn More
+Netlify does not read either local file. Its staging environment variables must
+be entered separately in the Netlify dashboard.
 
-To learn more about Next.js, take a look at the following resources:
+## Verification
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Before merging deployment or data changes:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run lint
+npm run build
+```
 
-## Deploy on Vercel
+Production database changes must use committed Prisma migrations and
+`prisma migrate deploy`, not `prisma migrate dev`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deployment
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The approved stack is:
+
+- Netlify for Next.js hosting
+- Supabase for PostgreSQL and image storage
+- Resend for transactional inquiry email
+
+Staging is created under developer-owned accounts. After approval, production
+ownership, credentials, domain, and DNS move to client-controlled accounts by
+following `DEPLOYMENT_AND_HANDOFF.md`.
