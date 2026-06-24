@@ -38,6 +38,10 @@ Read this section first when continuing in a new Codex chat.
 - Hosting: Netlify.
 - Database and image storage: Supabase.
 - Transactional inquiry email: Resend.
+- Build and validate staging in dedicated developer-owned provider resources.
+- After client approval, transfer or recreate production resources under
+  client-owned Supabase, Resend, Netlify, GitHub, domain, and DNS accounts.
+- Follow `DEPLOYMENT_AND_HANDOFF.md` and rotate every credential during handoff.
 - Real Parkov images, contacts, logo, and approved copy will be entered through the owner portal after staging is deployed.
 - Expected initial recurring platform cost: `$0`; domain registration is separate.
 
@@ -58,12 +62,14 @@ Codex must be restarted before a new chat so these skills are loaded.
 ### Immediate Next Task
 
 1. Confirm the new chat can see the installed Supabase, Resend, and Netlify skills.
-2. Use the `supabase` skill and create or connect a free Supabase project in a European region.
+2. Use the `supabase` skill and create a dedicated developer-owned free Supabase staging project in a European region.
 3. Collect the pooled runtime database URL, direct migration URL, project URL, and server-only storage credentials using secure environment setup.
 4. Configure Prisma for pooled runtime connections and direct production migrations.
 5. Replace local portfolio and site uploads with Supabase Storage while preserving local-development fallback where useful.
 6. Configure Resend after Supabase storage and database integration pass locally.
 7. Deploy a Netlify staging site only after local lint, build, migration, upload, and inquiry checks pass.
+8. Keep `DEPLOYMENT_AND_HANDOFF.md` updated as resource names, regions, IDs,
+   transfer decisions, and verification results become known.
 
 ### User Authorization Boundaries
 
@@ -142,7 +148,7 @@ Do not expose secrets in source control, terminal summaries, screenshots, or cha
 - [x] Add reusable utility helpers
 - [x] Add initial content/data structure
 - [x] Add environment variable template
-- [ ] Add final README for setup and development
+- [x] Add final README for setup and development
 
 ## Stage 2: Public Website
 
@@ -248,17 +254,17 @@ Do not expose secrets in source control, terminal summaries, screenshots, or cha
 
 ### Supabase
 
-- [ ] Create a free Supabase project in a European region
-- [ ] Add pooled `DATABASE_URL` for the running application
-- [ ] Add direct `DIRECT_URL` for migrations
-- [ ] Configure Prisma to support separate runtime and migration connections
-- [ ] Apply committed migrations with `prisma migrate deploy`
-- [ ] Create public storage buckets for portfolio and site assets
-- [ ] Add least-privilege storage access configuration
-- [ ] Replace local portfolio uploads with Supabase Storage
-- [ ] Replace local hero, about, and logo uploads with Supabase Storage
-- [ ] Delete superseded cloud assets when appropriate
-- [ ] Validate file type and size before upload
+- [x] Create a free Supabase project in a European region
+- [x] Add pooled `DATABASE_URL` for the running application
+- [x] Add direct `DIRECT_URL` for migrations
+- [x] Configure Prisma to support separate runtime and migration connections
+- [x] Apply committed migrations with `prisma migrate deploy`
+- [x] Create public storage buckets for portfolio and site assets
+- [x] Add least-privilege storage access configuration
+- [x] Replace local portfolio uploads with Supabase Storage
+- [x] Replace local hero, about, and logo uploads with Supabase Storage
+- [x] Delete superseded cloud assets when appropriate
+- [x] Validate file type and size before upload
 - [ ] Optimize uploaded photography for web delivery
 
 ### Resend
@@ -307,6 +313,9 @@ Do not expose secrets in source control, terminal summaries, screenshots, or cha
 - Production will initially use Netlify, Supabase, and Resend free tiers.
 - Production migrations must use committed migrations with `prisma migrate deploy`, never `prisma migrate dev`.
 - Real owner content will be entered through the deployed staging owner portal.
+- Initial staging resources belong to the developer for fast validation.
+- Final production resources and credentials must be client-owned.
+- Every production credential must be recreated or rotated under client control.
 
 ## Open Questions
 

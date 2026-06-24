@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getOwnerSession } from "@/lib/auth/owner-session";
-import { saveSiteSettings } from "@/lib/site-settings";
+import { deleteManagedImage } from "@/lib/storage/image-storage";
+import { getSiteSettings, saveSiteSettings } from "@/lib/site-settings";
 import { siteSettingsSchema } from "@/lib/validations/site-settings";
 
 export const runtime = "nodejs";
@@ -20,6 +21,24 @@ export async function PATCH(request: Request) {
     );
   }
 
+  const previous = await getSiteSettings();
   await saveSiteSettings(parsed.data);
+
+  const imageFields = [
+    "heroImageUrl",
+    "aboutImageUrl",
+    "logoImageUrl",
+  ] as const;
+  const retainedImages = new Set(imageFields.map((field) => parsed.data[field]));
+
+  await Promise.all(
+    imageFields.map(async (field) => {
+      const previousUrl = previous[field];
+      if (previousUrl && !retainedImages.has(previousUrl)) {
+        await deleteManagedImage(previousUrl, "site-assets");
+      }
+    }),
+  );
+
   return NextResponse.json({ ok: true });
 }

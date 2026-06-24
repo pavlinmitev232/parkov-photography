@@ -1,30 +1,10 @@
-import { unlink } from "node:fs/promises";
-import path from "node:path";
 import { NextResponse } from "next/server";
 import { getOwnerSession } from "@/lib/auth/owner-session";
 import { prisma } from "@/lib/db/prisma";
+import { deleteManagedImage } from "@/lib/storage/image-storage";
 import { portfolioItemSchema } from "@/lib/validations/portfolio";
 
 export const runtime = "nodejs";
-
-const localPortfolioUploadPrefix = "/uploads/portfolio/";
-
-async function deleteLocalPortfolioImage(imageUrl: string) {
-  if (!imageUrl.startsWith(localPortfolioUploadPrefix)) {
-    return;
-  }
-
-  const fileName = path.basename(imageUrl);
-  const filePath = path.join(
-    process.cwd(),
-    "public",
-    "uploads",
-    "portfolio",
-    fileName,
-  );
-
-  await unlink(filePath).catch(() => undefined);
-}
 
 export async function PATCH(
   request: Request,
@@ -74,7 +54,7 @@ export async function PATCH(
   });
 
   if (current.imageUrl !== item.imageUrl) {
-    await deleteLocalPortfolioImage(current.imageUrl);
+    await deleteManagedImage(current.imageUrl, "portfolio");
   }
 
   return NextResponse.json({ ok: true, item });
@@ -96,7 +76,7 @@ export async function DELETE(
     where: { id },
     select: { imageUrl: true },
   });
-  await deleteLocalPortfolioImage(item.imageUrl);
+  await deleteManagedImage(item.imageUrl, "portfolio");
 
   return NextResponse.json({ ok: true });
 }
