@@ -506,6 +506,22 @@
     "password": "Password",
     "submit": "Enter owner portal",
     "loading": "Checking...",
-    "error": "The email or password is incorrect."
+    "error": "The email or password is incorrect.",
+    "forgotPassword": "Forgot password?",
+    "resetTitle": "Reset password",
+    "resetCopy": "Enter the owner email address. If the account exists, Supabase will send a secure recovery link.",
+    "resetSubmit": "Send recovery link",
+    "resetLoading": "Sending...",
+    "resetSent": "Check the owner inbox for a password recovery link.",
+    "resetError": "The recovery request could not be sent.",
+    "backToLogin": "Back to login",
+    "passwordTitle": "Choose a new password",
+    "passwordCopy": "Set a new password for the authenticated owner account.",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm password",
+    "passwordHelp": "Use at least 8 characters.",
+    "passwordSubmit": "Save new password",
+    "passwordLoading": "Saving...",
+    "passwordError": "The passwords must match and contain at least 8 characters."
   }
 }

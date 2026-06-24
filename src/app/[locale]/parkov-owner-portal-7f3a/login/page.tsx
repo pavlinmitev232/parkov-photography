@@ -1,6 +1,7 @@
 import { LockKeyhole } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { OwnerLoginForm } from "@/components/owner-login-form";
+import { getOwnerAuthProvider } from "@/lib/auth/owner-auth-provider";
 
 export default async function OwnerLoginPage() {
   const t = await getTranslations("ownerLogin");
@@ -16,7 +17,9 @@ export default async function OwnerLoginPage() {
           <h1 className="font-serif text-4xl font-bold">{t("title")}</h1>
           <p className="mt-4 text-sm leading-6 text-muted">{t("copy")}</p>
         </div>
-        <OwnerLoginForm />
+        <OwnerLoginForm
+          showPasswordReset={getOwnerAuthProvider() === "supabase"}
+        />
       </div>
     </main>
   );

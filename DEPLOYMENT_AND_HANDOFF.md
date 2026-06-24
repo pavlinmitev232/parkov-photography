@@ -163,19 +163,22 @@ Current email scope:
 
 ## Phase 3A: Replace Temporary Owner Login With Supabase Auth
 
-- [ ] Follow the current official Supabase SSR guide for this installed Next.js
+- [x] Follow the current official Supabase SSR guide for this installed Next.js
       version rather than relying on older auth-helper conventions.
-- [ ] Add browser/server Supabase clients and cookie refresh handling.
-- [ ] Create or invite the single owner user with email/password authentication.
-- [ ] Store owner authorization in trusted `app_metadata`.
-- [ ] Disable public registration and reject authenticated non-owner users.
-- [ ] Protect every owner page and mutation API with a server-validated user and
+- [x] Add server-side Supabase clients and cookie refresh handling.
+- [x] Create the single staging owner user with email/password authentication.
+- [x] Store owner authorization in trusted `app_metadata`.
+- [x] Disable public registration.
+- [x] Reject authenticated non-owner users.
+- [x] Protect every owner page and mutation API with a server-validated user and
       owner-role check.
-- [ ] Add logout, forgot-password, recovery callback, and password-update pages.
-- [ ] Configure local, staging, and final-production Auth redirect URLs.
+- [x] Add logout, forgot-password, recovery callback, and password-update pages.
+- [x] Configure local and staging Auth redirect URLs.
+- [ ] Configure the final-production Auth redirect URL after the domain is known.
 - [ ] Configure production Auth email delivery through the verified Parkov
       domain using Supabase custom SMTP or the Resend integration.
-- [ ] Test login, logout, recovery, expiry, refresh, and unauthorized access.
+- [x] Test local login, logout, session refresh, and unauthorized API access.
+- [ ] Test recovery links and the complete flow on deployed staging.
 - [ ] Remove the temporary environment-variable credentials and custom HMAC
       session cookie only after the replacement passes staging.
 

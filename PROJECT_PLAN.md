@@ -324,23 +324,30 @@ characters, but the UI shows only a generic error. Before launch:
 The current `ADMIN_EMAIL` / `ADMIN_PASSWORD` login is staging-only. Replace it
 before client production:
 
-- [ ] Install and pin the current Supabase SSR package required by the official
+- [x] Install and pin the current Supabase SSR package required by the official
       Next.js 16 server-side auth guide.
-- [ ] Add a browser-safe Supabase publishable key for Auth; never expose the
+- [x] Add a browser-safe Supabase publishable key for Auth; never expose the
       Supabase secret/service key.
-- [ ] Add browser and server Supabase clients with cookie-based SSR sessions.
-- [ ] Replace the custom owner-login API with Supabase email/password sign-in.
-- [ ] Replace the custom signed session cookie checks on owner pages and APIs
+- [x] Add server-side Supabase clients with cookie-based SSR sessions and Proxy
+      token refresh.
+- [x] Add Supabase email/password sign-in behind `OWNER_AUTH_PROVIDER`.
+- [x] Route the existing owner page and API guards through verified Supabase
+      users when the provider is `supabase`.
+- [x] Keep `OWNER_AUTH_PROVIDER=legacy` as an explicit rollback path until the
+      staging cutover is accepted.
+- [x] Replace the custom signed session cookie checks on owner pages and APIs
       with server-validated Supabase Auth user checks.
-- [ ] Restrict owner authorization using trusted `app_metadata`, not editable
+- [x] Restrict owner authorization using trusted `app_metadata`, not editable
       `user_metadata`; only users with the owner role may access owner routes.
-- [ ] Disable public sign-up and create/invite the owner account administratively.
-- [ ] Add logout, forgot-password, recovery callback, and set-new-password flows.
-- [ ] Add staging and production redirect URLs in Supabase Auth settings.
+- [x] Create the staging owner account administratively with the trusted owner role.
+- [x] Add logout, forgot-password, recovery callback, and set-new-password flows.
+- [x] Add localhost and staging redirect URLs in Supabase Auth settings.
+- [x] Disable public sign-up in the Supabase Auth provider settings.
 - [ ] Use the verified Parkov sending domain for password-reset/auth emails,
       either through Supabase custom SMTP or its Resend integration.
-- [ ] Test valid login, invalid login, logout, expired sessions, unauthorized
-      owner APIs, password reset, and recovery links.
+- [ ] Test invalid login, expired sessions, password reset, and recovery links.
+- [x] Test valid local owner login, logout, unauthorized
+      owner APIs, and the explicit legacy fallback.
 - [ ] Remove `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `AUTH_SECRET`, the custom session
       implementation, and its cookie after the Supabase Auth cutover passes.
 

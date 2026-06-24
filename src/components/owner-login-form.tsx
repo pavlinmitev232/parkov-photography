@@ -3,10 +3,14 @@
 import { Lock } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { useRouter } from "@/i18n/routing";
+import { Link, useRouter } from "@/i18n/routing";
 import { adminPath } from "@/lib/admin-path";
 
-export function OwnerLoginForm() {
+export function OwnerLoginForm({
+  showPasswordReset,
+}: {
+  showPasswordReset: boolean;
+}) {
   const t = useTranslations("ownerLogin");
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -61,6 +65,7 @@ export function OwnerLoginForm() {
         />
       </label>
       <button
+        type="submit"
         disabled={loading}
         className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-accent px-6 text-sm font-bold text-accent-foreground transition hover:-translate-y-0.5 hover:bg-accent-strong disabled:cursor-not-allowed disabled:opacity-70"
       >
@@ -71,6 +76,14 @@ export function OwnerLoginForm() {
         <p className="rounded-md border border-error/30 bg-error/10 px-4 py-3 text-sm text-error">
           {t("error")}
         </p>
+      )}
+      {showPasswordReset && (
+        <Link
+          href={`${adminPath}/forgot-password`}
+          className="text-center text-sm font-bold text-muted hover:text-foreground"
+        >
+          {t("forgotPassword")}
+        </Link>
       )}
     </form>
   );
