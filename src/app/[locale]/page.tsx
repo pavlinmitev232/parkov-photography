@@ -12,6 +12,8 @@ import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/routing";
 import { GalleryShowcase } from "@/components/gallery-showcase";
+import { AnimatedStat } from "@/components/animated-stat";
+import { AboutPoint } from "@/components/about-point";
 import { MobileMenu } from "@/components/mobile-menu";
 import {
   MotionDiv,
@@ -22,10 +24,7 @@ import {
 } from "@/components/motion";
 import { RequestForm } from "@/components/request-form";
 import { ThemeToggle } from "@/components/theme-toggle";
-import {
-  serviceIcons,
-  stats,
-} from "@/lib/site-data";
+import { serviceIcons } from "@/lib/site-data";
 import {
   getPublicPricingPackages,
   getPublicServices,
@@ -88,6 +87,12 @@ export default async function HomePage({
   const content = localizedSettings(settings, locale);
   const requestMethods = getContactMethods(settings);
   const socials = getSocialLinks(settings);
+  const stats = [
+    { value: settings.statYears, key: "years" },
+    { value: settings.statProjects, key: "projects" },
+    { value: settings.statRating, key: "rating" },
+    { value: settings.statReply, key: "reply" },
+  ];
   const portfolioCategoryKeys = new Set(portfolioCategories.map((category) => category.key));
   const displayPortfolioItems = portfolioItems.filter((item) =>
     portfolioCategoryKeys.has(item.category) && item.showOnHome,
@@ -225,7 +230,12 @@ export default async function HomePage({
             >
               {stats.map((stat) => (
                 <MotionItem key={stat.key}>
-                  <strong className="block font-serif text-4xl">{stat.value}</strong>
+                  <div className="font-serif text-4xl font-bold">
+                    <AnimatedStat
+                      value={stat.value}
+                      animate={stat.key !== "reply"}
+                    />
+                  </div>
                   <span className="text-sm text-white/72">{t(`stats.${stat.key}`)}</span>
                 </MotionItem>
               ))}
@@ -260,14 +270,13 @@ export default async function HomePage({
             <p className="section-kicker">{content.aboutEyebrow}</p>
             <h2 className="section-title">{content.aboutTitle}</h2>
             <p className="mt-6 text-lg leading-8 text-muted">{content.aboutCopy}</p>
-            <MotionGroup className="mt-8 grid gap-3 sm:grid-cols-2">
+            <MotionGroup
+              className="mt-8 grid gap-3 sm:grid-cols-2"
+              delayChildren={0.16}
+              staggerChildren={0.12}
+            >
               {["calm", "local", "edited", "flexible"].map((item) => (
-                <MotionItem key={item}>
-                  <div className="flex min-h-18 gap-3 rounded-md border border-line bg-background p-4">
-                    <CheckCircle2 className="mt-0.5 shrink-0 text-accent" size={18} />
-                    <span className="text-sm font-bold">{t(`about.points.${item}`)}</span>
-                  </div>
-                </MotionItem>
+                <AboutPoint key={item}>{t(`about.points.${item}`)}</AboutPoint>
               ))}
             </MotionGroup>
           </MotionDiv>
@@ -303,6 +312,9 @@ export default async function HomePage({
             items={displayPortfolioItems}
             labels={galleryLabels}
             closeLabel={common("close")}
+            previousLabel={common("previousImage")}
+            nextLabel={common("nextImage")}
+            swipeLabel={common("galleryNavigation")}
           />
         </div>
       </MotionSection>

@@ -7,6 +7,10 @@ const imageValue = z.string().trim().min(1).max(1000);
 
 export const siteSettingsSchema = z.object({
   brandName: shortText,
+  statYears: shortText.default("12+"),
+  statProjects: shortText.default("480+"),
+  statRating: shortText.default("4.9"),
+  statReply: shortText.default("24h"),
   phone: z.string().trim().min(3).max(40),
   email: z.string().trim().email().max(200),
   instagramUrl: optionalUrl,

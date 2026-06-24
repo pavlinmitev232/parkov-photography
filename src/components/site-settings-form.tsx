@@ -14,7 +14,7 @@ export function SiteSettingsForm({
   const t = useTranslations("adminSettings");
   const router = useRouter();
   const [settings, setSettings] = useState(initialSettings);
-  const [tab, setTab] = useState<"brand" | "copy" | "visibility">("brand");
+  const [tab, setTab] = useState<"brand" | "stats" | "copy" | "visibility">("brand");
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const inputClass =
@@ -78,7 +78,7 @@ export function SiteSettingsForm({
   return (
     <div>
       <div className="mb-6 flex flex-wrap gap-1 rounded-md border border-line bg-background p-1">
-        {(["brand", "copy", "visibility"] as const).map((item) => (
+        {(["brand", "stats", "copy", "visibility"] as const).map((item) => (
           <button
             type="button"
             onClick={() => setTab(item)}
@@ -152,6 +152,34 @@ export function SiteSettingsForm({
             </div>
           </section>
         </div>
+      )}
+
+      {tab === "stats" && (
+        <section className="rounded-md border border-line bg-background p-5">
+          <h2 className="text-2xl font-bold">{t("statsTitle")}</h2>
+          <p className="mt-2 text-base/7 text-muted sm:text-sm/6">
+            {t("statsHelp")}
+          </p>
+          <div className="mt-5 grid gap-4 sm:grid-cols-2">
+            {(
+              [
+                ["statYears", "statYears"],
+                ["statProjects", "statProjects"],
+                ["statRating", "statRating"],
+                ["statReply", "statReply"],
+              ] as const
+            ).map(([field, label]) => (
+              <Field label={t(label)} key={field}>
+                <input
+                  name={field}
+                  className={inputClass}
+                  value={settings[field]}
+                  onChange={(event) => update(field, event.target.value)}
+                />
+              </Field>
+            ))}
+          </div>
+        </section>
       )}
 
       {tab === "copy" && (

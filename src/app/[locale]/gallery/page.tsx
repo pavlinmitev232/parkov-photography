@@ -48,6 +48,22 @@ export default async function GalleryPage({
     ["all", home("portfolio.categories.all")],
     ...portfolioCategories.map((category) => [category.key, category.label]),
   ]);
+  const galleryStats = [
+    {
+      value: t("stats.photoValue", { count: displayItems.length }),
+      label: t("stats.photos"),
+    },
+    {
+      value: t("stats.categoryValue", {
+        count: Math.max(visibleGalleryCategories.length - 1, 0),
+      }),
+      label: t("stats.categories"),
+    },
+    {
+      value: "BG / EN",
+      label: t("stats.languages"),
+    },
+  ];
 
   return (
     <main className="isolate min-h-dvh bg-background">
@@ -103,13 +119,13 @@ export default async function GalleryPage({
             {t("copy")}
           </p>
           <div className="mt-8 grid gap-4 border-t border-line pt-6 sm:grid-cols-3">
-            {["curated", "categories", "database"].map((item) => (
-              <div key={item}>
-                <strong className="font-serif text-3xl tabular-nums">
-                  {t(`stats.${item}.value`)}
+            {galleryStats.map((item) => (
+              <div key={item.label}>
+                <strong className="font-serif text-2xl tabular-nums md:text-3xl">
+                  {item.value}
                 </strong>
                 <p className="mt-2 text-base leading-7 text-muted sm:text-sm sm:leading-6">
-                  {t(`stats.${item}.label`)}
+                  {item.label}
                 </p>
               </div>
             ))}
@@ -122,6 +138,9 @@ export default async function GalleryPage({
         items={displayItems}
         labels={galleryLabels}
         closeLabel={common("close")}
+        previousLabel={common("previousImage")}
+        nextLabel={common("nextImage")}
+        swipeLabel={common("galleryNavigation")}
         itemCountLabel={t("itemCount")}
         emptyTitle={t("emptyTitle")}
         emptyCopy={t("emptyCopy")}

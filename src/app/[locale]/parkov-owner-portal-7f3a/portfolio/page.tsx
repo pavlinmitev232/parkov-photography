@@ -30,6 +30,7 @@ export default async function AdminPortfolioPage({
       titleEn: true,
       category: true,
       imageUrl: true,
+      description: true,
       location: true,
       shootYear: true,
       clientType: true,

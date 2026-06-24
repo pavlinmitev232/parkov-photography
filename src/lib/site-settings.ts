@@ -9,6 +9,10 @@ const settingsKey = "site-profile";
 
 export const defaultSiteSettings: SiteSettingsValues = {
   brandName: "Parkov",
+  statYears: "12+",
+  statProjects: "480+",
+  statRating: "4.9",
+  statReply: "24h",
   phone: "+359888000000",
   email: "hello@parkov.photo",
   instagramUrl: "https://instagram.com/parkov.photo",
@@ -40,9 +44,9 @@ export const defaultSiteSettings: SiteSettingsValues = {
   aboutTitleEn:
     "Calm direction, sharp timing, and photographs made to feel personal.",
   aboutCopyBg:
-    "Сайтът се изгражда за фотограф, който може да поеме различни видове заснемане, без визията да изглежда обща. Тонът трябва да е локален, надежден и премиум за клиенти в България.",
+    "Parkov работи с различни видове заснемане, като запазва естествено усещане, ясна комуникация и внимание към хората, детайлите и атмосферата.",
   aboutCopyEn:
-    "The website is being shaped for a photographer who can handle many kinds of work without feeling generic. The tone should feel local, reliable, and premium for clients in Bulgaria.",
+    "Parkov works across different kinds of photography while keeping a natural feel, clear communication, and careful attention to people, details, and atmosphere.",
   servicesEyebrowBg: "Услуги",
   servicesEyebrowEn: "Services",
   servicesTitleBg:

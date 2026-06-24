@@ -1,9 +1,12 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { X } from "lucide-react";
 import Image from "next/image";
 import { useMemo, useState } from "react";
+import {
+  GalleryLightbox,
+  type LightboxItem,
+} from "@/components/gallery-lightbox";
 import type { PublicPortfolioItem } from "@/lib/portfolio";
 
 type GalleryBrowserProps = {
@@ -11,6 +14,9 @@ type GalleryBrowserProps = {
   items: PublicPortfolioItem[];
   labels: Record<string, string>;
   closeLabel: string;
+  previousLabel: string;
+  nextLabel: string;
+  swipeLabel: string;
   itemCountLabel: string;
   emptyTitle: string;
   emptyCopy: string;
@@ -21,12 +27,15 @@ export function GalleryBrowser({
   items,
   labels,
   closeLabel,
+  previousLabel,
+  nextLabel,
+  swipeLabel,
   itemCountLabel,
   emptyTitle,
   emptyCopy,
 }: GalleryBrowserProps) {
   const [activeCategory, setActiveCategory] = useState("all");
-  const [activeItem, setActiveItem] = useState<PublicPortfolioItem | null>(null);
+  const [activeItem, setActiveItem] = useState<LightboxItem | null>(null);
 
   const visibleItems = useMemo(
     () =>
@@ -142,57 +151,17 @@ export function GalleryBrowser({
         </div>
       </section>
 
-      <AnimatePresence>
-        {activeItem && (
-          <motion.div
-            className="fixed inset-0 z-[80] grid place-items-center bg-black/86 p-4 backdrop-blur-md"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            role="dialog"
-            aria-modal="true"
-          >
-            <button
-              type="button"
-              aria-label={closeLabel}
-              onClick={() => setActiveItem(null)}
-              className="absolute right-5 top-5 z-10 grid size-11 place-items-center rounded-full border border-white/20 bg-white/10 text-white backdrop-blur hover:bg-white/20"
-            >
-              <X size={20} />
-            </button>
-            <motion.div
-              initial={{ y: 28, opacity: 0, scale: 0.98 }}
-              animate={{ y: 0, opacity: 1, scale: 1 }}
-              exit={{ y: 28, opacity: 0, scale: 0.98 }}
-              className="relative h-[78vh] w-full max-w-6xl overflow-hidden rounded-md"
-            >
-              <Image
-                src={activeItem.image}
-                alt={activeItem.title}
-                fill
-                unoptimized
-                sizes="100vw"
-                className="object-contain"
-              />
-              <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/80 to-transparent p-6 text-white">
-                <p className="text-sm font-bold tracking-[0.18em] text-white/68">
-                  {labels[activeItem.category]}
-                </p>
-                <h2 className="mt-2 font-serif text-3xl font-bold">
-                  {activeItem.title}
-                </h2>
-                {(activeItem.location || activeItem.shootYear || activeItem.clientType) && (
-                  <p className="mt-2 text-sm text-white/72">
-                    {[activeItem.location, activeItem.shootYear, activeItem.clientType]
-                      .filter(Boolean)
-                      .join(" / ")}
-                  </p>
-                )}
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <GalleryLightbox
+        activeItem={activeItem}
+        items={visibleItems}
+        labels={labels}
+        closeLabel={closeLabel}
+        previousLabel={previousLabel}
+        nextLabel={nextLabel}
+        swipeLabel={swipeLabel}
+        onClose={() => setActiveItem(null)}
+        onChange={setActiveItem}
+      />
     </>
   );
 }

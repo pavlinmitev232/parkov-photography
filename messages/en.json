@@ -8,7 +8,10 @@
     "theme": "Toggle light or dark mode",
     "menu": "Open menu",
     "closeMenu": "Close menu",
-    "close": "Close"
+    "close": "Close",
+    "previousImage": "Previous image",
+    "nextImage": "Next image",
+    "galleryNavigation": "Swipe or use the arrow keys to browse"
   },
   "nav": {
     "about": "About",
@@ -35,7 +38,7 @@
     "portfolio": {
       "eyebrow": "Selected work",
       "title": "A portfolio with character, not just a gallery.",
-      "copy": "The first version uses sample photography. Then we replace everything with Parkov's real work and organize categories around Bulgarian client demand.",
+      "copy": "A selection of weddings, portraits, events, commercial work, and personal stories photographed with a clean, natural style.",
       "cta": "Open full gallery",
       "categories": {
         "all": "All",
@@ -51,7 +54,7 @@
     "about": {
       "eyebrow": "About Parkov",
       "title": "Calm direction, sharp timing, and photographs made to feel personal.",
-      "copy": "The website is being shaped for a photographer who can handle many kinds of work without feeling generic. The tone should feel local, reliable, and premium for clients in Bulgaria.",
+      "copy": "Parkov works across different kinds of photography while keeping a natural feel, clear communication, and careful attention to people, details, and atmosphere.",
       "points": {
         "calm": "Clear guidance during the session",
         "local": "Built around Bulgarian client habits",
@@ -85,7 +88,7 @@
     "packages": {
       "eyebrow": "Packages",
       "title": "Simple starting points, customized after the request.",
-      "copy": "Prices are mock placeholders for now. Later the owner can decide whether to show fixed pricing, starting prices, or private quotes only.",
+      "copy": "Prices are starting points. The exact quote is confirmed after learning about the date, location, and scope of the project.",
       "featured": "Popular",
       "cta": "Ask for availability",
       "items": {
@@ -108,7 +111,7 @@
     },
     "testimonials": {
       "eyebrow": "Client words",
-      "title": "Trust signals that will later use real client reviews.",
+      "title": "Kind words from people who trusted Parkov with their story.",
       "items": {
         "maria": {
           "quote": "The session felt easy and the photos looked natural. Communication before and after was very clear.",
@@ -133,11 +136,11 @@
       "items": {
         "travel": {
           "question": "Do you travel outside one city?",
-          "answer": "Yes. The site is planned for Bulgaria-wide work. Travel costs can be included in the final quote depending on the location."
+          "answer": "Yes. Parkov accepts projects across Bulgaria. Travel costs can be included in the final quote depending on the location."
         },
         "delivery": {
           "question": "How fast are photos delivered?",
-          "answer": "Delivery depends on the shoot type. The final site should show realistic timing for previews and full edited galleries."
+          "answer": "Delivery depends on the type and scale of the shoot. The expected timing for previews and the full edited gallery is confirmed with the booking."
         },
         "deposit": {
           "question": "Is a deposit required?",
@@ -166,7 +169,7 @@
       }
     },
     "footer": {
-      "copy": "Mock contact and social details for now. Real brand details will replace them later.",
+      "copy": "Photography for people, events, businesses, and spaces across Bulgaria.",
       "socials": {
         "instagram": "Instagram",
         "facebook": "Facebook",
@@ -180,20 +183,24 @@
     "backHome": "Back home",
     "eyebrow": "Full gallery",
     "title": "Browse the work by mood, format, and assignment.",
-    "copy": "This gallery reads from the owner-managed portfolio database when photos are available. Until real Parkov work is added, it keeps the site useful with carefully chosen sample images.",
+    "copy": "Explore Parkov's portfolio by category and find the visual approach that fits your story, event, brand, or space.",
     "itemCount": "photos shown",
     "emptyTitle": "No photos in this category yet",
     "emptyCopy": "Choose another category or check back after more portfolio work has been added.",
     "stats": {
-      "curated": { "value": "01", "label": "Curated portfolio view for real client decisions." },
-      "categories": { "value": "07", "label": "Category structure ready for Parkov's main services." },
-      "database": { "value": "DB", "label": "Connected to owner-managed portfolio items." }
+      "photoValue": "{count, plural, one {# photo} other {# photos}}",
+      "categoryValue": "{count, plural, one {# category} other {# categories}}",
+      "photos": "In the current portfolio.",
+      "categories": "With published work.",
+      "languages": "Gallery available in Bulgarian and English."
     }
   },
   "request": {
     "name": "Full name",
     "email": "Email",
     "phone": "Phone",
+    "emailRequired": "Email address (required)",
+    "phoneRequired": "Phone number (required)",
     "preferredContact": "Preferred contact method",
     "service": "Shoot type",
     "date": "Preferred date",
@@ -204,6 +211,9 @@
     "success": "Thank you. Your request has been saved and is ready for the owner to review.",
     "submitError": "Something went wrong while sending. Please try again or use phone, Viber, WhatsApp, or email.",
     "error": "Please fill this correctly.",
+    "emailError": "Enter a valid email address.",
+    "phoneError": "Enter a valid phone number.",
+    "contactChoiceRequired": "Choose how you would like to be contacted.",
     "services": {
       "wedding": "Wedding",
       "portrait": "Portrait",
@@ -225,7 +235,7 @@
     "eyebrow": "Admin",
     "title": "Site management",
     "viewSite": "View site",
-    "authNote": "This is the first admin skeleton. Next we add real authentication, roles, and database connection before it is used publicly.",
+    "authNote": "You are signed in to the protected owner portal. Changes made here update the public website and its stored content.",
     "manage": "Manage",
     "logout": "Log out",
     "loggingOut": "Logging out...",
@@ -284,12 +294,19 @@
     "repeatedTitle": "Testimonials and FAQs",
     "tabs": {
       "brand": "Brand and contacts",
+      "stats": "Hero statistics",
       "copy": "Copy and SEO",
       "visibility": "Section visibility",
       "testimonials": "Testimonials",
       "faqs": "FAQs"
     },
     "brandTitle": "Identity and contact details",
+    "statsTitle": "Hero statistics",
+    "statsHelp": "Edit the displayed values. Numbers animate up when they enter the screen; suffixes such as + or h are preserved.",
+    "statYears": "Years of experience",
+    "statProjects": "Stories photographed",
+    "statRating": "Average rating",
+    "statReply": "Response time",
     "imagesTitle": "Public site imagery",
     "visibilityTitle": "Visible homepage sections",
     "brandName": "Brand name",
@@ -435,8 +452,9 @@
     "back": "Back to admin",
     "eyebrow": "Portfolio",
     "title": "Photos and portfolio",
-    "copy": "First version uses image URLs. Later this will connect to upload storage so the owner can upload files directly.",
+    "copy": "Add new portfolio work or edit existing titles, categories, details, visibility, and images.",
     "formTitle": "Add portfolio item",
+    "editFormTitle": "Edit portfolio item",
     "titleBg": "Bulgarian title",
     "titleEn": "English title",
     "category": "Category",
@@ -453,6 +471,8 @@
     "showOnHome": "Show on homepage",
     "hiddenFromHome": "Hidden from homepage",
     "submit": "Add item",
+    "saveChanges": "Save changes",
+    "cancelEdit": "Cancel editing",
     "saving": "Saving...",
     "submitError": "Could not save this portfolio item.",
     "error": "This field is required.",
@@ -460,6 +480,7 @@
     "yearError": "Enter a year between 2000 and 2100.",
     "empty": "No portfolio items have been added yet.",
     "delete": "Delete item",
+    "edit": "Edit item",
     "categories": {
       "weddings": "Weddings",
       "portraits": "Portraits",
