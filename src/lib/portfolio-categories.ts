@@ -1,5 +1,6 @@
 import { connection } from "next/server";
 import { prisma } from "@/lib/db/prisma";
+import { shouldSeedDefaultContent } from "@/lib/default-content";
 import { galleryCategories } from "@/lib/site-data";
 
 export type PublicPortfolioCategory = {
@@ -32,6 +33,10 @@ const fallbackLabels: Record<string, { labelBg: string; labelEn: string }> = {
 };
 
 export async function ensureDefaultPortfolioCategories() {
+  if (!shouldSeedDefaultContent()) {
+    return;
+  }
+
   const count = await prisma.portfolioCategory.count();
 
   if (count > 0) {

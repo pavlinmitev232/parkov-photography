@@ -373,6 +373,19 @@ before client production:
 - [ ] Run performance and image-delivery checks
 - [ ] Confirm production secrets are not exposed to the browser or repository
 
+Compact staging pass on June 25, 2026:
+
+- Bulgarian and English home/gallery routes loaded successfully.
+- Light/dark switching and mobile navigation worked, with no horizontal mobile
+  overflow or browser console errors observed.
+- The deployed owner login correctly rejected the local legacy fallback
+  credentials. Protected CRUD and Storage checks still require a valid
+  Supabase owner session.
+- No inquiry was submitted during this pass, avoiding a permanent test record
+  and notification while owner access was unavailable for cleanup.
+- Obvious test portfolio content remains visible and should be replaced during
+  the approved-content stage.
+
 ## Decisions
 
 - Admin lives in the same app under `/parkov-owner-portal-7f3a`.
@@ -387,6 +400,8 @@ before client production:
 - Production will initially use Netlify, Supabase, and Resend free tiers.
 - Production migrations must use committed migrations with `prisma migrate deploy`, never `prisma migrate dev`.
 - Real owner content will be entered through the deployed staging owner portal.
+- Automatic insertion of built-in content into empty tables is controlled by
+  server-only `SEED_DEFAULT_CONTENT`; it defaults to `false` for clean databases.
 - Initial staging resources belong to the developer for fast validation.
 - Final production resources and credentials must be client-owned.
 - Every production credential must be recreated or rotated under client control.

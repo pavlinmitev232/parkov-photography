@@ -55,6 +55,7 @@ values belong in local `.env` files or provider secret stores.
 | --- | --- | --- | --- | --- |
 | `DATABASE_URL` | Pooled runtime database connection | Required | Required | Yes |
 | `DIRECT_URL` | Direct migration connection | Required | Required | Yes |
+| `SEED_DEFAULT_CONTENT` | Allow built-in defaults to populate empty content tables | Optional, normally `false` | `false` | No |
 | `SUPABASE_URL` | Server-side project URL | Required | Required | No |
 | `SUPABASE_SECRET_KEY` | Server-only Storage access | Required | Required | Yes |
 | `SUPABASE_PORTFOLIO_BUCKET` | Portfolio bucket name | Required | Required | No |

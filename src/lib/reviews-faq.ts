@@ -1,5 +1,6 @@
 import { connection } from "next/server";
 import { prisma } from "@/lib/db/prisma";
+import { shouldSeedDefaultContent } from "@/lib/default-content";
 
 const defaultTestimonials = [
   {
@@ -76,6 +77,10 @@ const defaultFaqs = [
 ];
 
 export async function ensureDefaultReviewsAndFaqs() {
+  if (!shouldSeedDefaultContent()) {
+    return;
+  }
+
   const [testimonialCount, faqCount] = await Promise.all([
     prisma.testimonial.count(),
     prisma.faqItem.count(),

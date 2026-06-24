@@ -1,5 +1,6 @@
 import { connection } from "next/server";
 import { prisma } from "@/lib/db/prisma";
+import { shouldSeedDefaultContent } from "@/lib/default-content";
 
 export type PublicServiceItem = {
   id: string;
@@ -119,6 +120,10 @@ export const fallbackPackages = [
 ];
 
 export async function ensureDefaultSiteContent() {
+  if (!shouldSeedDefaultContent()) {
+    return;
+  }
+
   const [serviceCount, packageCount] = await Promise.all([
     prisma.serviceItem.count(),
     prisma.pricingPackage.count(),
