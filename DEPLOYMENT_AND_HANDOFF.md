@@ -38,7 +38,7 @@ Complete this table without entering secret values.
 | Resend team | Developer | Developer account sandbox | N/A | TBD | Active |
 | Resend sending domain | Client DNS required | TBD | EU proposed | TBD | Not started |
 | Netlify team | Developer | `pavlinmitev232's team` | N/A | TBD | Active |
-| Netlify site | Developer | `parkov-photography-staging` (`22c9d936-1e79-4164-9e10-ae144b1c0f7a`) | N/A | TBD | Connected |
+| Netlify site | Developer | `parkov-photography-staging` (`22c9d936-1e79-4164-9e10-ae144b1c0f7a`) | N/A | TBD | Live |
 | Public domain and DNS | Client | TBD | N/A | Client | Not started |
 
 ## Environment Variable Register
@@ -147,11 +147,11 @@ Current email scope:
 - [x] Sign in using the developer's Netlify account.
 - [x] Create a dedicated Parkov site in the developer's team.
 - [x] Connect the private GitHub repository.
-- [ ] Confirm Next.js and the Netlify Next.js runtime are detected.
+- [x] Confirm Next.js and the Netlify Next.js runtime are detected.
 - [x] Keep build configuration tracked and secrets out of `netlify.toml`.
 - [x] Add environment variables with the correct deploy-context scopes.
 - [x] Safely include Prisma generation and `prisma migrate deploy`.
-- [ ] Deploy to a draft or staging URL first.
+- [x] Deploy to a draft or staging URL first.
 - [ ] Verify pages, APIs, locale routing, proxy/middleware, images, and owner routes.
 - [ ] Confirm uploads survive a fresh deployment.
 - [ ] Inspect build and function logs for secret leakage.

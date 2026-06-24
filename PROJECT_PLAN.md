@@ -29,7 +29,8 @@ Read this section first when continuing in a new Codex chat.
 - Supabase staging is healthy in Frankfurt (`eu-central-1`), all committed
   migrations are applied, and portfolio/site asset Storage smoke tests passed.
 - Netlify staging is connected to the private GitHub repository at
-  `https://parkov-photography-staging.netlify.app`.
+  `https://parkov-photography-staging.netlify.app`; the first Git-backed
+  production-context deploy from `main` is live.
 - Inquiry notifications use Resend when configured, with inquiry-ID
   idempotency, valid customer `replyTo`, and optional SMTP fallback.
 - A Resend sandbox notification was delivered successfully to the verified
@@ -69,11 +70,10 @@ Codex must be restarted before a new chat so these skills are loaded.
 
 ### Immediate Next Task
 
-1. Confirm the first Git-backed Netlify build from `main` succeeds.
-2. Run owner login, database management, Storage upload/replacement/deletion,
+1. Run owner login, database management, Storage upload/replacement/deletion,
    inquiry persistence, notification delivery, and status-update checks on the
    deployed staging site.
-3. Later, add optional automatic customer confirmations and owner-portal custom
+2. Later, add optional automatic customer confirmations and owner-portal custom
    email sending. These are not implemented yet; manual replies currently work
    through the owner inbox because notifications set the customer as `replyTo`.
 
@@ -332,5 +332,4 @@ Do not expose secrets in source control, terminal summaries, screenshots, or cha
 
 ## Next Recommended Work
 
-1. Confirm the first Git-backed Netlify build from `main`.
-2. Complete the deployed staging verification checklist.
+1. Complete the deployed staging verification checklist.
