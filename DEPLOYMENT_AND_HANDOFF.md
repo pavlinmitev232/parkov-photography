@@ -222,9 +222,12 @@ Preferred path: transfer the existing project to the client's organization.
 
 - [ ] Review Supabase's current transfer warnings and billing effects.
 - [ ] Export a database backup and Storage inventory.
+- [ ] Record the Auth owner email and verify its trusted
+      `app_metadata.role = "owner"` authorization before transfer.
 - [ ] Record current migration status and environment-variable names.
 - [ ] Transfer the project from its general settings.
-- [ ] Confirm project reference, region, database, Storage objects, and URLs.
+- [ ] Confirm project reference, region, database, Storage objects, Auth owner,
+      owner role, and URLs.
 - [ ] Create new database and server-only credentials under client control.
 - [ ] Replace Supabase variables in Netlify and authorized local environments.
 - [ ] Redeploy and repeat the Supabase acceptance checklist.
@@ -236,6 +239,12 @@ Fallback if transfer is unavailable:
 - [ ] Apply committed Prisma migrations.
 - [ ] Export and import database data.
 - [ ] Recreate Storage buckets and access rules.
+- [ ] Create or invite the real owner in Supabase Auth through an administrative
+      flow; keep public sign-up disabled.
+- [ ] Assign the owner role only through server/admin access using trusted
+      `app_metadata.role = "owner"`; never use editable `user_metadata`.
+- [ ] Configure the final Auth redirect URLs and verify login, logout, recovery,
+      session refresh, and unauthorized-user rejection.
 - [ ] Copy objects and update stored URLs if the project URL changes.
 - [ ] Complete regression testing before deleting developer resources.
 
