@@ -59,9 +59,10 @@ values belong in local `.env` files or provider secret stores.
 | `SUPABASE_SECRET_KEY` | Server-only Storage access | Required | Required | Yes |
 | `SUPABASE_PORTFOLIO_BUCKET` | Portfolio bucket name | Required | Required | No |
 | `SUPABASE_SITE_ASSETS_BUCKET` | Site asset bucket name | Required | Required | No |
-| `ADMIN_EMAIL` | Owner login | Required | Required | Sensitive |
-| `ADMIN_PASSWORD` | Owner login | Required | Required | Yes |
-| `AUTH_SECRET` | Signs owner sessions | Required | Newly generated | Yes |
+| `ADMIN_EMAIL` | Temporary staging owner login | Required until Auth cutover | Remove | Sensitive |
+| `ADMIN_PASSWORD` | Temporary staging owner login | Required until Auth cutover | Remove | Yes |
+| `AUTH_SECRET` | Temporary signed owner sessions | Required until Auth cutover | Remove | Yes |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Browser-safe Supabase Auth client | Required after Auth cutover | Required | No |
 | `RESEND_API_KEY` | Inquiry notifications | Required later | Newly created | Yes |
 | `INQUIRY_TO_EMAIL` | Inquiry recipient | Required later | Required | Sensitive |
 | `RESEND_FROM_EMAIL` | Verified sender | Test sender first | Client sender | No |
@@ -155,7 +156,25 @@ Current email scope:
 - [ ] Verify pages, APIs, locale routing, proxy/middleware, images, and owner routes.
 - [ ] Confirm uploads survive a fresh deployment.
 - [ ] Inspect build and function logs for secret leakage.
-- [ ] Record the staging URL and Netlify site ID above.
+- [x] Record the staging URL and Netlify site ID above.
+
+## Phase 3A: Replace Temporary Owner Login With Supabase Auth
+
+- [ ] Follow the current official Supabase SSR guide for this installed Next.js
+      version rather than relying on older auth-helper conventions.
+- [ ] Add browser/server Supabase clients and cookie refresh handling.
+- [ ] Create or invite the single owner user with email/password authentication.
+- [ ] Store owner authorization in trusted `app_metadata`.
+- [ ] Disable public registration and reject authenticated non-owner users.
+- [ ] Protect every owner page and mutation API with a server-validated user and
+      owner-role check.
+- [ ] Add logout, forgot-password, recovery callback, and password-update pages.
+- [ ] Configure local, staging, and final-production Auth redirect URLs.
+- [ ] Configure production Auth email delivery through the verified Parkov
+      domain using Supabase custom SMTP or the Resend integration.
+- [ ] Test login, logout, recovery, expiry, refresh, and unauthorized access.
+- [ ] Remove the temporary environment-variable credentials and custom HMAC
+      session cookie only after the replacement passes staging.
 
 ## Phase 4: Staging Review
 

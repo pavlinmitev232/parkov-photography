@@ -70,10 +70,12 @@ Codex must be restarted before a new chat so these skills are loaded.
 
 ### Immediate Next Task
 
-1. Run owner login, database management, Storage upload/replacement/deletion,
+1. Replace the temporary environment-variable owner login with Supabase Auth
+   using the implementation plan below.
+2. Run owner login, database management, Storage upload/replacement/deletion,
    inquiry persistence, notification delivery, and status-update checks on the
    deployed staging site.
-2. Later, add optional automatic customer confirmations and owner-portal custom
+3. Later, add optional automatic customer confirmations and owner-portal custom
    email sending. These are not implemented yet; manual replies currently work
    through the owner inbox because notifications set the customer as `replyTo`.
 
@@ -285,15 +287,40 @@ Do not expose secrets in source control, terminal summaries, screenshots, or cha
 
 ### Netlify
 
-- [ ] Create or connect a Netlify account
-- [ ] Import the private GitHub repository
-- [ ] Configure the production build command
-- [ ] Add Prisma generation and migration deployment steps
-- [ ] Add Supabase, Resend, owner auth, and site environment variables
-- [ ] Deploy a staging version from `main`
-- [ ] Confirm Next.js routes, middleware, APIs, and image optimization
+- [x] Create or connect a Netlify account
+- [x] Import the private GitHub repository
+- [x] Configure the production build command
+- [x] Add Prisma generation and migration deployment steps
+- [x] Add Supabase, Resend, temporary owner auth, and site environment variables
+- [x] Deploy a staging version from `main`
+- [x] Confirm basic Next.js routes, proxy/middleware, and image rendering
 - [ ] Confirm owner uploads persist after a fresh deployment
 - [ ] Configure custom domain and DNS
+
+### Supabase Owner Auth Replacement
+
+The current `ADMIN_EMAIL` / `ADMIN_PASSWORD` login is staging-only. Replace it
+before client production:
+
+- [ ] Install and pin the current Supabase SSR package required by the official
+      Next.js 16 server-side auth guide.
+- [ ] Add a browser-safe Supabase publishable key for Auth; never expose the
+      Supabase secret/service key.
+- [ ] Add browser and server Supabase clients with cookie-based SSR sessions.
+- [ ] Replace the custom owner-login API with Supabase email/password sign-in.
+- [ ] Replace the custom signed session cookie checks on owner pages and APIs
+      with server-validated Supabase Auth user checks.
+- [ ] Restrict owner authorization using trusted `app_metadata`, not editable
+      `user_metadata`; only users with the owner role may access owner routes.
+- [ ] Disable public sign-up and create/invite the owner account administratively.
+- [ ] Add logout, forgot-password, recovery callback, and set-new-password flows.
+- [ ] Add staging and production redirect URLs in Supabase Auth settings.
+- [ ] Use the verified Parkov sending domain for password-reset/auth emails,
+      either through Supabase custom SMTP or its Resend integration.
+- [ ] Test valid login, invalid login, logout, expired sessions, unauthorized
+      owner APIs, password reset, and recovery links.
+- [ ] Remove `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `AUTH_SECRET`, the custom session
+      implementation, and its cookie after the Supabase Auth cutover passes.
 
 ### Staging Verification
 
@@ -311,7 +338,10 @@ Do not expose secrets in source control, terminal summaries, screenshots, or cha
 ## Decisions
 
 - Admin lives in the same app under `/parkov-owner-portal-7f3a`.
-- Owner routes use a signed session cookie; the unusual path remains only an additional friction layer.
+- The current signed owner-session cookie is staging-only and will be replaced
+  by Supabase Auth before production.
+- The unusual owner path remains only an additional friction layer, never the
+  authorization boundary.
 - Bulgarian is the default language.
 - Owner management is part of the project, not a later unrelated app.
 - Request flow should support form, phone, Viber, WhatsApp, and email.
@@ -325,11 +355,13 @@ Do not expose secrets in source control, terminal summaries, screenshots, or cha
 
 ## Open Questions
 
-- Which European Supabase region should host the production project?
 - Which Parkov domain will be used for the public site and Resend sender verification?
 - Should pricing be public, hidden, or "starting from" style?
 - Does the owner need blog/news management after launch?
 
 ## Next Recommended Work
 
-1. Complete the deployed staging verification checklist.
+1. Implement and verify the Supabase Auth owner-login replacement.
+2. Complete the deployed staging verification checklist.
+3. Collect approved Parkov content and confirm the final domain.
+4. Create or transfer client-owned production resources and perform launch QA.
