@@ -178,9 +178,19 @@ Current email scope:
 - [ ] Configure production Auth email delivery through the verified Parkov
       domain using Supabase custom SMTP or the Resend integration.
 - [x] Test local login, logout, session refresh, and unauthorized API access.
-- [ ] Test recovery links and the complete flow on deployed staging.
+- [x] Test deployed staging login, logout, invalid credentials, owner page
+      access, unauthorized API access, and recovery page availability.
+- [ ] Test password-reset email delivery and the complete recovery-link flow.
 - [ ] Remove the temporary environment-variable credentials and custom HMAC
       session cookie only after the replacement passes staging.
+
+Rollback while evaluating Supabase Auth:
+
+- Set `OWNER_AUTH_PROVIDER=legacy` in the target environment and redeploy.
+- The existing `ADMIN_EMAIL`, `ADMIN_PASSWORD`, and `AUTH_SECRET` values remain
+  available during evaluation, so rollback does not require a code revert.
+- Do not remove the legacy variables or HMAC session implementation until the
+  user explicitly accepts the Supabase Auth cutover.
 
 ## Phase 4: Staging Review
 

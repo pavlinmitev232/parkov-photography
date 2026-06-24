@@ -345,7 +345,8 @@ before client production:
 - [x] Disable public sign-up in the Supabase Auth provider settings.
 - [ ] Use the verified Parkov sending domain for password-reset/auth emails,
       either through Supabase custom SMTP or its Resend integration.
-- [ ] Test invalid login, expired sessions, password reset, and recovery links.
+- [x] Test invalid login and reject unauthenticated password updates.
+- [ ] Test expired sessions, password-reset delivery, and recovery links.
 - [x] Test valid local owner login, logout, unauthorized
       owner APIs, and the explicit legacy fallback.
 - [ ] Remove `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `AUTH_SECRET`, the custom session
@@ -353,7 +354,7 @@ before client production:
 
 ### Staging Verification
 
-- [ ] Test owner login and logout
+- [x] Test owner login and logout
 - [ ] Test portfolio, category, service, pricing, settings, testimonial, and FAQ management
 - [ ] Test Supabase image upload, display, replacement, and deletion
 - [ ] Test inquiry creation, database storage, notification delivery, and status updates
