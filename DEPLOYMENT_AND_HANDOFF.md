@@ -34,11 +34,11 @@ Complete this table without entering secret values.
 | GitHub repository | Developer | `parkov-photography` | N/A | TBD | Not started |
 | Supabase organization | Developer | `pavlinmitev232's Org` (`gdhynxrhykcagdtsodhd`) | N/A | TBD | Active |
 | Supabase project | Developer | `parkov-photography-staging` (`klrsdryijpqujznnggqh`) | Central EU (Frankfurt), `eu-central-1` | TBD | Healthy |
-| Supabase Storage | Developer | `portfolio`, `site-assets` proposed | Project region | TBD | Not started |
-| Resend team | Developer | TBD | N/A | TBD | Not started |
+| Supabase Storage | Developer | `portfolio`, `site-assets` | Project region | TBD | Healthy |
+| Resend team | Developer | Developer account sandbox | N/A | TBD | Active |
 | Resend sending domain | Client DNS required | TBD | EU proposed | TBD | Not started |
-| Netlify team | Developer | TBD | N/A | TBD | Not started |
-| Netlify site | Developer | TBD | N/A | TBD | Not started |
+| Netlify team | Developer | `pavlinmitev232's team` | N/A | TBD | Active |
+| Netlify site | Developer | `parkov-photography-staging` (`22c9d936-1e79-4164-9e10-ae144b1c0f7a`) | N/A | TBD | Connected |
 | Public domain and DNS | Client | TBD | N/A | Client | Not started |
 
 ## Environment Variable Register
@@ -91,7 +91,7 @@ Never expose database credentials, `SUPABASE_SECRET_KEY`, `ADMIN_PASSWORD`,
 - [x] Generate Prisma Client.
 - [x] Apply committed migrations with `prisma migrate deploy`.
 - [x] Verify all expected tables exist.
-- [ ] Create, read, and remove a reversible test record.
+- [x] Create, read, and remove a reversible test record.
 - [x] Confirm database credentials are absent from tracked files.
 
 ### Storage
@@ -105,18 +105,18 @@ Never expose database credentials, `SUPABASE_SECRET_KEY`, `ADMIN_PASSWORD`,
 - [x] Delete superseded objects only after replacement succeeds.
 - [x] Preserve a documented local-development fallback if useful.
 - [x] Add the Storage hostname to Next.js image configuration.
-- [ ] Test upload, display, replacement, and deletion for both buckets.
+- [x] Test upload, display, replacement, and deletion for both buckets.
 - [x] Confirm unauthenticated callers cannot use owner upload endpoints.
 
 ### Supabase acceptance
 
-- [ ] `npm run lint` passes.
-- [ ] `npm run build` passes.
-- [ ] `prisma migrate deploy` succeeds against staging.
-- [ ] Owner login and all database-backed management screens work.
+- [x] `npm run lint` passes.
+- [x] `npm run build` passes.
+- [x] `prisma migrate deploy` succeeds against staging.
+- [x] Owner login and all database-backed management screens work.
 - [ ] Uploads persist after a fresh deployment.
-- [ ] Bulgarian and English pages load database content.
-- [ ] A reversible inquiry test succeeds.
+- [x] Bulgarian and English pages load database content.
+- [x] A reversible inquiry test succeeds.
 
 ## Phase 2: Developer-Owned Resend Staging
 
@@ -144,13 +144,13 @@ Current email scope:
 
 ## Phase 3: Developer-Owned Netlify Staging
 
-- [ ] Sign in using the developer's Netlify account.
-- [ ] Create a dedicated Parkov site in the developer's team.
-- [ ] Connect the private GitHub repository.
+- [x] Sign in using the developer's Netlify account.
+- [x] Create a dedicated Parkov site in the developer's team.
+- [x] Connect the private GitHub repository.
 - [ ] Confirm Next.js and the Netlify Next.js runtime are detected.
-- [ ] Keep build configuration tracked and secrets out of `netlify.toml`.
-- [ ] Add environment variables with the correct deploy-context scopes.
-- [ ] Safely include Prisma generation and `prisma migrate deploy`.
+- [x] Keep build configuration tracked and secrets out of `netlify.toml`.
+- [x] Add environment variables with the correct deploy-context scopes.
+- [x] Safely include Prisma generation and `prisma migrate deploy`.
 - [ ] Deploy to a draft or staging URL first.
 - [ ] Verify pages, APIs, locale routing, proxy/middleware, images, and owner routes.
 - [ ] Confirm uploads survive a fresh deployment.

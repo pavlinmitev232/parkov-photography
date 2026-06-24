@@ -28,6 +28,8 @@ Read this section first when continuing in a new Codex chat.
   persistent Supabase Storage through server-only owner routes.
 - Supabase staging is healthy in Frankfurt (`eu-central-1`), all committed
   migrations are applied, and portfolio/site asset Storage smoke tests passed.
+- Netlify staging is connected to the private GitHub repository at
+  `https://parkov-photography-staging.netlify.app`.
 - Inquiry notifications use Resend when configured, with inquiry-ID
   idempotency, valid customer `replyTo`, and optional SMTP fallback.
 - A Resend sandbox notification was delivered successfully to the verified
@@ -67,15 +69,11 @@ Codex must be restarted before a new chat so these skills are loaded.
 
 ### Immediate Next Task
 
-1. Commit and merge the completed Resend staging integration if it is still in
-   the working tree.
-2. Use the Netlify skills to configure and deploy a developer-owned staging site.
-3. Add Supabase, Resend, owner-auth, and public contact variables separately in
-   Netlify; Netlify cannot read local ignored environment files.
-4. Run owner login, database management, Storage upload/replacement/deletion,
+1. Confirm the first Git-backed Netlify build from `main` succeeds.
+2. Run owner login, database management, Storage upload/replacement/deletion,
    inquiry persistence, notification delivery, and status-update checks on the
    deployed staging site.
-5. Later, add optional automatic customer confirmations and owner-portal custom
+3. Later, add optional automatic customer confirmations and owner-portal custom
    email sending. These are not implemented yet; manual replies currently work
    through the owner inbox because notifications set the customer as `replyTo`.
 
@@ -334,7 +332,5 @@ Do not expose secrets in source control, terminal summaries, screenshots, or cha
 
 ## Next Recommended Work
 
-1. Create the free Supabase project and collect its database and storage configuration.
-2. Implement Supabase Storage and production-safe Prisma connection handling.
-3. Configure Resend and verify real inquiry notification delivery.
-4. Deploy a Netlify staging version and complete staging QA.
+1. Confirm the first Git-backed Netlify build from `main`.
+2. Complete the deployed staging verification checklist.
