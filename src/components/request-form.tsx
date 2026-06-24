@@ -4,9 +4,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Send } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import {
   inquirySchema,
+  type InquiryFormValues,
   type InquiryValues,
 } from "@/lib/validations/inquiry";
 
@@ -17,13 +18,29 @@ export function RequestForm() {
   const [formCycle, setFormCycle] = useState(0);
   const {
     register,
+    control,
     handleSubmit,
     reset,
     setValue,
     formState: { errors, isSubmitting },
-  } = useForm<InquiryValues>({
+  } = useForm<InquiryFormValues, unknown, InquiryValues>({
     resolver: zodResolver(inquirySchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      preferredContact: undefined,
+      date: "",
+      location: "",
+      message: "",
+      companyWebsite: "",
+    },
   });
+  const preferredContact = useWatch({ control, name: "preferredContact" });
+  const needsPhone = preferredContact
+    ? ["phone", "viber", "whatsapp"].includes(preferredContact)
+    : false;
+  const needsEmail = preferredContact === "email";
 
   useEffect(() => {
     setValue("startedAt", Date.now());
@@ -72,18 +89,14 @@ export function RequestForm() {
           {errors.name && <small className="text-error">{t("error")}</small>}
         </label>
         <label>
-          <span className="sr-only">{t("email")}</span>
-          <input className={inputClass} placeholder={t("email")} {...register("email")} />
-          {errors.email && <small className="text-error">{t("error")}</small>}
-        </label>
-        <label>
-          <span className="sr-only">{t("phone")}</span>
-          <input className={inputClass} placeholder={t("phone")} {...register("phone")} />
-          {errors.phone && <small className="text-error">{t("error")}</small>}
-        </label>
-        <label>
           <span className="sr-only">{t("service")}</span>
-          <select className={inputClass} defaultValue="" {...register("service")}>
+          <select
+            aria-label={t("service")}
+            className={inputClass}
+            defaultValue=""
+            required
+            {...register("service")}
+          >
             <option value="" disabled>
               {t("service")}
             </option>
@@ -99,15 +112,52 @@ export function RequestForm() {
         </label>
         <label>
           <span className="sr-only">{t("preferredContact")}</span>
-          <select className={inputClass} defaultValue="" {...register("preferredContact")}>
-            <option value="">{t("preferredContact")}</option>
+          <select
+            aria-label={t("preferredContact")}
+            className={inputClass}
+            defaultValue=""
+            required
+            {...register("preferredContact")}
+          >
+            <option value="" disabled>{t("preferredContact")}</option>
             {["phone", "viber", "whatsapp", "email"].map((item) => (
               <option value={item} key={item}>
                 {t(`contactMethods.${item}`)}
               </option>
             ))}
           </select>
+          {errors.preferredContact && (
+            <small className="text-error">{t("contactChoiceRequired")}</small>
+          )}
         </label>
+        {needsEmail && (
+          <label>
+            <span className="sr-only">{t("email")}</span>
+            <input
+              aria-label={t("email")}
+              className={inputClass}
+              type="email"
+              placeholder={t("emailRequired")}
+              required
+              {...register("email")}
+            />
+            {errors.email && <small className="text-error">{t("emailError")}</small>}
+          </label>
+        )}
+        {needsPhone && (
+          <label>
+            <span className="sr-only">{t("phone")}</span>
+            <input
+              aria-label={t("phone")}
+              className={inputClass}
+              type="tel"
+              placeholder={t("phoneRequired")}
+              required
+              {...register("phone")}
+            />
+            {errors.phone && <small className="text-error">{t("phoneError")}</small>}
+          </label>
+        )}
         <label>
           <span className="sr-only">{t("date")}</span>
           <input className={inputClass} type="date" {...register("date")} />

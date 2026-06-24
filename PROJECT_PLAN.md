@@ -2,6 +2,81 @@
 
 This file is the shared build tracker for the Parkov photography website. Keep it updated as decisions change and work is completed.
 
+## New Chat Handoff
+
+Read this section first when continuing in a new Codex chat.
+
+### Workspace And Repository
+
+- Workspace: `C:\Users\halor\Documents\photo parkoy`
+- Private GitHub repository: `https://github.com/pavlinmitev232/parkov-photography`
+- Branch: `main`
+- Local development URL: `http://localhost:3000`
+- Local PostgreSQL: Docker container `parkov-postgres` on `localhost:5433`
+- Owner portal: `/bg/parkov-owner-portal-7f3a`
+- Local owner credentials are configured in `.env`; never copy them into tracked files or chat output.
+- Read `AGENTS.md` before coding and consult the relevant Next.js 16 guide under `node_modules/next/dist/docs/`.
+
+### Current Technical State
+
+- Stack: Next.js 16, React 19, TypeScript, Tailwind CSS, next-intl, next-themes, Framer Motion, Prisma 7, PostgreSQL.
+- Public site and owner portal are functional.
+- Portfolio, categories, services, pricing, settings, testimonials, FAQs, inquiries, and inquiry statuses are database-backed.
+- Owner-managed settings include contacts, social links, hero/about/logo assets, bilingual copy, SEO, and section visibility.
+- Hero statistics are owner-editable and animate from zero to their configured values when they enter the viewport.
+- Local image uploads currently use `public/uploads`; this must be replaced before production deployment.
+- Inquiry email notifications currently use optional SMTP and skip locally because SMTP credentials are not configured.
+- Inquiry validation, honeypot, rate limiting, database persistence, owner display, and status updates have been tested.
+- Inquiry contact fields follow the selected method: email requires email, while phone, Viber, and WhatsApp require a phone number on both client and server.
+- Existing portfolio items can be edited, including titles, category, metadata, visibility, featured state, and image replacement.
+- Stale development and placeholder notes were replaced with owner- and client-facing copy.
+- The last completed verification passed `npm run lint`, `npm run build`, desktop/mobile Browser checks, and reversible API smoke tests.
+
+### Production Stack Decision
+
+- Start on free tiers.
+- Hosting: Netlify.
+- Database and image storage: Supabase.
+- Transactional inquiry email: Resend.
+- Real Parkov images, contacts, logo, and approved copy will be entered through the owner portal after staging is deployed.
+- Expected initial recurring platform cost: `$0`; domain registration is separate.
+
+### Installed Agent Skills
+
+The following first-party skills were installed under `C:\Users\halor\.codex\skills`:
+
+- `supabase`
+- `supabase-postgres-best-practices`
+- `resend`
+- `email-best-practices`
+- `netlify-deploy`
+- `netlify-frameworks`
+- `netlify-config`
+
+Codex must be restarted before a new chat so these skills are loaded.
+
+### Immediate Next Task
+
+1. Confirm the new chat can see the installed Supabase, Resend, and Netlify skills.
+2. Use the `supabase` skill and create or connect a free Supabase project in a European region.
+3. Collect the pooled runtime database URL, direct migration URL, project URL, and server-only storage credentials using secure environment setup.
+4. Configure Prisma for pooled runtime connections and direct production migrations.
+5. Replace local portfolio and site uploads with Supabase Storage while preserving local-development fallback where useful.
+6. Configure Resend after Supabase storage and database integration pass locally.
+7. Deploy a Netlify staging site only after local lint, build, migration, upload, and inquiry checks pass.
+
+### User Authorization Boundaries
+
+The user may need to complete or approve:
+
+- Supabase, Resend, and Netlify sign-in or account creation.
+- GitHub OAuth authorization for Netlify.
+- CAPTCHA or service security prompts.
+- API key creation and secure environment-variable destinations.
+- Domain ownership verification and DNS changes.
+
+Do not expose secrets in source control, terminal summaries, screenshots, or chat responses.
+
 ## Project Direction
 
 - Brand: Parkov
@@ -21,6 +96,7 @@ This file is the shared build tracker for the Parkov photography website. Keep i
 - [x] Animation library added
 - [x] Public homepage first pass built
 - [x] Request/contact form first pass built
+- [x] Preferred-contact conditional fields and validation added
 - [x] Mobile navigation added
 - [x] About, packages, testimonials, FAQ, and footer added
 - [x] Portfolio filtering and lightbox added
@@ -50,6 +126,11 @@ This file is the shared build tracker for the Parkov photography website. Keep i
 - [x] Public navigation and locale routing QA completed
 - [x] Staggered section and card motion polish added
 - [x] Inquiry form and owner status workflow tested end to end
+- [x] Editable animated hero statistics added
+- [x] About-point stagger, checkmark, and accent reveal animation added
+- [x] Existing portfolio item editing and image replacement added
+- [x] Gallery lightbox previous/next, keyboard, looping, and mobile swipe navigation added
+- [x] Development placeholder copy cleanup completed
 
 ## Stage 1: Foundation
 
@@ -131,6 +212,7 @@ This file is the shared build tracker for the Parkov photography website. Keep i
 - [x] View client inquiries
 - [x] Update inquiry status
 - [x] Add image upload/storage
+- [x] Edit existing portfolio items and replace their images
 
 ## Stage 6: Content And Assets
 
@@ -162,27 +244,80 @@ This file is the shared build tracker for the Parkov photography website. Keep i
 - [ ] Production environment variables
 - [ ] Final launch QA
 
+## Stage 8: Free-Tier Production Setup
+
+### Supabase
+
+- [ ] Create a free Supabase project in a European region
+- [ ] Add pooled `DATABASE_URL` for the running application
+- [ ] Add direct `DIRECT_URL` for migrations
+- [ ] Configure Prisma to support separate runtime and migration connections
+- [ ] Apply committed migrations with `prisma migrate deploy`
+- [ ] Create public storage buckets for portfolio and site assets
+- [ ] Add least-privilege storage access configuration
+- [ ] Replace local portfolio uploads with Supabase Storage
+- [ ] Replace local hero, about, and logo uploads with Supabase Storage
+- [ ] Delete superseded cloud assets when appropriate
+- [ ] Validate file type and size before upload
+- [ ] Optimize uploaded photography for web delivery
+
+### Resend
+
+- [ ] Create a free Resend account
+- [ ] Add `RESEND_API_KEY`
+- [ ] Replace or supplement SMTP notifications with Resend
+- [ ] Configure inquiry recipient and sender variables
+- [ ] Test inquiry notifications with the Resend test sender
+- [ ] Verify the Parkov sending domain before public launch
+- [ ] Confirm client email is used as the notification `replyTo`
+
+### Netlify
+
+- [ ] Create or connect a Netlify account
+- [ ] Import the private GitHub repository
+- [ ] Configure the production build command
+- [ ] Add Prisma generation and migration deployment steps
+- [ ] Add Supabase, Resend, owner auth, and site environment variables
+- [ ] Deploy a staging version from `main`
+- [ ] Confirm Next.js routes, middleware, APIs, and image optimization
+- [ ] Confirm owner uploads persist after a fresh deployment
+- [ ] Configure custom domain and DNS
+
+### Staging Verification
+
+- [ ] Test owner login and logout
+- [ ] Test portfolio, category, service, pricing, settings, testimonial, and FAQ management
+- [ ] Test Supabase image upload, display, replacement, and deletion
+- [ ] Test inquiry creation, database storage, notification delivery, and status updates
+- [ ] Test Bulgarian and English routes
+- [ ] Test light and dark themes
+- [ ] Test desktop and mobile layouts
+- [ ] Run accessibility and keyboard checks
+- [ ] Run performance and image-delivery checks
+- [ ] Confirm production secrets are not exposed to the browser or repository
+
 ## Decisions
 
-- Admin will live in the same app under `/parkov-owner-portal-7f3a` until real auth is added.
-- The unique owner portal path is only a friction layer, not real security.
+- Admin lives in the same app under `/parkov-owner-portal-7f3a`.
+- Owner routes use a signed session cookie; the unusual path remains only an additional friction layer.
 - Bulgarian is the default language.
 - Owner management is part of the project, not a later unrelated app.
 - Request flow should support form, phone, Viber, WhatsApp, and email.
-- First form behavior is demo-only; real backend/email comes in Stage 4.
+- Inquiry storage and owner status management are complete.
+- Production will initially use Netlify, Supabase, and Resend free tiers.
+- Production migrations must use committed migrations with `prisma migrate deploy`, never `prisma migrate dev`.
+- Real owner content will be entered through the deployed staging owner portal.
 
 ## Open Questions
 
-- Which database host will be used for production?
-- Which email provider should send inquiry notifications?
-- Which image storage provider should be used?
-- Will Parkov provide real photos before or after the first complete layout?
+- Which European Supabase region should host the production project?
+- Which Parkov domain will be used for the public site and Resend sender verification?
 - Should pricing be public, hidden, or "starting from" style?
-- Does the owner need blog/news management, or only portfolio/service/request management?
+- Does the owner need blog/news management after launch?
 
 ## Next Recommended Work
 
-1. Enter the real Parkov contact details, images, logo, and approved bilingual copy through owner settings.
-2. Configure a production email provider and verify real notification delivery.
-3. Inspect the reference site animations more deeply and polish the remaining motion.
-4. Complete accessibility, performance, and deployment preparation.
+1. Create the free Supabase project and collect its database and storage configuration.
+2. Implement Supabase Storage and production-safe Prisma connection handling.
+3. Configure Resend and verify real inquiry notification delivery.
+4. Deploy a Netlify staging version and complete staging QA.

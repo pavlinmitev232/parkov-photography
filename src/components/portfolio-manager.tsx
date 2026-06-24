@@ -1,10 +1,10 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ImagePlus, Trash2, Upload } from "lucide-react";
+import { ImagePlus, Pencil, Save, Trash2, Upload, X } from "lucide-react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { type ChangeEvent, useState } from "react";
+import { type ChangeEvent, useRef, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { useRouter } from "@/i18n/routing";
 import {
@@ -18,6 +18,7 @@ type PortfolioManagerItem = {
   titleEn: string;
   category: string;
   imageUrl: string;
+  description: string | null;
   location: string | null;
   shootYear: number | null;
   clientType: string | null;
@@ -42,6 +43,8 @@ export function PortfolioManager({ items, categories }: PortfolioManagerProps) {
   const [uploadError, setUploadError] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const formRef = useRef<HTMLFormElement>(null);
   const {
     register,
     control,
@@ -59,21 +62,7 @@ export function PortfolioManager({ items, categories }: PortfolioManagerProps) {
   });
   const imageUrl = useWatch({ control, name: "imageUrl" });
 
-  async function onSubmit(values: PortfolioItemFormValues) {
-    setSubmitError(false);
-    const response = await fetch("/api/portfolio-items", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(values),
-    });
-
-    if (!response.ok) {
-      setSubmitError(true);
-      return;
-    }
-
+  function resetForm() {
     reset({
       titleBg: "",
       titleEn: "",
@@ -86,7 +75,50 @@ export function PortfolioManager({ items, categories }: PortfolioManagerProps) {
       featured: false,
       showOnHome: true,
     });
+    setEditingId(null);
+    setSubmitError(false);
+    setUploadError(false);
+  }
+
+  async function onSubmit(values: PortfolioItemFormValues) {
+    setSubmitError(false);
+    const response = await fetch(
+      editingId ? `/api/portfolio-items/${editingId}` : "/api/portfolio-items",
+      {
+      method: editingId ? "PATCH" : "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(values),
+      },
+    );
+
+    if (!response.ok) {
+      setSubmitError(true);
+      return;
+    }
+
+    resetForm();
     router.refresh();
+  }
+
+  function editItem(item: PortfolioManagerItem) {
+    setEditingId(item.id);
+    setSubmitError(false);
+    setUploadError(false);
+    reset({
+      titleBg: item.titleBg,
+      titleEn: item.titleEn,
+      category: item.category,
+      imageUrl: item.imageUrl,
+      description: item.description ?? "",
+      location: item.location ?? "",
+      shootYear: item.shootYear ?? undefined,
+      clientType: item.clientType ?? "",
+      featured: item.featured,
+      showOnHome: item.showOnHome,
+    });
+    formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
   async function uploadImage(event: ChangeEvent<HTMLInputElement>) {
@@ -142,8 +174,30 @@ export function PortfolioManager({ items, categories }: PortfolioManagerProps) {
 
   return (
     <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
-      <form onSubmit={handleSubmit(onSubmit)} className="rounded-md border border-line bg-background p-5 md:p-6">
-        <h2 className="text-2xl font-bold">{t("formTitle")}</h2>
+      <form
+        ref={formRef}
+        onSubmit={handleSubmit(onSubmit)}
+        className="scroll-mt-6 rounded-md border border-line bg-background p-5 md:p-6"
+      >
+        <div className="flex items-center justify-between gap-4">
+          <h2 className="text-2xl font-bold">
+            {editingId ? t("editFormTitle") : t("formTitle")}
+          </h2>
+          {editingId && (
+            <button
+              type="button"
+              onClick={resetForm}
+              className="relative inline-flex h-9 items-center gap-2 rounded-md border border-line py-2 pr-3 pl-2 text-sm font-bold hover:border-accent"
+            >
+              <span
+                className="absolute top-1/2 left-1/2 size-[max(100%,3rem)] -translate-1/2 pointer-fine:hidden"
+                aria-hidden="true"
+              />
+              <X size={16} className="shrink-0" />
+              {t("cancelEdit")}
+            </button>
+          )}
+        </div>
         <div className="mt-6 grid gap-4">
           <label>
             <span className="mb-2 block text-sm font-bold">{t("titleBg")}</span>
@@ -253,11 +307,16 @@ export function PortfolioManager({ items, categories }: PortfolioManagerProps) {
             {t("showOnHome")}
           </label>
           <button
+            type="submit"
             disabled={isSubmitting}
             className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-accent px-6 text-sm font-bold text-accent-foreground transition hover:-translate-y-0.5 hover:bg-accent-strong disabled:cursor-not-allowed disabled:opacity-70"
           >
-            <Upload size={17} />
-            {isSubmitting ? t("saving") : t("submit")}
+            {editingId ? <Save size={17} /> : <Upload size={17} />}
+            {isSubmitting
+              ? t("saving")
+              : editingId
+                ? t("saveChanges")
+                : t("submit")}
           </button>
           {submitError && (
             <p className="rounded-md border border-error/30 bg-error/10 px-4 py-3 text-sm text-error">
@@ -306,16 +365,35 @@ export function PortfolioManager({ items, categories }: PortfolioManagerProps) {
                   {!item.showOnHome && <span>{t("hiddenFromHome")}</span>}
                 </div>
               </div>
-              <button
-                type="button"
-                disabled={deletingId === item.id}
-                onClick={() => deleteItem(item.id)}
-                className="inline-flex size-11 items-center justify-center rounded-md border border-line text-error transition hover:border-error disabled:cursor-not-allowed disabled:opacity-60"
-                aria-label={t("delete")}
-                title={t("delete")}
-              >
-                <Trash2 size={17} />
-              </button>
+              <div className="flex gap-2 sm:flex-col">
+                <button
+                  type="button"
+                  onClick={() => editItem(item)}
+                  className="relative inline-flex size-11 items-center justify-center rounded-md border border-line hover:border-accent"
+                  aria-label={t("edit")}
+                  title={t("edit")}
+                >
+                  <span
+                    className="absolute top-1/2 left-1/2 size-[max(100%,3rem)] -translate-1/2 pointer-fine:hidden"
+                    aria-hidden="true"
+                  />
+                  <Pencil size={17} />
+                </button>
+                <button
+                  type="button"
+                  disabled={deletingId === item.id}
+                  onClick={() => deleteItem(item.id)}
+                  className="relative inline-flex size-11 items-center justify-center rounded-md border border-line text-error hover:border-error disabled:cursor-not-allowed disabled:opacity-60"
+                  aria-label={t("delete")}
+                  title={t("delete")}
+                >
+                  <span
+                    className="absolute top-1/2 left-1/2 size-[max(100%,3rem)] -translate-1/2 pointer-fine:hidden"
+                    aria-hidden="true"
+                  />
+                  <Trash2 size={17} />
+                </button>
+              </div>
             </div>
           ))
         )}
