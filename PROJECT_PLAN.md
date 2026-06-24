@@ -31,6 +31,12 @@ Read this section first when continuing in a new Codex chat.
 - Netlify staging is connected to the private GitHub repository at
   `https://parkov-photography-staging.netlify.app`; the first Git-backed
   production-context deploy from `main` is live.
+- Supabase Auth is active on local development and Netlify staging. The owner
+  account uses `pavlinmitev121977@gmail.com`, public sign-up is disabled, and
+  access requires trusted `app_metadata.role = "owner"`.
+- The password-recovery redirect was corrected in commit `067242c`: Supabase's
+  default Site URL now points to staging, and the app uses an exact allowlisted
+  callback URL without an extra query string.
 - Inquiry notifications use Resend when configured, with inquiry-ID
   idempotency, valid customer `replyTo`, and optional SMTP fallback.
 - A Resend sandbox notification was delivered successfully to the verified
@@ -70,12 +76,14 @@ Codex must be restarted before a new chat so these skills are loaded.
 
 ### Immediate Next Task
 
-1. Replace the temporary environment-variable owner login with Supabase Auth
-   using the implementation plan below.
-2. Run owner login, database management, Storage upload/replacement/deletion,
+1. Open the newest Supabase password-recovery email, set a new owner password,
+   and verify login with `pavlinmitev121977@gmail.com`.
+2. Mark password-reset delivery and the recovery-link flow complete after that
+   login succeeds.
+3. Run database management, Storage upload/replacement/deletion,
    inquiry persistence, notification delivery, and status-update checks on the
    deployed staging site.
-3. Later, add optional automatic customer confirmations and owner-portal custom
+4. Later, add optional automatic customer confirmations and owner-portal custom
    email sending. These are not implemented yet; manual replies currently work
    through the owner inbox because notifications set the customer as `replyTo`.
 
@@ -391,7 +399,7 @@ before client production:
 
 ## Next Recommended Work
 
-1. Implement and verify the Supabase Auth owner-login replacement.
+1. Finish and verify the newest Supabase password-recovery link.
 2. Complete the deployed staging verification checklist.
 3. Collect approved Parkov content and confirm the final domain.
 4. Create or transfer client-owned production resources and perform launch QA.
