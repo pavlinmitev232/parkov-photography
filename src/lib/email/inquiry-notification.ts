@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import { Resend } from "resend";
 import type { InquiryValues } from "@/lib/validations/inquiry";
 
 type SavedInquiry = {
@@ -13,6 +14,20 @@ function hasSmtpConfig() {
       process.env.SMTP_PASSWORD &&
       process.env.INQUIRY_TO_EMAIL,
   );
+}
+
+function hasResendConfig() {
+  return Boolean(
+    process.env.RESEND_API_KEY &&
+      process.env.RESEND_FROM_EMAIL &&
+      process.env.INQUIRY_TO_EMAIL,
+  );
+}
+
+function getReplyTo(inquiry: InquiryValues) {
+  return inquiry.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(inquiry.email)
+    ? inquiry.email
+    : undefined;
 }
 
 function formatOptional(value: string | undefined | null) {
@@ -85,9 +100,36 @@ export async function sendInquiryNotification(
   inquiry: InquiryValues,
   savedInquiry: SavedInquiry,
 ) {
+  if (hasResendConfig()) {
+    const resend = new Resend(process.env.RESEND_API_KEY);
+    const { data, error } = await resend.emails.send(
+      {
+        from: `Parkov <${process.env.RESEND_FROM_EMAIL}>`,
+        to: [process.env.INQUIRY_TO_EMAIL as string],
+        replyTo: getReplyTo(inquiry),
+        subject: `New Parkov inquiry: ${inquiry.service} from ${inquiry.name}`,
+        text: buildTextEmail(inquiry, savedInquiry),
+        html: buildHtmlEmail(inquiry, savedInquiry),
+        tags: [
+          { name: "email_type", value: "inquiry_notification" },
+          { name: "inquiry_id", value: savedInquiry.id },
+        ],
+      },
+      {
+        idempotencyKey: `inquiry-notification/${savedInquiry.id}`,
+      },
+    );
+
+    if (error) {
+      throw new Error(`Resend notification failed: ${error.message}`);
+    }
+
+    return { skipped: false, provider: "resend" as const, id: data?.id };
+  }
+
   if (!hasSmtpConfig()) {
     console.info(
-      `Skipping inquiry email notification for ${savedInquiry.id}: SMTP is not configured.`,
+      `Skipping inquiry email notification for ${savedInquiry.id}: Resend and SMTP are not configured.`,
     );
     return { skipped: true };
   }
@@ -105,11 +147,11 @@ export async function sendInquiryNotification(
   await transporter.sendMail({
     from: process.env.SMTP_FROM_EMAIL || process.env.SMTP_USER,
     to: process.env.INQUIRY_TO_EMAIL,
-    replyTo: inquiry.email,
+    replyTo: getReplyTo(inquiry),
     subject: `New Parkov inquiry: ${inquiry.service} from ${inquiry.name}`,
     text: buildTextEmail(inquiry, savedInquiry),
     html: buildHtmlEmail(inquiry, savedInquiry),
   });
 
-  return { skipped: false };
+  return { skipped: false, provider: "smtp" as const };
 }

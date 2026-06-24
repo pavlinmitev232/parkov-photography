@@ -24,8 +24,14 @@ Read this section first when continuing in a new Codex chat.
 - Portfolio, categories, services, pricing, settings, testimonials, FAQs, inquiries, and inquiry statuses are database-backed.
 - Owner-managed settings include contacts, social links, hero/about/logo assets, bilingual copy, SEO, and section visibility.
 - Hero statistics are owner-editable and animate from zero to their configured values when they enter the viewport.
-- Local image uploads currently use `public/uploads`; this must be replaced before production deployment.
-- Inquiry email notifications currently use optional SMTP and skip locally because SMTP credentials are not configured.
+- Normal local development stores uploads in `public/uploads`; staging uses
+  persistent Supabase Storage through server-only owner routes.
+- Supabase staging is healthy in Frankfurt (`eu-central-1`), all committed
+  migrations are applied, and portfolio/site asset Storage smoke tests passed.
+- Inquiry notifications use Resend when configured, with inquiry-ID
+  idempotency, valid customer `replyTo`, and optional SMTP fallback.
+- A Resend sandbox notification was delivered successfully to the verified
+  developer account email.
 - Inquiry validation, honeypot, rate limiting, database persistence, owner display, and status updates have been tested.
 - Inquiry contact fields follow the selected method: email requires email, while phone, Viber, and WhatsApp require a phone number on both client and server.
 - Existing portfolio items can be edited, including titles, category, metadata, visibility, featured state, and image replacement.
@@ -61,15 +67,17 @@ Codex must be restarted before a new chat so these skills are loaded.
 
 ### Immediate Next Task
 
-1. Confirm the new chat can see the installed Supabase, Resend, and Netlify skills.
-2. Use the `supabase` skill and create a dedicated developer-owned free Supabase staging project in a European region.
-3. Collect the pooled runtime database URL, direct migration URL, project URL, and server-only storage credentials using secure environment setup.
-4. Configure Prisma for pooled runtime connections and direct production migrations.
-5. Replace local portfolio and site uploads with Supabase Storage while preserving local-development fallback where useful.
-6. Configure Resend after Supabase storage and database integration pass locally.
-7. Deploy a Netlify staging site only after local lint, build, migration, upload, and inquiry checks pass.
-8. Keep `DEPLOYMENT_AND_HANDOFF.md` updated as resource names, regions, IDs,
-   transfer decisions, and verification results become known.
+1. Commit and merge the completed Resend staging integration if it is still in
+   the working tree.
+2. Use the Netlify skills to configure and deploy a developer-owned staging site.
+3. Add Supabase, Resend, owner-auth, and public contact variables separately in
+   Netlify; Netlify cannot read local ignored environment files.
+4. Run owner login, database management, Storage upload/replacement/deletion,
+   inquiry persistence, notification delivery, and status-update checks on the
+   deployed staging site.
+5. Later, add optional automatic customer confirmations and owner-portal custom
+   email sending. These are not implemented yet; manual replies currently work
+   through the owner inbox because notifications set the customer as `replyTo`.
 
 ### User Authorization Boundaries
 
@@ -269,13 +277,13 @@ Do not expose secrets in source control, terminal summaries, screenshots, or cha
 
 ### Resend
 
-- [ ] Create a free Resend account
-- [ ] Add `RESEND_API_KEY`
-- [ ] Replace or supplement SMTP notifications with Resend
-- [ ] Configure inquiry recipient and sender variables
-- [ ] Test inquiry notifications with the Resend test sender
+- [x] Create a free Resend account
+- [x] Add `RESEND_API_KEY`
+- [x] Replace or supplement SMTP notifications with Resend
+- [x] Configure inquiry recipient and sender variables
+- [x] Test inquiry notifications with the Resend test sender
 - [ ] Verify the Parkov sending domain before public launch
-- [ ] Confirm client email is used as the notification `replyTo`
+- [x] Confirm client email is used as the notification `replyTo`
 
 ### Netlify
 

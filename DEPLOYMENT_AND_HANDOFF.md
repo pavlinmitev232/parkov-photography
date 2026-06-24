@@ -120,19 +120,27 @@ Never expose database credentials, `SUPABASE_SECRET_KEY`, `ADMIN_PASSWORD`,
 
 ## Phase 2: Developer-Owned Resend Staging
 
-- [ ] Create a dedicated Parkov configuration in the developer's Resend account.
-- [ ] Install a pinned compatible Resend SDK and commit the lockfile.
-- [ ] Create a minimum-permission staging sending key.
-- [ ] Store the token immediately; Resend shows it only once.
-- [ ] Never call Resend directly from browser code.
-- [ ] Integrate Resend in the server-side inquiry notification module.
-- [ ] Check the SDK's returned `error` value explicitly.
-- [ ] Use an inquiry-ID idempotency key to prevent duplicate delivery.
-- [ ] Use the inquiry email as `replyTo` only when valid.
-- [ ] Use the test sender and verified account recipient during staging.
-- [ ] Test successful delivery with Resend's supported test addresses.
+- [x] Create a dedicated Parkov configuration in the developer's Resend account.
+- [x] Install a pinned compatible Resend SDK and commit the lockfile.
+- [x] Create a minimum-permission staging sending key.
+- [x] Store the token immediately; Resend shows it only once.
+- [x] Never call Resend directly from browser code.
+- [x] Integrate Resend in the server-side inquiry notification module.
+- [x] Check the SDK's returned `error` value explicitly.
+- [x] Use an inquiry-ID idempotency key to prevent duplicate delivery.
+- [x] Use the inquiry email as `replyTo` only when valid.
+- [x] Use the test sender and verified account recipient during staging.
+- [x] Test successful delivery through the Resend sandbox sender.
 - [ ] Log failures without logging credentials or full sensitive inquiry data.
 - [ ] Delay real-domain DNS changes until the client explicitly approves them.
+
+Current email scope:
+
+- Owner inquiry notifications are implemented and tested.
+- Manual replies are sent from the owner's normal inbox using the notification's
+  customer `replyTo`.
+- Automatic customer confirmations and custom owner-portal email composition are
+  future work and must use the customer's submitted email dynamically.
 
 ## Phase 3: Developer-Owned Netlify Staging
 
