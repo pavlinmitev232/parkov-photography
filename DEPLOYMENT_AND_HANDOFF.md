@@ -141,7 +141,10 @@ Current email scope:
 - Manual replies are sent from the owner's normal inbox using the notification's
   customer `replyTo`.
 - Automatic customer confirmations and custom owner-portal email composition are
-  future work and must use the customer's submitted email dynamically.
+  future work and must use the customer's validated submitted email dynamically.
+- A customer confirmation is a separate direct email with the customer in `to`;
+  it does not require `replyTo`. If replies should reach the owner, set `replyTo`
+  to a real Parkov inbox.
 
 ## Phase 3: Developer-Owned Netlify Staging
 

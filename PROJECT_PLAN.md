@@ -75,7 +75,8 @@ Codex must be restarted before a new chat so these skills are loaded.
 2. Run owner login, database management, Storage upload/replacement/deletion,
    inquiry persistence, notification delivery, and status-update checks on the
    deployed staging site.
-3. Later, add optional automatic customer confirmations and owner-portal custom
+3. Improve inquiry-form validation feedback using the implementation plan below.
+4. Later, add optional automatic customer confirmations and owner-portal custom
    email sending. These are not implemented yet; manual replies currently work
    through the owner inbox because notifications set the customer as `replyTo`.
 
@@ -258,6 +259,21 @@ Do not expose secrets in source control, terminal summaries, screenshots, or cha
 - [ ] Production environment variables
 - [ ] Final launch QA
 
+### Inquiry Form Validation Feedback
+
+The server and client currently require a project message of at least 10
+characters, but the UI shows only a generic error. Before launch:
+
+- [ ] Add field-specific Bulgarian and English messages for every inquiry field.
+- [ ] Tell users that the project message must contain at least 10 characters.
+- [ ] Add a visible helper or character counter so the requirement is known
+      before submission.
+- [ ] Mark invalid fields with `aria-invalid` and connect each error using
+      `aria-describedby`.
+- [ ] Focus or scroll to the first invalid field after a failed submission.
+- [ ] Preserve the same validation rules on client and server.
+- [ ] Test short, whitespace-only, missing, and valid messages in both languages.
+
 ## Stage 8: Free-Tier Production Setup
 
 ### Supabase
@@ -284,6 +300,12 @@ Do not expose secrets in source control, terminal summaries, screenshots, or cha
 - [x] Test inquiry notifications with the Resend test sender
 - [ ] Verify the Parkov sending domain before public launch
 - [x] Confirm client email is used as the notification `replyTo`
+- [ ] Add an optional bilingual customer confirmation email sent directly to the
+      customer's validated email address.
+- [ ] Give customer confirmations their own inquiry-ID idempotency key so retries
+      cannot send duplicate confirmations.
+- [ ] Decide whether confirmations should invite replies to a real Parkov inbox
+      or omit `replyTo`; `replyTo` is optional for direct customer delivery.
 
 ### Netlify
 
