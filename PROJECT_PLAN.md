@@ -10,8 +10,7 @@ Read this section first when continuing in a new Codex chat.
 
 - Workspace: `C:\Users\halor\Documents\photo parkoy`
 - Private GitHub repository: `https://github.com/pavlinmitev232/parkov-photography`
-- Working branch: `codex/refine-portfolio-interactions`
-- Target branch: `main`
+- Branch: `main`
 - Local development URL: `http://localhost:3000`
 - Local PostgreSQL: Docker container `parkov-postgres` on `localhost:5433`
 - Owner portal: `/bg/parkov-owner-portal-7f3a`
