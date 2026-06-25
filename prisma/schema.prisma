@@ -7,7 +7,7 @@ datasource db {
 }
 
 model Inquiry {
-  id               String   @id @default(cuid())
+  id               String    @id @default(cuid())
   name             String
   email            String
   phone            String
@@ -16,9 +16,30 @@ model Inquiry {
   location         String
   message          String
   preferredContact String?
-  status           String   @default("new")
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  status           String    @default("new")
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  booking          Booking?
+}
+
+model Booking {
+  id           String    @id @default(cuid())
+  inquiryId    String?   @unique
+  customerName String
+  email        String
+  phone        String
+  service      String
+  startAt      DateTime
+  endAt        DateTime?
+  location     String
+  notes        String?
+  status       String    @default("tentative")
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  inquiry      Inquiry?  @relation(fields: [inquiryId], references: [id], onDelete: SetNull)
+
+  @@index([startAt])
+  @@index([status, startAt])
 }
 
 model PortfolioItem {

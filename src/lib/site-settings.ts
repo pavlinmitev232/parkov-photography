@@ -79,6 +79,10 @@ export const defaultSiteSettings: SiteSettingsValues = {
     "Send the date, location, and idea. You will receive availability and clear next steps.",
   locationBg: "Базирано в България. Възможно пътуване според проекта.",
   locationEn: "Based in Bulgaria. Travel available depending on the project.",
+  addressBg: "",
+  addressEn: "",
+  mapQuery: "",
+  showMap: false,
   footerCopyBg: "Фотография за хора, събития, бизнеси и пространства.",
   footerCopyEn: "Photography for people, events, businesses, and spaces.",
   showAbout: true,
@@ -140,8 +144,15 @@ export function localizedSettings(settings: SiteSettingsValues, locale: string) 
     contactTitle: pick("contactTitle"),
     contactCopy: pick("contactCopy"),
     location: pick("location"),
+    address: pick("address"),
     footerCopy: pick("footerCopy"),
   };
+}
+
+export function getMapEmbedUrl(settings: SiteSettingsValues) {
+  return settings.showMap && settings.mapQuery
+    ? `https://www.google.com/maps?q=${encodeURIComponent(settings.mapQuery)}&output=embed`
+    : null;
 }
 
 export function getContactMethods(settings: SiteSettingsValues) {

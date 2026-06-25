@@ -251,6 +251,7 @@
       "categories": { "title": "Gallery categories", "copy": "Create, order, show, and hide the category structure used by the public gallery." },
       "services": { "title": "Services and packages", "copy": "Edit services, descriptions, pricing, and section visibility." },
       "requests": { "title": "Client requests", "copy": "Review inquiries, statuses, preferred contact method, and notes." },
+      "bookings": { "title": "Bookings and calendar", "copy": "Schedule accepted work, venues, times, notes, and completion status." },
       "settings": { "title": "Settings", "copy": "Contacts, social links, language, SEO, and homepage imagery." }
     }
   },
@@ -301,6 +302,7 @@
     "repeatedTitle": "Testimonials and FAQs",
     "tabs": {
       "brand": "Brand and contacts",
+      "location": "Location and map",
       "stats": "Hero statistics",
       "copy": "Copy and SEO",
       "visibility": "Section visibility",
@@ -308,6 +310,13 @@
       "faqs": "FAQs"
     },
     "brandTitle": "Identity and contact details",
+    "locationTitle": "Public location and map",
+    "locationHelp": "Use the public address fields only for a studio or business location you are comfortable publishing. The map search can be broader, such as a city or neighborhood.",
+    "addressBg": "Public address in Bulgarian",
+    "addressEn": "Public address in English",
+    "mapQuery": "Map search location",
+    "mapQueryPlaceholder": "Sofia, Bulgaria",
+    "showMap": "Show the map publicly",
     "statsTitle": "Hero statistics",
     "statsHelp": "Edit the displayed values. Numbers animate up when they enter the screen; suffixes such as + or h are preserved.",
     "statYears": "Years of experience",
@@ -433,6 +442,36 @@
     "noContact": "Not specified",
     "saving": "Saving...",
     "statusError": "Could not save status.",
+    "reply": {
+      "action": "Reply by email",
+      "noEmail": "No valid email was provided.",
+      "help": "Opens your normal email application. The portal does not send or track the message.",
+      "templateLabel": "Reply template",
+      "subject": "Your Parkov photography inquiry: {service}",
+      "dateToConfirm": "a date to be confirmed",
+      "templates": {
+        "availability": {
+          "label": "Available",
+          "body": "Hello {name},\n\nThank you for contacting Parkov Photography about {service}. I am available around {date}. Please reply with any remaining details and I will confirm the next steps.\n\nBest regards,\nParkov Photography"
+        },
+        "moreInformation": {
+          "label": "Ask for more details",
+          "body": "Hello {name},\n\nThank you for your inquiry about {service}. Before I confirm availability, could you share the expected start time, exact location, duration, and any specific photography requirements?\n\nBest regards,\nParkov Photography"
+        },
+        "quotation": {
+          "label": "Send quotation",
+          "body": "Hello {name},\n\nThank you for the details about {service}. I can prepare a quotation for {date}. Please confirm the final timing, location, and scope so I can send the exact offer.\n\nBest regards,\nParkov Photography"
+        },
+        "unavailable": {
+          "label": "Date unavailable",
+          "body": "Hello {name},\n\nThank you for considering Parkov Photography for {service}. Unfortunately, I am not available on {date}. If your timing is flexible, reply with alternative dates and I will gladly check them.\n\nBest regards,\nParkov Photography"
+        },
+        "confirmation": {
+          "label": "Booking confirmation",
+          "body": "Hello {name},\n\nYour {service} booking for {date} is confirmed. Please reply if the timing, venue, or contact details change.\n\nBest regards,\nParkov Photography"
+        }
+      }
+    },
     "statuses": {
       "new": "New",
       "contacted": "Contacted",
@@ -452,7 +491,46 @@
       "location": "Location",
       "date": "Preferred date",
       "status": "Status",
+      "reply": "Reply",
       "message": "Message"
+    }
+  },
+  "adminBookings": {
+    "back": "Back to admin",
+    "eyebrow": "Schedule",
+    "title": "Bookings and calendar",
+    "copy": "Turn accepted inquiries into scheduled work with exact times, venues, notes, and progress statuses.",
+    "formTitle": "Add a booking",
+    "formCopy": "Choose an inquiry to prefill known details, or create a standalone booking.",
+    "sourceInquiry": "Source inquiry",
+    "noInquiry": "Standalone booking",
+    "customerName": "Customer name",
+    "email": "Email",
+    "phone": "Phone",
+    "service": "Service",
+    "status": "Status",
+    "startAt": "Start date and time",
+    "endAt": "End date and time",
+    "location": "Venue or address",
+    "notes": "Private notes",
+    "create": "Create booking",
+    "creating": "Creating...",
+    "created": "Booking created",
+    "createError": "The booking could not be created. Check the required fields and times.",
+    "agendaTitle": "Upcoming agenda",
+    "agendaCopy": "Bookings are grouped by date and kept separate from the original inquiry.",
+    "empty": "No bookings yet. Create one from an accepted inquiry.",
+    "updated": "Booking updated",
+    "updateError": "The booking status could not be updated.",
+    "delete": "Delete booking",
+    "deleteConfirm": "Delete this booking?",
+    "deleted": "Booking deleted",
+    "deleteError": "The booking could not be deleted.",
+    "statuses": {
+      "tentative": "Tentative",
+      "confirmed": "Confirmed",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
     }
   },
   "adminPortfolio": {

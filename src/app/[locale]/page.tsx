@@ -4,8 +4,10 @@ import {
   CheckCircle2,
   Languages,
   MapPin,
+  Music2,
   Quote,
   Star,
+  ThumbsUp,
 } from "lucide-react";
 import Image from "next/image";
 import type { Metadata } from "next";
@@ -34,6 +36,7 @@ import { getPublicPortfolioCategories } from "@/lib/portfolio-categories";
 import { getPublicFaqs, getPublicTestimonials } from "@/lib/reviews-faq";
 import {
   getContactMethods,
+  getMapEmbedUrl,
   getSiteSettings,
   getSocialLinks,
   localizedSettings,
@@ -87,6 +90,12 @@ export default async function HomePage({
   const content = localizedSettings(settings, locale);
   const requestMethods = getContactMethods(settings);
   const socials = getSocialLinks(settings);
+  const mapEmbedUrl = getMapEmbedUrl(settings);
+  const socialIcons = {
+    instagram: Camera,
+    facebook: ThumbsUp,
+    tiktok: Music2,
+  };
   const stats = [
     { value: settings.statYears, key: "years" },
     { value: settings.statProjects, key: "projects" },
@@ -487,6 +496,20 @@ export default async function HomePage({
               <MapPin size={16} />
               {content.location}
             </p>
+            {content.address && (
+              <p className="mt-3 text-sm text-background/62">{content.address}</p>
+            )}
+            {mapEmbedUrl && (
+              <div className="mt-6 overflow-hidden rounded-md border border-background/18">
+                <iframe
+                  title={content.address || content.location}
+                  src={mapEmbedUrl}
+                  className="h-72 w-full"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+              </div>
+            )}
           </div>
           <div className="rounded-md bg-background p-5 text-foreground md:p-8">
             <RequestForm />
@@ -502,13 +525,29 @@ export default async function HomePage({
           </div>
           <div className="flex flex-wrap gap-3">
             {socials.map((social) => (
-              <a
-                className="rounded-full border border-line px-4 py-2 text-sm font-bold transition hover:border-accent hover:text-accent"
-                href={social.href}
-                key={social.key}
-              >
-                {t(`footer.socials.${social.key}`)}
-              </a>
+              (() => {
+                const Icon =
+                  socialIcons[social.key as keyof typeof socialIcons];
+                const label = t(`footer.socials.${social.key}`);
+
+                return (
+                  <a
+                    aria-label={label}
+                    title={label}
+                    className="relative inline-flex size-11 items-center justify-center rounded-full border border-line hover:border-accent hover:text-accent"
+                    href={social.href}
+                    key={social.key}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <Icon className="size-5 shrink-0" aria-hidden="true" />
+                    <span
+                      className="absolute left-1/2 top-1/2 size-[max(100%,3rem)] -translate-x-1/2 -translate-y-1/2 pointer-fine:hidden"
+                      aria-hidden="true"
+                    />
+                  </a>
+                );
+              })()
             ))}
           </div>
         </div>

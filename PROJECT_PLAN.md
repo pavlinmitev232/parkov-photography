@@ -386,6 +386,59 @@ Compact staging pass on June 25, 2026:
 - Obvious test portfolio content remains visible and should be replaced during
   the approved-content stage.
 
+## Stage 9: Owner Workflow Expansion
+
+Add the following operational features before the final production handoff:
+
+### Public Location and Social Presentation
+
+- [x] Keep the existing bilingual public location summary editable.
+- [x] Add an editable bilingual street/studio address and a separate map search
+      location so the public wording does not have to expose a private address.
+- [x] Add an owner-controlled map visibility toggle and render the map without
+      requiring a paid maps API key.
+- [x] Replace footer social text-only controls with recognizable Instagram,
+      Facebook, and TikTok-style icons while preserving accessible labels.
+
+### Inquiry Reply Workflow
+
+- [x] Add a clear reply-by-email action to inquiries that have a valid email.
+- [x] Offer reusable localized templates for availability, more-information,
+      quotation, unavailable-date, and booking-confirmation replies.
+- [x] Open the owner's normal mail application with recipient, subject, and
+      selected template prefilled; do not claim that the portal sent or tracked
+      the message.
+- [x] Keep full in-portal email delivery and conversation history as an optional
+      later phase if operational use proves it is needed.
+
+### Booking Calendar
+
+- [x] Add a protected booking record linked optionally to its source inquiry.
+- [x] Store client, service, start/end time, venue/address, private notes, and
+      tentative/confirmed/completed/cancelled status.
+- [x] Let the owner create a booking from an inquiry without retyping known
+      client details.
+- [x] Add protected owner API routes for booking creation, updates, and removal.
+- [x] Add a calendar/agenda owner page showing upcoming work by date and status.
+- [x] Keep inquiries and bookings separate: an inquiry is a request; a booking
+      is scheduled work.
+- [x] Add indexes for booking date, status, and inquiry linkage.
+- [x] Verify unauthenticated callers cannot reach the booking page or mutate
+      booking data; local POST/PATCH/DELETE checks returned `401`.
+
+Implementation note on June 25, 2026:
+
+- The production build, TypeScript checks, lint, Prisma schema validation, and
+  public browser smoke test pass.
+- The booking migration was applied successfully to both the local Docker
+  database and Supabase staging.
+- Local authenticated create/update/calendar/delete testing passed through the
+  explicit legacy rollback mode, and its temporary booking was removed.
+- The staging-connected production build passes.
+- Supabase staging login with the current owner email passed the trusted
+  `app_metadata` owner-role check. Booking create, status update, calendar
+  display, and delete all passed, and the temporary staging record was removed.
+
 ## Decisions
 
 - Admin lives in the same app under `/parkov-owner-portal-7f3a`.
@@ -397,6 +450,12 @@ Compact staging pass on June 25, 2026:
 - Owner management is part of the project, not a later unrelated app.
 - Request flow should support form, phone, Viber, WhatsApp, and email.
 - Inquiry storage and owner status management are complete.
+- Public maps use an editable search location and a privacy-conscious display
+  toggle rather than requiring precise coordinates or a paid maps integration.
+- Initial inquiry replies use prefilled `mailto:` actions; the portal does not
+  become an email inbox unless later usage justifies message storage and inbound
+  email handling.
+- Calendar entries are separate booking records with optional inquiry links.
 - Production will initially use Netlify, Supabase, and Resend free tiers.
 - Production migrations must use committed migrations with `prisma migrate deploy`, never `prisma migrate dev`.
 - Real owner content will be entered through the deployed staging owner portal.
@@ -414,7 +473,8 @@ Compact staging pass on June 25, 2026:
 
 ## Next Recommended Work
 
-1. Finish and verify the newest Supabase password-recovery link.
-2. Complete the deployed staging verification checklist.
-3. Collect approved Parkov content and confirm the final domain.
-4. Create or transfer client-owned production resources and perform launch QA.
+1. Implement and verify the Stage 9 owner workflow expansion.
+2. Finish and verify the newest Supabase password-recovery link.
+3. Complete the deployed staging verification checklist.
+4. Collect approved Parkov content and confirm the final domain.
+5. Create or transfer client-owned production resources and perform launch QA.

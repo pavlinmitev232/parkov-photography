@@ -1,6 +1,7 @@
 import {
   Aperture,
   Building2,
+  CalendarDays,
   Camera,
   Gem,
   Heart,
@@ -105,5 +106,6 @@ export const adminCards = [
   { key: "categories", icon: Tags },
   { key: "services", icon: Landmark },
   { key: "requests", icon: Users },
+  { key: "bookings", icon: CalendarDays },
   { key: "settings", icon: Sparkles },
 ];

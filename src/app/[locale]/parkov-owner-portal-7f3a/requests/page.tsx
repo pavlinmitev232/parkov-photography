@@ -1,6 +1,7 @@
 import { ArrowLeft, Inbox } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { InquiryStatusSelect } from "@/components/inquiry-status-select";
+import { InquiryReplyAction } from "@/components/inquiry-reply-action";
 import { Link } from "@/i18n/routing";
 import { requireOwnerSession } from "@/lib/auth/owner-session";
 import { adminPath } from "@/lib/admin-path";
@@ -70,6 +71,7 @@ export default async function AdminRequestsPage({
                     <th className="px-5 py-4">{t("table.location")}</th>
                     <th className="px-5 py-4">{t("table.date")}</th>
                     <th className="px-5 py-4">{t("table.status")}</th>
+                    <th className="px-5 py-4">{t("table.reply")}</th>
                     <th className="px-5 py-4">{t("table.message")}</th>
                   </tr>
                 </thead>
@@ -108,6 +110,29 @@ export default async function AdminRequestsPage({
                           inquiryId={inquiry.id}
                           status={inquiry.status}
                         />
+                      </td>
+                      <td className="min-w-72 px-5 py-4">
+                        {/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(inquiry.email) ? (
+                          <InquiryReplyAction
+                            inquiryId={inquiry.id}
+                            customerName={inquiry.name}
+                            email={inquiry.email}
+                            service={
+                              serviceKeys.includes(inquiry.service)
+                                ? requestT(`services.${inquiry.service}`)
+                                : inquiry.service
+                            }
+                            preferredDate={
+                              inquiry.preferredDate
+                                ? new Intl.DateTimeFormat(
+                                    locale === "bg" ? "bg-BG" : "en-GB",
+                                  ).format(inquiry.preferredDate)
+                                : null
+                            }
+                          />
+                        ) : (
+                          <p className="text-muted">{t("reply.noEmail")}</p>
+                        )}
                       </td>
                       <td className="max-w-md px-5 py-4 leading-6 text-muted">
                         {inquiry.message}

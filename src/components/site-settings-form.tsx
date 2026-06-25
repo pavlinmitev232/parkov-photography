@@ -14,7 +14,9 @@ export function SiteSettingsForm({
   const t = useTranslations("adminSettings");
   const router = useRouter();
   const [settings, setSettings] = useState(initialSettings);
-  const [tab, setTab] = useState<"brand" | "stats" | "copy" | "visibility">("brand");
+  const [tab, setTab] = useState<
+    "brand" | "location" | "stats" | "copy" | "visibility"
+  >("brand");
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const inputClass =
@@ -78,7 +80,7 @@ export function SiteSettingsForm({
   return (
     <div>
       <div className="mb-6 flex flex-wrap gap-1 rounded-md border border-line bg-background p-1">
-        {(["brand", "stats", "copy", "visibility"] as const).map((item) => (
+        {(["brand", "location", "stats", "copy", "visibility"] as const).map((item) => (
           <button
             type="button"
             onClick={() => setTab(item)}
@@ -152,6 +154,47 @@ export function SiteSettingsForm({
             </div>
           </section>
         </div>
+      )}
+
+      {tab === "location" && (
+        <section className="rounded-md border border-line bg-background p-5">
+          <h2 className="text-2xl font-bold">{t("locationTitle")}</h2>
+          <p className="mt-2 text-base/7 text-muted sm:text-sm/6">
+            {t("locationHelp")}
+          </p>
+          <div className="mt-5 grid gap-4 lg:grid-cols-2">
+            {(["addressBg", "addressEn"] as const).map((field) => (
+              <Field label={t(field)} key={field}>
+                <input
+                  name={field}
+                  className={inputClass}
+                  value={settings[field]}
+                  onChange={(event) => update(field, event.target.value)}
+                />
+              </Field>
+            ))}
+            <div className="lg:col-span-2">
+              <Field label={t("mapQuery")}>
+                <input
+                  name="mapQuery"
+                  className={inputClass}
+                  value={settings.mapQuery}
+                  placeholder={t("mapQueryPlaceholder")}
+                  onChange={(event) => update("mapQuery", event.target.value)}
+                />
+              </Field>
+            </div>
+            <label className="flex min-h-14 items-center gap-3 rounded-md border border-line px-4 text-sm font-bold lg:col-span-2">
+              <input
+                name="showMap"
+                type="checkbox"
+                checked={settings.showMap}
+                onChange={(event) => update("showMap", event.target.checked)}
+              />
+              {t("showMap")}
+            </label>
+          </div>
+        </section>
       )}
 
       {tab === "stats" && (
