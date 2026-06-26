@@ -181,9 +181,28 @@ Current email scope:
 - [x] Test local login, logout, session refresh, and unauthorized API access.
 - [x] Test deployed staging login, logout, invalid credentials, owner page
       access, unauthorized API access, and recovery page availability.
-- [ ] Test password-reset email delivery and the complete recovery-link flow.
+- [x] Test token-hash recovery callback and password update on staging with a
+      temporary owner user.
+- [ ] Test real owner password-reset email delivery after the Supabase reset
+      email template is switched to the token-hash callback link.
 - [ ] Remove the temporary environment-variable credentials and custom HMAC
       session cookie only after the replacement passes staging.
+
+For cross-device password reset, configure Supabase Auth > Email Templates >
+Reset Password to send the owner directly to the app callback:
+
+```html
+<h2>Reset Password</h2>
+<p>Follow this link to reset the password for your user:</p>
+<p>
+  <a href="{{ .SiteURL }}/api/owner-auth-callback?token_hash={{ .TokenHash }}&type=recovery">
+    Reset Password
+  </a>
+</p>
+```
+
+Keep the Supabase Site URL set to the active environment domain. For production,
+set it to the final Parkov domain before sending real reset emails.
 
 Rollback while evaluating Supabase Auth:
 

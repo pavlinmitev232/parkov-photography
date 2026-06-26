@@ -37,6 +37,8 @@ Read this section first when continuing in a new Codex chat.
 - The password-recovery redirect was corrected in commit `067242c`: Supabase's
   default Site URL now points to staging, and the app uses an exact allowlisted
   callback URL without an extra query string.
+- The recovery callback supports cross-device `token_hash` recovery links and
+  was verified on staging with a temporary owner user.
 - Inquiry notifications use Resend when configured, with inquiry-ID
   idempotency, valid customer `replyTo`, and optional SMTP fallback.
 - A Resend sandbox notification was delivered successfully to the verified
@@ -354,7 +356,10 @@ before client production:
 - [ ] Use the verified Parkov sending domain for password-reset/auth emails,
       either through Supabase custom SMTP or its Resend integration.
 - [x] Test invalid login and reject unauthenticated password updates.
-- [ ] Test expired sessions, password-reset delivery, and recovery links.
+- [x] Test token-hash recovery links and password update on staging with a
+      temporary owner user.
+- [ ] Test real owner password-reset email delivery after the Supabase reset
+      email template is switched to the token-hash callback link.
 - [x] Test valid local owner login, logout, unauthorized
       owner APIs, and the explicit legacy fallback.
 - [ ] Remove `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `AUTH_SECRET`, the custom session
@@ -410,6 +415,18 @@ Full deployed staging pass on June 26, 2026:
   names or secret values.
 - Unsplash placeholder image delivery was fixed by skipping Next image
   optimization only for Unsplash URLs; Supabase/owner uploads remain normal.
+
+Password-recovery update on June 26, 2026:
+
+- The app-side recovery callback now accepts
+  `/api/owner-auth-callback?token_hash=...&type=recovery`, verifies it with
+  Supabase, sets the recovery session cookie, and hands off to the clean
+  `/bg/parkov-owner-portal-7f3a/update-password` URL.
+- Local and deployed staging tests passed with a temporary owner user: callback
+  session creation, password update, old password rejection, new password login,
+  and temporary user deletion.
+- The remaining manual Supabase dashboard step is to update the Reset Password
+  email template to link directly to the app callback with `{{ .TokenHash }}`.
 
 ## Stage 9: Owner Workflow Expansion
 
@@ -501,8 +518,9 @@ Implementation note on June 25, 2026:
 1. Collect approved Parkov content and confirm the final domain.
 2. Enter approved content through the owner portal and rerun a short staging
    visual smoke test.
-3. Configure the verified Parkov sending domain and final Supabase Auth email
-   delivery, then test password-reset delivery and the recovery-link flow.
+3. Configure the verified Parkov sending domain, final Supabase Auth email
+   delivery, and the Reset Password email template, then test the real owner
+   email delivery once.
 4. Create or transfer client-owned production resources and perform launch QA.
 5. Remove the legacy owner auth variables and custom session code only after
    Supabase Auth is accepted for production.
