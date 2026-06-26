@@ -15,7 +15,7 @@ export function SiteSettingsForm({
   const router = useRouter();
   const [settings, setSettings] = useState(initialSettings);
   const [tab, setTab] = useState<
-    "brand" | "location" | "stats" | "copy" | "visibility"
+    "brand" | "location" | "announcement" | "stats" | "copy" | "visibility"
   >("brand");
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
@@ -80,7 +80,16 @@ export function SiteSettingsForm({
   return (
     <div>
       <div className="mb-6 flex flex-wrap gap-1 rounded-md border border-line bg-background p-1">
-        {(["brand", "location", "stats", "copy", "visibility"] as const).map((item) => (
+        {(
+          [
+            "brand",
+            "location",
+            "announcement",
+            "stats",
+            "copy",
+            "visibility",
+          ] as const
+        ).map((item) => (
           <button
             type="button"
             onClick={() => setTab(item)}
@@ -193,6 +202,51 @@ export function SiteSettingsForm({
               />
               {t("showMap")}
             </label>
+          </div>
+        </section>
+      )}
+
+      {tab === "announcement" && (
+        <section className="rounded-md border border-line bg-background p-5">
+          <h2 className="text-2xl font-bold">{t("announcementTitle")}</h2>
+          <p className="mt-2 text-base/7 text-muted sm:text-sm/6">
+            {t("announcementHelp")}
+          </p>
+          <div className="mt-5 grid gap-4">
+            <label className="flex min-h-14 items-center gap-3 rounded-md border border-line px-4 text-sm font-bold">
+              <input
+                name="announcementEnabled"
+                type="checkbox"
+                checked={settings.announcementEnabled}
+                onChange={(event) =>
+                  update("announcementEnabled", event.target.checked)
+                }
+              />
+              {t("announcementEnabled")}
+            </label>
+            <div className="grid gap-4 lg:grid-cols-2">
+              {(["announcementTextBg", "announcementTextEn"] as const).map(
+                (field) => (
+                  <Field label={t(field)} key={field}>
+                    <textarea
+                      name={field}
+                      className={`${textareaClass} min-h-24`}
+                      value={settings[field]}
+                      maxLength={240}
+                      onChange={(event) => update(field, event.target.value)}
+                    />
+                  </Field>
+                ),
+              )}
+            </div>
+            <div className="rounded-md border border-line bg-surface p-4">
+              <span className="mb-2 block text-sm font-bold">
+                {t("announcementPreview")}
+              </span>
+              <div className="rounded-md bg-foreground px-4 py-3 text-center text-sm font-bold text-background">
+                {settings.announcementTextEn || t("announcementPreviewEmpty")}
+              </div>
+            </div>
           </div>
         </section>
       )}

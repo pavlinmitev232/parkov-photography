@@ -83,6 +83,9 @@ export const defaultSiteSettings: SiteSettingsValues = {
   addressEn: "",
   mapQuery: "",
   showMap: false,
+  announcementEnabled: false,
+  announcementTextBg: "",
+  announcementTextEn: "",
   footerCopyBg: "Фотография за хора, събития, бизнеси и пространства.",
   footerCopyEn: "Photography for people, events, businesses, and spaces.",
   showAbout: true,
@@ -145,6 +148,7 @@ export function localizedSettings(settings: SiteSettingsValues, locale: string) 
     contactCopy: pick("contactCopy"),
     location: pick("location"),
     address: pick("address"),
+    announcementText: pick("announcementText"),
     footerCopy: pick("footerCopy"),
   };
 }

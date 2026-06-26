@@ -3,6 +3,7 @@
 import { CalendarDays, Plus, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
+import { ConfirmDialog } from "@/components/confirm-dialog";
 import { useRouter } from "@/i18n/routing";
 
 type BookingItem = {
@@ -80,7 +81,9 @@ export function BookingManager({
   const t = useTranslations("adminBookings");
   const router = useRouter();
   const [draft, setDraft] = useState<Draft>(emptyDraft);
+  const [bookingToDelete, setBookingToDelete] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [deleteBusy, setDeleteBusy] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const formatter = useMemo(
     () =>
@@ -164,14 +167,28 @@ export function BookingManager({
   }
 
   async function removeBooking(id: string) {
-    if (!window.confirm(t("deleteConfirm"))) return;
+    setDeleteBusy(true);
     const response = await fetch(`/api/bookings/${id}`, { method: "DELETE" });
+    setDeleteBusy(false);
+    setBookingToDelete(null);
     setMessage(response.ok ? t("deleted") : t("deleteError"));
     if (response.ok) router.refresh();
   }
 
   return (
     <div className="grid gap-10">
+      <ConfirmDialog
+        open={bookingToDelete !== null}
+        title={t("deleteDialogTitle")}
+        description={t("deleteDialogDescription")}
+        confirmLabel={deleteBusy ? t("deleting") : t("deleteDialogConfirm")}
+        cancelLabel={t("deleteDialogCancel")}
+        busy={deleteBusy}
+        onConfirm={() => {
+          if (bookingToDelete) void removeBooking(bookingToDelete);
+        }}
+        onCancel={() => setBookingToDelete(null)}
+      />
       <form
         onSubmit={createBooking}
         className="rounded-md border border-line bg-background p-5"
@@ -378,7 +395,7 @@ export function BookingManager({
                         <button
                           type="button"
                           aria-label={t("delete")}
-                          onClick={() => removeBooking(booking.id)}
+                          onClick={() => setBookingToDelete(booking.id)}
                           className="relative inline-flex size-10 items-center justify-center rounded-md border border-line hover:border-error hover:text-error"
                         >
                           <Trash2 className="size-4 shrink-0" />

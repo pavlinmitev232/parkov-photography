@@ -88,6 +88,9 @@ export default async function HomePage({
       getPublicFaqs(locale),
     ]);
   const content = localizedSettings(settings, locale);
+  const announcementText = settings.announcementEnabled
+    ? content.announcementText.trim()
+    : "";
   const requestMethods = getContactMethods(settings);
   const socials = getSocialLinks(settings);
   const mapEmbedUrl = getMapEmbedUrl(settings);
@@ -140,6 +143,11 @@ export default async function HomePage({
         transition={{ duration: 0.7, ease: "easeOut" }}
         className="fixed inset-x-0 top-0 z-50 border-b border-line bg-background/78 backdrop-blur-xl"
       >
+        {announcementText && (
+          <div className="border-b border-accent/25 bg-foreground px-5 py-2 text-center text-sm font-bold leading-6 text-background md:px-8">
+            <p className="mx-auto max-w-5xl">{announcementText}</p>
+          </div>
+        )}
         <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 md:px-8">
           <Link href="/" className="font-serif text-2xl font-bold tracking-wide">
             {settings.logoImageUrl ? (
@@ -181,7 +189,11 @@ export default async function HomePage({
         </div>
       </MotionHeader>
 
-      <section className="relative flex min-h-screen items-end pt-28">
+      <section
+        className={`relative flex min-h-screen items-end ${
+          announcementText ? "pt-40" : "pt-28"
+        }`}
+      >
         <div className="absolute inset-0">
           <Image
             src={settings.heroImageUrl}
