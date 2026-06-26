@@ -1,4 +1,3 @@
-import { NextResponse } from "next/server";
 import { adminPath } from "@/lib/admin-path";
 import { getOwnerAuthProvider } from "@/lib/auth/owner-auth-provider";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
@@ -13,7 +12,7 @@ export async function GET(request: Request) {
   const next = `/bg${adminPath}/update-password`;
 
   if (getOwnerAuthProvider() !== "supabase") {
-    return NextResponse.redirect(new URL(`/bg${adminPath}/login`, url.origin));
+    return Response.redirect(`${url.origin}/bg${adminPath}/login`, 303);
   }
 
   const supabase = await createSupabaseServerClient();
@@ -27,7 +26,8 @@ export async function GET(request: Request) {
         ? await supabase.auth.exchangeCodeForSession(code)
         : { error: new Error("Missing owner recovery token") };
 
-  return NextResponse.redirect(
-    new URL(error ? `/bg${adminPath}/login` : next, url.origin),
+  return Response.redirect(
+    `${url.origin}${error ? `/bg${adminPath}/login` : next}`,
+    303,
   );
 }
