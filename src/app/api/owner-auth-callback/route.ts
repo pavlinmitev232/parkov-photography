@@ -4,6 +4,25 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export const runtime = "nodejs";
 
+function escapeAttribute(value: string) {
+  return value.replaceAll("&", "&amp;").replaceAll('"', "&quot;");
+}
+
+function cleanRedirectPage(target: string) {
+  const safeTarget = JSON.stringify(target);
+
+  return new Response(
+    `<!doctype html><html><head><meta charset="utf-8"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0;url=${escapeAttribute(target)}"><title>Redirecting</title></head><body><script>window.location.replace(${safeTarget});</script></body></html>`,
+    {
+      headers: {
+        "Cache-Control": "no-store",
+        "Content-Type": "text/html; charset=utf-8",
+        "Referrer-Policy": "no-referrer",
+      },
+    },
+  );
+}
+
 export async function GET(request: Request) {
   const url = new URL(request.url);
   const code = url.searchParams.get("code");
@@ -12,7 +31,7 @@ export async function GET(request: Request) {
   const next = `/bg${adminPath}/update-password`;
 
   if (getOwnerAuthProvider() !== "supabase") {
-    return Response.redirect(`${url.origin}/bg${adminPath}/login`, 303);
+    return cleanRedirectPage(`/bg${adminPath}/login`);
   }
 
   const supabase = await createSupabaseServerClient();
@@ -26,8 +45,5 @@ export async function GET(request: Request) {
         ? await supabase.auth.exchangeCodeForSession(code)
         : { error: new Error("Missing owner recovery token") };
 
-  return Response.redirect(
-    `${url.origin}${error ? `/bg${adminPath}/login` : next}`,
-    303,
-  );
+  return cleanRedirectPage(error ? `/bg${adminPath}/login` : next);
 }
