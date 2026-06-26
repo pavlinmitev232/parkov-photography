@@ -41,6 +41,7 @@ import {
   getSocialLinks,
   localizedSettings,
 } from "@/lib/site-settings";
+import { shouldSkipImageOptimization } from "@/lib/image-url";
 
 export async function generateMetadata({
   params,
@@ -156,6 +157,7 @@ export default async function HomePage({
                 alt={content.brandName}
                 width={150}
                 height={44}
+                unoptimized={shouldSkipImageOptimization(settings.logoImageUrl)}
                 className="h-10 w-auto object-contain"
               />
             ) : (
@@ -201,6 +203,7 @@ export default async function HomePage({
             fill
             priority
             sizes="100vw"
+            unoptimized={shouldSkipImageOptimization(settings.heroImageUrl)}
             className="h-full w-full object-cover object-[58%_center] md:object-center"
           />
           <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(6,5,3,.88),rgba(6,5,3,.34),rgba(6,5,3,.12))] dark:bg-[linear-gradient(90deg,rgba(4,4,5,.9),rgba(4,4,5,.42),rgba(4,4,5,.16))]" />
@@ -279,6 +282,7 @@ export default async function HomePage({
               alt={content.brandName}
               fill
               sizes="(min-width: 1024px) 45vw, 100vw"
+              unoptimized={shouldSkipImageOptimization(settings.aboutImageUrl)}
               className="object-cover"
             />
           </MotionDiv>

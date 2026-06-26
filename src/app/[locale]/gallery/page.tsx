@@ -5,6 +5,7 @@ import { getTranslations } from "next-intl/server";
 import { GalleryBrowser } from "@/components/gallery-browser";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Link } from "@/i18n/routing";
+import { shouldSkipImageOptimization } from "@/lib/image-url";
 import { getPublicPortfolioItems } from "@/lib/portfolio";
 import { getPublicPortfolioCategories } from "@/lib/portfolio-categories";
 
@@ -64,6 +65,8 @@ export default async function GalleryPage({
       label: t("stats.languages"),
     },
   ];
+  const heroImageUrl =
+    "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=80";
 
   return (
     <main className="isolate min-h-dvh bg-background">
@@ -101,11 +104,12 @@ export default async function GalleryPage({
       <section className="relative overflow-hidden border-b border-line px-5 py-16 md:px-8 md:py-24">
         <div className="absolute inset-y-0 right-0 hidden w-[44vw] lg:block">
           <Image
-            src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=80"
+            src={heroImageUrl}
             alt=""
             fill
             priority
             sizes="44vw"
+            unoptimized={shouldSkipImageOptimization(heroImageUrl)}
             className="object-cover opacity-24"
           />
           <div className="absolute inset-0 bg-linear-to-r from-background via-background/72 to-background/10" />
