@@ -22,7 +22,7 @@ Read this section first when continuing in a new Codex chat.
 - Stack: Next.js 16, React 19, TypeScript, Tailwind CSS, next-intl, next-themes, Framer Motion, Prisma 7, PostgreSQL.
 - Public site and owner portal are functional.
 - Portfolio, categories, services, pricing, settings, testimonials, FAQs, inquiries, and inquiry statuses are database-backed.
-- Owner-managed settings include contacts, social links, hero/about/logo assets, bilingual copy, SEO, and section visibility.
+- Owner-managed settings include contacts, social links, hero/about/logo assets, bilingual copy, SEO, global site notifications, and section visibility.
 - Hero statistics are owner-editable and animate from zero to their configured values when they enter the viewport.
 - Normal local development stores uploads in `public/uploads`; staging uses
   persistent Supabase Storage through server-only owner routes.
@@ -44,8 +44,9 @@ Read this section first when continuing in a new Codex chat.
 - Inquiry validation, honeypot, rate limiting, database persistence, owner display, and status updates have been tested.
 - Inquiry contact fields follow the selected method: email requires email, while phone, Viber, and WhatsApp require a phone number on both client and server.
 - Existing portfolio items can be edited, including titles, category, metadata, visibility, featured state, and image replacement.
+- Native browser confirm dialogs have been replaced in owner booking deletion with an in-app confirmation dialog.
 - Stale development and placeholder notes were replaced with owner- and client-facing copy.
-- The last completed verification passed `npm run lint`, `npm run build`, desktop/mobile Browser checks, and reversible API smoke tests.
+- The last completed verification passed `npm run lint`, `npm run build`, desktop/mobile Browser checks, reversible API smoke tests, Supabase Storage upload/replacement/deletion checks, public route/image checks, and public secret-exposure checks.
 
 ### Production Stack Decision
 
@@ -76,16 +77,15 @@ Codex must be restarted before a new chat so these skills are loaded.
 
 ### Immediate Next Task
 
-1. Open the newest Supabase password-recovery email, set a new owner password,
-   and verify login with `pavlinmitev121977@gmail.com`.
-2. Mark password-reset delivery and the recovery-link flow complete after that
-   login succeeds.
-3. Run database management, Storage upload/replacement/deletion,
-   inquiry persistence, notification delivery, and status-update checks on the
-   deployed staging site.
-4. Later, add optional automatic customer confirmations and owner-portal custom
-   email sending. These are not implemented yet; manual replies currently work
-   through the owner inbox because notifications set the customer as `replyTo`.
+1. Let the client review the staging URL and collect approved Parkov logo,
+   favicon, images, contacts, services, pricing, bilingual copy, and final domain.
+2. Enter approved content through the owner portal and rerun a short public
+   visual smoke check.
+3. After client approval, prepare client-owned Supabase, Resend, Netlify,
+   GitHub, domain, and DNS resources using `DEPLOYMENT_AND_HANDOFF.md`.
+4. Before final production, complete the remaining auth/email hardening:
+   verified Parkov sending domain, Supabase Auth email delivery, password-reset
+   email/recovery-link test, and removal of the legacy owner auth variables.
 
 ### User Authorization Boundaries
 
@@ -324,7 +324,7 @@ characters, but the UI shows only a generic error. Before launch:
 - [x] Add Supabase, Resend, temporary owner auth, and site environment variables
 - [x] Deploy a staging version from `main`
 - [x] Confirm basic Next.js routes, proxy/middleware, and image rendering
-- [ ] Confirm owner uploads persist after a fresh deployment
+- [x] Confirm owner uploads persist after a fresh deployment
 - [ ] Configure custom domain and DNS
 
 ### Supabase Owner Auth Replacement
@@ -363,15 +363,15 @@ before client production:
 ### Staging Verification
 
 - [x] Test owner login and logout
-- [ ] Test portfolio, category, service, pricing, settings, testimonial, and FAQ management
-- [ ] Test Supabase image upload, display, replacement, and deletion
-- [ ] Test inquiry creation, database storage, notification delivery, and status updates
-- [ ] Test Bulgarian and English routes
-- [ ] Test light and dark themes
-- [ ] Test desktop and mobile layouts
-- [ ] Run accessibility and keyboard checks
-- [ ] Run performance and image-delivery checks
-- [ ] Confirm production secrets are not exposed to the browser or repository
+- [x] Test portfolio, category, service, pricing, settings, testimonial, and FAQ management
+- [x] Test Supabase image upload, display, replacement, and deletion
+- [x] Test inquiry creation, database storage, notification delivery, and status updates
+- [x] Test Bulgarian and English routes
+- [x] Test light and dark themes
+- [x] Test desktop and mobile layouts
+- [x] Run accessibility and keyboard checks
+- [x] Run performance and image-delivery checks
+- [x] Confirm production secrets are not exposed to the browser or repository
 
 Compact staging pass on June 25, 2026:
 
@@ -385,6 +385,31 @@ Compact staging pass on June 25, 2026:
   and notification while owner access was unavailable for cleanup.
 - Obvious test portfolio content remains visible and should be replaced during
   the approved-content stage.
+
+Full deployed staging pass on June 26, 2026:
+
+- Owner login and protected owner routes passed on Netlify staging.
+- Portfolio categories/items, services, pricing packages, testimonials, FAQs,
+  settings, and booking deletion were tested with temporary records and cleaned.
+- Owner-controlled global site notifications were verified in English and
+  Bulgarian, then reverted to disabled.
+- Booking deletion uses the custom in-app confirmation dialog; no native browser
+  dialog appeared.
+- Supabase Storage portfolio upload, display, replacement cleanup, item deletion
+  cleanup, site-asset upload, and unauthenticated upload rejection passed.
+- Public inquiry creation, owner display, status update, and database cleanup
+  passed. This also exercises the configured owner notification path.
+- English/Bulgarian home and gallery routes returned `200`, had localized
+  `<html lang>`, rendered images, and had no leftover staging banner.
+- Light/dark theme switching worked in the browser with no native dialog.
+- Mobile browser checks at `390x844` found no horizontal overflow or console
+  errors on home/gallery in both languages.
+- Basic accessibility checks found no missing image `alt` attributes, unnamed
+  SSR buttons, or unnamed SSR links on the checked public routes.
+- Public HTML and the first client JS bundles did not expose configured secret
+  names or secret values.
+- Unsplash placeholder image delivery was fixed by skipping Next image
+  optimization only for Unsplash URLs; Supabase/owner uploads remain normal.
 
 ## Stage 9: Owner Workflow Expansion
 
@@ -473,8 +498,11 @@ Implementation note on June 25, 2026:
 
 ## Next Recommended Work
 
-1. Implement and verify the Stage 9 owner workflow expansion.
-2. Finish and verify the newest Supabase password-recovery link.
-3. Complete the deployed staging verification checklist.
-4. Collect approved Parkov content and confirm the final domain.
-5. Create or transfer client-owned production resources and perform launch QA.
+1. Collect approved Parkov content and confirm the final domain.
+2. Enter approved content through the owner portal and rerun a short staging
+   visual smoke test.
+3. Configure the verified Parkov sending domain and final Supabase Auth email
+   delivery, then test password-reset delivery and the recovery-link flow.
+4. Create or transfer client-owned production resources and perform launch QA.
+5. Remove the legacy owner auth variables and custom session code only after
+   Supabase Auth is accepted for production.

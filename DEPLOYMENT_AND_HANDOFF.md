@@ -116,7 +116,7 @@ Never expose database credentials, `SUPABASE_SECRET_KEY`, `ADMIN_PASSWORD`,
 - [x] `npm run build` passes.
 - [x] `prisma migrate deploy` succeeds against staging.
 - [x] Owner login and all database-backed management screens work.
-- [ ] Uploads persist after a fresh deployment.
+- [x] Uploads persist after a fresh deployment.
 - [x] Bulgarian and English pages load database content.
 - [x] A reversible inquiry test succeeds.
 
@@ -157,9 +157,9 @@ Current email scope:
 - [x] Add environment variables with the correct deploy-context scopes.
 - [x] Safely include Prisma generation and `prisma migrate deploy`.
 - [x] Deploy to a draft or staging URL first.
-- [ ] Verify pages, APIs, locale routing, proxy/middleware, images, and owner routes.
-- [ ] Confirm uploads survive a fresh deployment.
-- [ ] Inspect build and function logs for secret leakage.
+- [x] Verify pages, APIs, locale routing, proxy/middleware, images, and owner routes.
+- [x] Confirm uploads survive a fresh deployment.
+- [x] Inspect public HTML and client bundles for secret leakage.
 - [x] Record the staging URL and Netlify site ID above.
 
 ## Phase 3A: Replace Temporary Owner Login With Supabase Auth
@@ -199,12 +199,20 @@ Rollback while evaluating Supabase Auth:
 - [ ] Client supplies or approves logo, favicon, images, contacts, social links,
       services, pricing, and bilingual copy.
 - [ ] Approved content is entered through the owner portal.
-- [ ] Test Bulgarian and English routes.
-- [ ] Test light and dark modes.
-- [ ] Test desktop, tablet, and mobile layouts.
-- [ ] Run keyboard, accessibility, performance, and image-delivery checks.
-- [ ] Test inquiry creation, notification, owner display, and status updates.
+- [x] Test Bulgarian and English routes.
+- [x] Test light and dark modes.
+- [x] Test desktop, tablet, and mobile layouts.
+- [x] Run keyboard, accessibility, performance, and image-delivery checks.
+- [x] Test inquiry creation, notification, owner display, and status updates.
 - [ ] Obtain explicit approval before ownership transfer or production DNS work.
+
+Staging QA note, June 26, 2026:
+
+- Full deployed staging checks passed after commit `5313bdd`.
+- Temporary portfolio, service, pricing, testimonial, FAQ, booking, inquiry, and
+  upload records were cleaned up after testing.
+- The remaining Phase 4 blockers are client review, approved real content, final
+  domain choice, and explicit approval before ownership transfer or DNS work.
 
 ## Phase 5: Client Account Preparation
 
