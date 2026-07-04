@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/routing";
 import { GalleryShowcase } from "@/components/gallery-showcase";
 import { AnimatedStat } from "@/components/animated-stat";
@@ -39,6 +39,9 @@ import {
 } from "@/lib/site-settings";
 import { shouldSkipImageOptimization } from "@/lib/image-url";
 
+export const dynamic = "force-static";
+export const revalidate = 300;
+
 export async function generateMetadata({
   params,
 }: {
@@ -62,6 +65,7 @@ export default async function HomePage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  setRequestLocale(locale);
   const t = await getTranslations("home");
   const nav = await getTranslations("nav");
   const common = await getTranslations("common");

@@ -1,13 +1,15 @@
 import { ArrowLeft, Languages } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { GalleryBrowser } from "@/components/gallery-browser";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Link } from "@/i18n/routing";
 import { shouldSkipImageOptimization } from "@/lib/image-url";
-import { getPublicPortfolioItems } from "@/lib/portfolio";
-import { getPublicPortfolioCategories } from "@/lib/portfolio-categories";
+import { getCachedPublicHomeData } from "@/lib/public-home-data";
+
+export const dynamic = "force-static";
+export const revalidate = 300;
 
 export async function generateMetadata({
   params,
@@ -29,12 +31,13 @@ export default async function GalleryPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  setRequestLocale(locale);
   const t = await getTranslations("gallery");
   const home = await getTranslations("home");
   const common = await getTranslations("common");
   const alternateLocale = locale === "bg" ? "en" : "bg";
-  const portfolioItems = await getPublicPortfolioItems(locale);
-  const portfolioCategories = await getPublicPortfolioCategories(locale);
+  const { portfolioItems, portfolioCategories } =
+    await getCachedPublicHomeData(locale);
   const knownCategorySet = new Set(portfolioCategories.map((category) => category.key));
   const displayItems = portfolioItems.filter((item) =>
     knownCategorySet.has(item.category),

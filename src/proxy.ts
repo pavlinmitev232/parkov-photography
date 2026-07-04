@@ -16,5 +16,5 @@ export default async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/(bg|en)/:path*"],
+  matcher: ["/", "/(bg|en)/parkov-owner-portal-7f3a/:path*"],
 };

@@ -1,4 +1,4 @@
-import { revalidateTag, unstable_cache } from "next/cache";
+import { revalidatePath, revalidateTag, unstable_cache } from "next/cache";
 import { prisma } from "@/lib/db/prisma";
 import { portfolio } from "@/lib/site-data";
 import {
@@ -306,6 +306,10 @@ export const getCachedPublicHomeData = unstable_cache(
 
 export function revalidatePublicHomeData(options?: { includeSettings?: boolean }) {
   revalidateTag(publicHomeDataTag, { expire: 0 });
+  revalidatePath("/bg");
+  revalidatePath("/en");
+  revalidatePath("/bg/gallery");
+  revalidatePath("/en/gallery");
 
   if (options?.includeSettings) {
     revalidateTag(publicSiteSettingsTag, { expire: 0 });
