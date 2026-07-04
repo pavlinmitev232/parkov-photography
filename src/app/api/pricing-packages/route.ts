@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getOwnerSession } from "@/lib/auth/owner-session";
 import { prisma } from "@/lib/db/prisma";
+import { revalidatePublicHomeData } from "@/lib/public-home-data";
 import { pricingPackageSchema } from "@/lib/validations/site-content";
 
 export const runtime = "nodejs";
@@ -31,6 +32,7 @@ export async function POST(request: Request) {
         sortOrder: (lastItem?.sortOrder ?? 0) + 1,
       },
     });
+    revalidatePublicHomeData();
     return NextResponse.json({ ok: true, pricingPackage });
   } catch {
     return NextResponse.json(

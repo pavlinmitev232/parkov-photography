@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getOwnerSession } from "@/lib/auth/owner-session";
 import { prisma } from "@/lib/db/prisma";
+import { revalidatePublicHomeData } from "@/lib/public-home-data";
 import { deleteManagedImage } from "@/lib/storage/image-storage";
 import { portfolioItemSchema } from "@/lib/validations/portfolio";
 
@@ -56,6 +57,7 @@ export async function PATCH(
   if (current.imageUrl !== item.imageUrl) {
     await deleteManagedImage(current.imageUrl, "portfolio");
   }
+  revalidatePublicHomeData();
 
   return NextResponse.json({ ok: true, item });
 }
@@ -77,6 +79,7 @@ export async function DELETE(
     select: { imageUrl: true },
   });
   await deleteManagedImage(item.imageUrl, "portfolio");
+  revalidatePublicHomeData();
 
   return NextResponse.json({ ok: true });
 }

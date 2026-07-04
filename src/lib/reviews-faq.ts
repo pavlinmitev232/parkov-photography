@@ -2,7 +2,20 @@ import { connection } from "next/server";
 import { prisma } from "@/lib/db/prisma";
 import { shouldSeedDefaultContent } from "@/lib/default-content";
 
-const defaultTestimonials = [
+export type PublicTestimonial = {
+  id: string;
+  name: string;
+  role: string;
+  quote: string;
+};
+
+export type PublicFaqItem = {
+  id: string;
+  question: string;
+  answer: string;
+};
+
+export const defaultTestimonials = [
   {
     nameBg: "Мария Д.",
     nameEn: "Maria D.",
@@ -35,7 +48,7 @@ const defaultTestimonials = [
   },
 ];
 
-const defaultFaqs = [
+export const defaultFaqs = [
   {
     questionBg: "Пътувате ли извън един град?",
     questionEn: "Do you travel outside one city?",
@@ -108,7 +121,9 @@ export async function ensureDefaultReviewsAndFaqs() {
   ]);
 }
 
-export async function getPublicTestimonials(locale: string) {
+export async function getPublicTestimonials(
+  locale: string,
+): Promise<PublicTestimonial[]> {
   await connection();
   try {
     const items = await prisma.testimonial.findMany({
@@ -132,7 +147,7 @@ export async function getPublicTestimonials(locale: string) {
   }
 }
 
-export async function getPublicFaqs(locale: string) {
+export async function getPublicFaqs(locale: string): Promise<PublicFaqItem[]> {
   await connection();
   try {
     const items = await prisma.faqItem.findMany({

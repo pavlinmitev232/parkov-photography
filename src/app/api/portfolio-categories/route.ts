@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getOwnerSession } from "@/lib/auth/owner-session";
 import { prisma } from "@/lib/db/prisma";
+import { revalidatePublicHomeData } from "@/lib/public-home-data";
 import { portfolioCategorySchema } from "@/lib/validations/portfolio-category";
 
 export const runtime = "nodejs";
@@ -35,6 +36,7 @@ export async function POST(request: Request) {
         sortOrder: (lastCategory?.sortOrder ?? 0) + 1,
       },
     });
+    revalidatePublicHomeData();
 
     return NextResponse.json({ ok: true, category });
   } catch {

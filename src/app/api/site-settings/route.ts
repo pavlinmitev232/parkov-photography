@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getOwnerSession } from "@/lib/auth/owner-session";
+import { revalidatePublicHomeData } from "@/lib/public-home-data";
 import { deleteManagedImage } from "@/lib/storage/image-storage";
 import { getSiteSettings, saveSiteSettings } from "@/lib/site-settings";
 import { siteSettingsSchema } from "@/lib/validations/site-settings";
@@ -39,6 +40,7 @@ export async function PATCH(request: Request) {
       }
     }),
   );
+  revalidatePublicHomeData({ includeSettings: true });
 
   return NextResponse.json({ ok: true });
 }

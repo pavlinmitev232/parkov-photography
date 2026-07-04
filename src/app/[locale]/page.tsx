@@ -28,16 +28,12 @@ import { RequestForm } from "@/components/request-form";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { serviceIcons } from "@/lib/site-data";
 import {
-  getPublicPricingPackages,
-  getPublicServices,
-} from "@/lib/site-content";
-import { getPublicPortfolioItems } from "@/lib/portfolio";
-import { getPublicPortfolioCategories } from "@/lib/portfolio-categories";
-import { getPublicFaqs, getPublicTestimonials } from "@/lib/reviews-faq";
+  getCachedPublicHomeData,
+  getCachedSiteSettings,
+} from "@/lib/public-home-data";
 import {
   getContactMethods,
   getMapEmbedUrl,
-  getSiteSettings,
   getSocialLinks,
   localizedSettings,
 } from "@/lib/site-settings";
@@ -49,7 +45,7 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const settings = await getSiteSettings();
+  const settings = await getCachedSiteSettings();
 
   return {
     title: locale === "bg" ? settings.seoTitleBg : settings.seoTitleEn,
@@ -70,7 +66,7 @@ export default async function HomePage({
   const nav = await getTranslations("nav");
   const common = await getTranslations("common");
   const alternateLocale = locale === "bg" ? "en" : "bg";
-  const [
+  const {
     portfolioItems,
     portfolioCategories,
     publicServices,
@@ -78,16 +74,7 @@ export default async function HomePage({
     settings,
     publicTestimonials,
     publicFaqs,
-  ] =
-    await Promise.all([
-      getPublicPortfolioItems(locale),
-      getPublicPortfolioCategories(locale),
-      getPublicServices(locale),
-      getPublicPricingPackages(locale),
-      getSiteSettings(),
-      getPublicTestimonials(locale),
-      getPublicFaqs(locale),
-    ]);
+  } = await getCachedPublicHomeData(locale);
   const content = localizedSettings(settings, locale);
   const announcementText = settings.announcementEnabled
     ? content.announcementText.trim()

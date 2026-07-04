@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getOwnerSession } from "@/lib/auth/owner-session";
 import { prisma } from "@/lib/db/prisma";
+import { revalidatePublicHomeData } from "@/lib/public-home-data";
 import { serviceItemUpdateSchema } from "@/lib/validations/site-content";
 
 export const runtime = "nodejs";
@@ -75,6 +76,7 @@ export async function PATCH(
     delete data.direction;
     await prisma.serviceItem.update({ where: { id }, data });
   }
+  revalidatePublicHomeData();
 
   return NextResponse.json({ ok: true });
 }
@@ -90,5 +92,6 @@ export async function DELETE(
   const { id } = await params;
   await prisma.serviceItem.delete({ where: { id } }).catch(() => null);
   await normalizeOrder();
+  revalidatePublicHomeData();
   return NextResponse.json({ ok: true });
 }

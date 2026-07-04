@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getOwnerSession } from "@/lib/auth/owner-session";
 import { prisma } from "@/lib/db/prisma";
+import { revalidatePublicHomeData } from "@/lib/public-home-data";
 import { portfolioCategoryUpdateSchema } from "@/lib/validations/portfolio-category";
 
 export const runtime = "nodejs";
@@ -81,6 +82,7 @@ export async function PATCH(
 
   if (parsed.data.direction) {
     await swapCategoryOrder(id, parsed.data.direction);
+    revalidatePublicHomeData();
     return NextResponse.json({ ok: true });
   }
 
@@ -94,6 +96,7 @@ export async function PATCH(
       ...(typeof visible === "boolean" ? { visible } : {}),
     },
   });
+  revalidatePublicHomeData();
 
   return NextResponse.json({ ok: true });
 }
@@ -131,6 +134,7 @@ export async function DELETE(
 
   await prisma.portfolioCategory.delete({ where: { id } });
   await normalizeCategoryOrder();
+  revalidatePublicHomeData();
 
   return NextResponse.json({ ok: true });
 }
