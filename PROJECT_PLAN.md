@@ -49,6 +49,40 @@ Read this section first when continuing in a new Codex chat.
 - Native browser confirm dialogs have been replaced in owner booking deletion with an in-app confirmation dialog.
 - Stale development and placeholder notes were replaced with owner- and client-facing copy.
 - The last completed verification passed `npm run lint`, `npm run build`, desktop/mobile Browser checks, reversible API smoke tests, Supabase Storage upload/replacement/deletion checks, public route/image checks, and public secret-exposure checks.
+- Client-owned production setup is in progress as of July 2, 2026:
+  Nikolay's GitHub fork is connected to Nikolay's Netlify project
+  `parkov-photography` (`e86f8fa3-3730-4be0-a8dd-df6249eac3ca`), live at
+  `https://parkov-photography.netlify.app`.
+- Client-owned Supabase production project `parkov-photography`
+  (`ulpfrrgromitahoqmggg`) is live in Central EU (Frankfurt),
+  `eu-central-1`. All committed Prisma migrations are applied, public Storage
+  buckets `portfolio` and `site-assets` exist, and the owner Auth user
+  `nikolayparkov06@gmail.com` has trusted `app_metadata.role = "owner"`.
+- Client production secrets and the generated owner temporary password are
+  stored only in ignored `.env.owner.local`. Do not copy values into chat or
+  tracked files.
+- GitHub Actions keepalive workflows now ping the public staging and production
+  `/bg` pages every 3 days to keep both Supabase projects active.
+- `parkovvisuals.com` and `www.parkovvisuals.com` are added to the owner
+  Netlify site. Namecheap authoritative DNS points root to Netlify
+  (`A @ -> 75.2.60.5`) and `www` to
+  `parkov-photography.netlify.app`; Netlify SSL was still pending during the
+  last check, and one local resolver still had a stale Vercel `www` cache.
+- Owner portfolio creation now supports selecting up to 20 images at once.
+  Files are staged in the browser, uploaded through the existing validated
+  image endpoint with a concurrency limit of four, and saved as separate
+  portfolio records in one database transaction. Uploaded files are cleaned up
+  when a partial upload or batch save fails.
+- Bulgarian and English portfolio titles are optional. If only one language is
+  filled, public pages use it as the fallback in both locales; if both are
+  empty, public cards omit the heading and retain accessible category-based
+  image/dialog labels.
+- Owner portfolio uploads now optimize files larger than 1.5 MB in the browser:
+  the longest edge is capped at 2560 px and the result is encoded as quality
+  `0.86` WebP when that produces a smaller file. Small files and any image the
+  browser cannot optimize are uploaded unchanged. The owner UI reports batch
+  progress, and desktop portfolio cards use bounded `144 x 128` thumbnails
+  instead of stretching images to the row height; mobile cards remain wide.
 
 ### Production Stack Decision
 
@@ -79,15 +113,31 @@ Codex must be restarted before a new chat so these skills are loaded.
 
 ### Immediate Next Task
 
-1. Let the client review the staging URL and collect approved Parkov logo,
-   favicon, images, contacts, services, pricing, bilingual copy, and final domain.
-2. Enter approved content through the owner portal and rerun a short public
-   visual smoke check.
-3. After client approval, prepare client-owned Supabase, Resend, Netlify,
-   GitHub, domain, and DNS resources using `DEPLOYMENT_AND_HANDOFF.md`.
-4. Before final production, complete the remaining auth/email hardening:
-   verified Parkov sending domain, Supabase Auth email delivery, password-reset
-   email/recovery-link test, and removal of the legacy owner auth variables.
+1. Recheck `parkovvisuals.com` and `www.parkovvisuals.com` DNS/HTTPS. Proceed
+   only after Netlify SSL is active and both domains serve Netlify, not Vercel.
+   July 2 follow-up: authoritative Namecheap DNS has the intended Netlify
+   records, but the local/default resolver still returns old Vercel records,
+   `https://parkovvisuals.com` serves the old Vercel "My Google AI Studio App",
+   and `https://www.parkovvisuals.com` still fails TLS.
+   July 3 follow-up: HTTPS is active. The live Let's Encrypt certificate covers
+   both `parkovvisuals.com` and `www.parkovvisuals.com`, and BG/EN pages return
+   `200` from Netlify over HTTPS.
+2. Update Supabase Auth production Site URL and redirect allowlist from the
+   temporary Netlify subdomain to the final domain:
+   `https://parkovvisuals.com` and
+   `https://parkovvisuals.com/api/owner-auth-callback`. Keep the Netlify
+   subdomain redirect temporarily during the transition if needed.
+3. Update Netlify/app public URL variables if the project adds one later, then
+   trigger a cloud deploy and test owner login on the final domain.
+4. Configure owner-owned Resend for `parkovvisuals.com`, preferably a sending
+   subdomain such as `send.parkovvisuals.com`, add DNS records, create the
+   sending key, update Netlify, redeploy, and test inquiry notifications.
+5. Run production QA on the final domain: public BG/EN pages, owner login,
+   uploads/replacements/deletions, inquiry create/display/status, password
+   reset, and browser secret-exposure checks.
+6. After the owner accepts production, remove/revoke temporary developer access,
+   stale tokens, unused Vercel domain attachment if desired, and legacy owner
+   auth variables/code only after the Supabase Auth cutover is fully accepted.
 
 ### User Authorization Boundaries
 
@@ -153,6 +203,7 @@ Do not expose secrets in source control, terminal summaries, screenshots, or cha
 - [x] Editable animated hero statistics added
 - [x] About-point stagger, checkmark, and accent reveal animation added
 - [x] Existing portfolio item editing and image replacement added
+- [x] Multi-image portfolio creation and optional bilingual titles added
 - [x] Gallery lightbox previous/next, keyboard, looping, and mobile swipe navigation added
 - [x] Development placeholder copy cleanup completed
 
@@ -299,7 +350,20 @@ characters, but the UI shows only a generic error. Before launch:
 - [x] Replace local hero, about, and logo uploads with Supabase Storage
 - [x] Delete superseded cloud assets when appropriate
 - [x] Validate file type and size before upload
-- [ ] Optimize uploaded photography for web delivery
+- [x] Optimize uploaded photography for web delivery
+- [x] Create client-owned Supabase production project
+      `parkov-photography` (`ulpfrrgromitahoqmggg`) in Frankfurt.
+- [x] Apply all committed Prisma migrations to the client-owned database.
+- [x] Create client-owned public Storage buckets `portfolio` and `site-assets`.
+- [x] Configure client production Supabase env vars in Nikolay's Netlify site
+      using the same new-key model as staging: `sb_publishable...` for browser
+      Auth and `sb_secret...` for server-side privileged calls.
+- [x] Create owner Auth user `nikolayparkov06@gmail.com` and set trusted
+      `app_metadata.role = "owner"`.
+- [x] Configure Supabase Auth Site URL and callback for the temporary Netlify
+      production URL.
+- [ ] Switch Supabase Auth Site URL/callback to `parkovvisuals.com` after
+      Netlify SSL is active.
 
 ### Resend
 
@@ -327,7 +391,19 @@ characters, but the UI shows only a generic error. Before launch:
 - [x] Deploy a staging version from `main`
 - [x] Confirm basic Next.js routes, proxy/middleware, and image rendering
 - [x] Confirm owner uploads persist after a fresh deployment
-- [ ] Configure custom domain and DNS
+- [x] Create client-owned Netlify project `parkov-photography`
+      (`e86f8fa3-3730-4be0-a8dd-df6249eac3ca`) in Nikolay's team.
+- [x] Connect Nikolay's GitHub fork `nikolayparkov06/parkov-photography`.
+- [x] Configure owner Supabase variables and cloud deploy from the fork.
+- [x] Confirm public BG/EN routes and owner login route return `200` on
+      `https://parkov-photography.netlify.app`.
+- [x] Add `parkovvisuals.com` and `www.parkovvisuals.com` to the Netlify site.
+- [x] Update Namecheap authoritative DNS for Netlify:
+      `A @ -> 75.2.60.5` and
+      `CNAME www -> parkov-photography.netlify.app`.
+- [x] Add scheduled GitHub Actions keepalive pings for staging and production.
+- [ ] Wait for all resolvers to stop serving the old Vercel `www` record.
+- [x] Confirm Netlify SSL certificate issuance for root and `www`.
 
 ### Supabase Owner Auth Replacement
 
@@ -509,18 +585,54 @@ Implementation note on June 25, 2026:
 
 ## Open Questions
 
-- Which Parkov domain will be used for the public site and Resend sender verification?
+- Use `parkovvisuals.com` for the public site. Resend should use a dedicated
+  sending subdomain such as `send.parkovvisuals.com` unless the owner chooses
+  a different email strategy.
 - Should pricing be public, hidden, or "starting from" style?
 - Does the owner need blog/news management after launch?
 
 ## Next Recommended Work
 
-1. Collect approved Parkov content and confirm the final domain.
-2. Enter approved content through the owner portal and rerun a short staging
-   visual smoke test.
-3. Configure the verified Parkov sending domain, final Supabase Auth email
-   delivery, and the Reset Password email template, then test the real owner
-   email delivery once.
-4. Create or transfer client-owned production resources and perform launch QA.
-5. Remove the legacy owner auth variables and custom session code only after
-   Supabase Auth is accepted for production.
+1. Wait for `parkovvisuals.com` / `www.parkovvisuals.com` DNS and Netlify SSL
+   to finish, then set the final domain as the production auth/canonical target.
+   July 2 follow-up: do not switch Supabase yet; the domain still resolves to
+   old Vercel records on the local/default resolver and HTTPS is not clean.
+2. Configure owner-owned Resend for `send.parkovvisuals.com`, update Netlify
+   email variables, redeploy, and test inquiry notification delivery.
+3. Enter approved Parkov content through the owner portal and rerun final
+   production QA on the real domain.
+4. Test owner password reset using the final domain and token-hash callback.
+5. Remove or revoke temporary developer access, stale Vercel attachments, old
+   tokens, and legacy owner auth variables/code only after the owner accepts
+   production.
+
+## Verification Update: August 5, 2026
+
+- `npm run lint` passes.
+- `npx tsc --noEmit` passes.
+- `npm run build:staging` passes and includes the protected
+  `/api/portfolio-items/batch` route.
+- Plain `npm run build` compiled and passed TypeScript, but local static data
+  generation could not complete because Docker Desktop/local PostgreSQL was not
+  running (`ECONNREFUSED`). `npm run db:up` also could not start because the
+  Docker Desktop Linux engine was unavailable.
+- Browser automation verified owner login and loaded the production-configured
+  portfolio page without submitting data. It caught and prompted correction of
+  misplaced optional-title translation keys. A final repeat was not completed
+  because the live portfolio database read became intermittent/hung; no client
+  portfolio records or Storage objects were created, changed, or removed.
+- Follow-up upload-performance verification passed `npm run lint`,
+  `npx tsc --noEmit`, and `npm run build:staging`. A headless-Chrome optimizer
+  smoke test reduced a synthetic noisy `6,804,534`-byte JPEG to a
+  `2,747,670`-byte, `2560 x 1760` WebP (about 60% smaller). This is a deliberately
+  hard-to-compress test image; normal photographs are expected to vary.
+
+### Next Chat Start Here
+
+1. Read `AGENTS.md`, this handoff section, and the relevant Next.js 16 docs.
+2. Start Docker Desktop and run `npm run db:up` before a plain local build or
+   local database-backed browser test.
+3. In the owner portfolio page, verify selecting/removing multiple previews and
+   perform one reversible two-image save/delete smoke test in an approved
+   environment.
+4. Run `npm run lint` and `npm run build:staging` after follow-up changes.

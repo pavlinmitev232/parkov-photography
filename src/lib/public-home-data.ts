@@ -69,7 +69,10 @@ function localizePortfolioItems(
 
   return items.map((item) => ({
     id: item.id,
-    title: locale === "bg" ? item.titleBg : item.titleEn,
+    title:
+      locale === "bg"
+        ? item.titleBg || item.titleEn
+        : item.titleEn || item.titleBg,
     category: item.category,
     image: item.imageUrl,
     location: item.location,

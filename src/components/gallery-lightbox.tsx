@@ -94,7 +94,7 @@ export function GalleryLightbox({
           exit={{ opacity: 0 }}
           role="dialog"
           aria-modal="true"
-          aria-label={activeItem.title}
+          aria-label={activeItem.title || labels[activeItem.category]}
           onClick={onClose}
         >
           <button
@@ -174,7 +174,7 @@ export function GalleryLightbox({
               >
                 <Image
                   src={activeItem.image}
-                  alt={activeItem.title}
+                  alt={activeItem.title || labels[activeItem.category]}
                   fill
                   unoptimized
                   sizes="100vw"
@@ -186,9 +186,11 @@ export function GalleryLightbox({
                       <p className="text-base/6 font-bold tracking-[0.18em] text-white/68 sm:text-sm/6">
                         {labels[activeItem.category]}
                       </p>
-                      <h2 className="font-serif text-3xl font-bold sm:text-4xl">
-                        {activeItem.title}
-                      </h2>
+                      {activeItem.title && (
+                        <h2 className="font-serif text-3xl font-bold sm:text-4xl">
+                          {activeItem.title}
+                        </h2>
+                      )}
                       {(activeItem.location ||
                         activeItem.shootYear ||
                         activeItem.clientType) && (

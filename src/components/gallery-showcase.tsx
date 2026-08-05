@@ -75,7 +75,7 @@ export function GalleryShowcase({
             >
               <Image
                 src={item.image}
-                alt={item.title}
+                alt={item.title || labels[item.category]}
                 fill
                 unoptimized
                 sizes="(min-width: 768px) 33vw, 100vw"
@@ -86,7 +86,9 @@ export function GalleryShowcase({
                 <span className="text-xs font-bold uppercase tracking-[0.22em] text-white/65">
                   {labels[item.category]}
                 </span>
-                <h3 className="mt-2 font-serif text-3xl font-bold">{item.title}</h3>
+                {item.title && (
+                  <h3 className="mt-2 font-serif text-3xl font-bold">{item.title}</h3>
+                )}
                 {(item.location || item.shootYear || item.clientType) && (
                   <p className="mt-2 text-sm text-white/72">
                     {[item.location, item.shootYear, item.clientType]

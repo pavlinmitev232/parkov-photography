@@ -121,7 +121,7 @@ export function GalleryBrowser({
                   >
                     <Image
                       src={item.image}
-                      alt={item.title}
+                      alt={item.title || labels[item.category]}
                       fill
                       unoptimized
                       sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
@@ -132,9 +132,11 @@ export function GalleryBrowser({
                       <p className="text-sm font-bold tracking-[0.18em] text-white/68">
                         {labels[item.category]}
                       </p>
-                      <h2 className="mt-2 font-serif text-2xl font-bold md:text-3xl">
-                        {item.title}
-                      </h2>
+                      {item.title && (
+                        <h2 className="mt-2 font-serif text-2xl font-bold md:text-3xl">
+                          {item.title}
+                        </h2>
+                      )}
                       {(item.location || item.shootYear || item.clientType) && (
                         <p className="mt-2 text-sm text-white/72">
                           {[item.location, item.shootYear, item.clientType]
