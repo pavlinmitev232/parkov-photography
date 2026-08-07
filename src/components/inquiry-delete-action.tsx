@@ -51,12 +51,16 @@ export function InquiryDeleteAction({
           setError("");
           setOpen(true);
         }}
-        className="inline-flex min-h-11 items-center gap-2 rounded-md border border-line px-3 text-sm font-bold text-muted transition hover:border-error hover:text-error focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-error"
+        className="relative inline-flex min-h-9 items-center gap-2 rounded-md border border-line py-2 pr-3 pl-2 text-sm font-bold text-muted hover:border-error hover:text-error focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-error"
         aria-label={t("action")}
         title={t("action")}
       >
         <Trash2 className="size-4" aria-hidden="true" />
         <span>{t("shortAction")}</span>
+        <span
+          className="pointer-fine:hidden absolute top-1/2 left-1/2 size-[max(100%,3rem)] -translate-x-1/2 -translate-y-1/2"
+          aria-hidden="true"
+        />
       </button>
       {error ? (
         <p className="mt-2 max-w-48 text-sm text-error" role="alert">

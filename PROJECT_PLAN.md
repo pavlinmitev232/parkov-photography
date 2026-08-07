@@ -137,7 +137,17 @@ Read this section first when continuing in a new Codex chat.
   the mobile table remains horizontally scrollable, and the Bulgarian policy
   shows the revised retention wording. The optional visible "last updated"
   date was subsequently removed from both language versions at the owner's
-  request; the policy content itself remains unchanged.
+  request; the policy content itself remains unchanged. The inquiry delete
+  action is now the first table column so it remains immediately accessible on
+  narrow screens. Its confirmation explicitly states that linked bookings and
+  emailed notification copies are separate; bookings already have their own
+  protected delete action, while mailbox copies require manual removal. The
+  code-level personal-data inventory also found short-lived IP-based rate-limit
+  entries (memory-only, 15-minute window) and potentially identifiable public
+  portfolio images/testimonials; the existing portfolio and testimonial delete
+  controls cover those records, including managed portfolio image objects.
+  Erasure requests must be assessed record-by-record because contract, legal,
+  or claims-related retention may justify keeping a specific booking or message.
 
 ### Production Stack Decision
 

@@ -457,7 +457,7 @@
       "action": "Delete inquiry",
       "shortAction": "Delete",
       "title": "Delete this inquiry?",
-      "description": "This permanently deletes the inquiry from {name} and its personal data. Any linked booking will remain in the calendar.",
+      "description": "This permanently deletes only the inquiry from {name} and the personal data in that record. A linked booking and the emailed notification are not deleted automatically.",
       "confirm": "Delete inquiry",
       "cancel": "Cancel",
       "busy": "Deleting...",

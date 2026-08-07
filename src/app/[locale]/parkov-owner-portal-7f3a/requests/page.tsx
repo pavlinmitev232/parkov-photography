@@ -66,6 +66,9 @@ export default async function AdminRequestsPage({
               <table className="w-full min-w-[1020px] border-collapse text-left text-sm">
                 <thead className="bg-surface text-xs uppercase tracking-[0.16em] text-muted">
                   <tr>
+                    <th className="whitespace-nowrap px-5 py-4">
+                      {t("table.actions")}
+                    </th>
                     <th className="px-5 py-4">{t("table.client")}</th>
                     <th className="px-5 py-4">{t("table.service")}</th>
                     <th className="px-5 py-4">{t("table.contact")}</th>
@@ -74,12 +77,17 @@ export default async function AdminRequestsPage({
                     <th className="px-5 py-4">{t("table.status")}</th>
                     <th className="px-5 py-4">{t("table.reply")}</th>
                     <th className="px-5 py-4">{t("table.message")}</th>
-                    <th className="px-5 py-4">{t("table.actions")}</th>
                   </tr>
                 </thead>
                 <tbody>
                   {inquiries.map((inquiry) => (
                     <tr className="border-t border-line align-top" key={inquiry.id}>
+                      <td className="px-5 py-4">
+                        <InquiryDeleteAction
+                          inquiryId={inquiry.id}
+                          customerName={inquiry.name}
+                        />
+                      </td>
                       <td className="px-5 py-4">
                         <strong className="block">{inquiry.name}</strong>
                         <a className="block text-muted hover:text-accent" href={`mailto:${inquiry.email}`}>
@@ -138,12 +146,6 @@ export default async function AdminRequestsPage({
                       </td>
                       <td className="max-w-md px-5 py-4 leading-6 text-muted">
                         {inquiry.message}
-                      </td>
-                      <td className="px-5 py-4">
-                        <InquiryDeleteAction
-                          inquiryId={inquiry.id}
-                          customerName={inquiry.name}
-                        />
                       </td>
                     </tr>
                   ))}
