@@ -5,7 +5,6 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { GalleryBrowser } from "@/components/gallery-browser";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Link } from "@/i18n/routing";
-import { shouldSkipImageOptimization } from "@/lib/image-url";
 import { getCachedPublicHomeData } from "@/lib/public-home-data";
 
 export const dynamic = "force-static";
@@ -112,7 +111,6 @@ export default async function GalleryPage({
             fill
             priority
             sizes="44vw"
-            unoptimized={shouldSkipImageOptimization(heroImageUrl)}
             className="object-cover opacity-24"
           />
           <div className="absolute inset-0 bg-linear-to-r from-background via-background/72 to-background/10" />

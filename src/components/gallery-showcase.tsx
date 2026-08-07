@@ -77,8 +77,11 @@ export function GalleryShowcase({
                 src={item.image}
                 alt={item.title || labels[item.category]}
                 fill
-                unoptimized
-                sizes="(min-width: 768px) 33vw, 100vw"
+                sizes={
+                  index === 0 || index === 5
+                    ? "(min-width: 1280px) 850px, (min-width: 768px) 66vw, calc(100vw - 40px)"
+                    : "(min-width: 1280px) 416px, (min-width: 768px) 33vw, calc(100vw - 40px)"
+                }
                 className="object-cover transition duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/78 via-black/16 to-transparent" />

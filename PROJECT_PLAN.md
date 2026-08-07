@@ -94,6 +94,21 @@ Read this section first when continuing in a new Codex chat.
   images loaded, no broken images or browser errors. `npm run lint` and
   `npm run build` pass. Verify the Netlify production deploy and live homepage
   after the main-branch push.
+- August 7 cold-load performance investigation: Netlify edge hits measured
+  about `0.2-0.5s`, and an expired/stale ISR request measured about `0.7s`, so
+  the reported 6-7 second delay was not primarily database or ISR latency. A
+  mobile Lighthouse run against production scored 64 with `3.8s` FCP, `12.2s`
+  LCP, and about `4.4 MB` transferred. The homepage bypassed Next/Netlify image
+  resizing; Chrome's lazy-load distance pulled three roughly 1 MB portfolio
+  images into the initial load before the gallery was reached. The local fix
+  enables responsive optimization for homepage cards and site hero/about/logo
+  imagery, adds card-aware `sizes`, and keeps the hero text visible while its
+  entrance movement runs. Against the real 65-photo dataset, the equivalent
+  local production Lighthouse run scored 87 with `0.9s` FCP, `4.1s` LCP, and
+  about `1.1 MB` transferred. All 65 cards retained their animations, used
+  optimized image URLs, and showed no broken images or browser errors. Lint and
+  the production-data build pass. The performance fix targets upstream `main`;
+  the Netlify production site still requires the client fork to sync that commit.
 
 ### Production Stack Decision
 
