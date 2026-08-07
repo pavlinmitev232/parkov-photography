@@ -83,6 +83,17 @@ Read this section first when continuing in a new Codex chat.
   browser cannot optimize are uploaded unchanged. The owner UI reports batch
   progress, and desktop portfolio cards use bounded `144 x 128` thumbnails
   instead of stretching images to the row height; mobile cards remain wide.
+- August 7 production homepage regression diagnosed and fixed locally: all 65
+  production portfolio rows and Storage objects were healthy, but the homepage
+  wrapped the entire 8,286 px gallery in a Framer Motion `whileInView` animation
+  requiring 20% visibility. That threshold could never fit inside the browser
+  viewport, leaving the parent section permanently at `opacity: 0`. The fix in
+  `src/app/[locale]/page.tsx` makes the gallery container a normal `section`;
+  individual photo animations remain. Verified against the read-only production
+  dataset on local port 3001: 65 cards rendered, parent opacity was `1`, visible
+  images loaded, no broken images or browser errors. `npm run lint` and
+  `npm run build` pass. Verify the Netlify production deploy and live homepage
+  after the main-branch push.
 
 ### Production Stack Decision
 

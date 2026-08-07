@@ -22,7 +22,6 @@ import {
   MotionGroup,
   MotionHeader,
   MotionItem,
-  MotionSection,
 } from "@/components/motion";
 import { RequestForm } from "@/components/request-form";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -299,12 +298,8 @@ export default async function HomePage({
         </div>
       </section>}
 
-      <MotionSection
+      <section
         id="work"
-        initial={{ y: 40, opacity: 0 }}
-        whileInView={{ y: 0, opacity: 1 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.7 }}
         className="px-5 py-24 md:px-8"
       >
         <div className="mx-auto max-w-7xl">
@@ -333,7 +328,7 @@ export default async function HomePage({
             swipeLabel={common("galleryNavigation")}
           />
         </div>
-      </MotionSection>
+      </section>
 
       {settings.showServices && <section id="services" className="border-y border-line bg-surface px-5 py-24 md:px-8">
         <div className="mx-auto max-w-7xl">
