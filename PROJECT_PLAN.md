@@ -135,7 +135,9 @@ Read this section first when continuing in a new Codex chat.
   authenticated deletion succeeds, and a linked booking remains safely
   unlinked. Desktop and 390px browser checks confirmed the action is visible,
   the mobile table remains horizontally scrollable, and the Bulgarian policy
-  shows the revised retention wording.
+  shows the revised retention wording. The optional visible "last updated"
+  date was subsequently removed from both language versions at the owner's
+  request; the policy content itself remains unchanged.
 
 ### Production Stack Decision
 

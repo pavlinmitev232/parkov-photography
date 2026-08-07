@@ -16,7 +16,6 @@ type PrivacyCopy = {
   description: string;
   eyebrow: string;
   intro: string;
-  updated: string;
   backHome: string;
   contents: string;
   sections: Array<{
@@ -35,7 +34,6 @@ const privacyCopy: Record<"bg" | "en", PrivacyCopy> = {
     eyebrow: "Лични данни",
     intro:
       "Тази политика обяснява как обработваме личните данни, които ни изпращате чрез формата за запитване или когато се свържете с нас директно.",
-    updated: "Последна актуализация: 8 август 2026 г.",
     backHome: "Към началната страница",
     contents: "В тази политика",
     sections: [
@@ -142,7 +140,6 @@ const privacyCopy: Record<"bg" | "en", PrivacyCopy> = {
     eyebrow: "Personal data",
     intro:
       "This policy explains how we process the personal data you submit through the inquiry form or when you contact us directly.",
-    updated: "Last updated: 8 August 2026.",
     backHome: "Back to homepage",
     contents: "In this policy",
     sections: [
@@ -316,9 +313,6 @@ export default async function PrivacyPage({
           </h1>
           <p className="mt-6 max-w-[64ch] text-base leading-7 text-muted text-pretty md:text-lg md:leading-8">
             {copy.intro}
-          </p>
-          <p className="mt-5 text-base leading-7 text-muted sm:text-sm sm:leading-6">
-            {copy.updated}
           </p>
         </div>
       </section>
