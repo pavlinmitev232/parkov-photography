@@ -118,7 +118,10 @@ Read this section first when continuing in a new Codex chat.
   was added. The controller's displayed brand/contact details come from the
   owner-managed site settings; the owner should have the wording legally
   reviewed and confirm that the displayed identity is sufficient for their
-  registered business form.
+  registered business form. The public wording uses recipient categories
+  (database/storage, hosting/security, and transactional email) rather than
+  naming individual technology vendors, keeping the notice accurate if a
+  provider changes while still describing who can receive inquiry data.
 
 ### Production Stack Decision
 
