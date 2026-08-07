@@ -453,6 +453,16 @@
     "noContact": "Not specified",
     "saving": "Saving...",
     "statusError": "Could not save status.",
+    "delete": {
+      "action": "Delete inquiry",
+      "shortAction": "Delete",
+      "title": "Delete this inquiry?",
+      "description": "This permanently deletes the inquiry from {name} and its personal data. Any linked booking will remain in the calendar.",
+      "confirm": "Delete inquiry",
+      "cancel": "Cancel",
+      "busy": "Deleting...",
+      "error": "The inquiry could not be deleted. Please try again."
+    },
     "reply": {
       "action": "Reply by email",
       "noEmail": "No valid email was provided.",
@@ -503,7 +513,8 @@
       "date": "Preferred date",
       "status": "Status",
       "reply": "Reply",
-      "message": "Message"
+      "message": "Message",
+      "actions": "Actions"
     }
   },
   "adminBookings": {

@@ -2,6 +2,7 @@ import { ArrowLeft, Inbox } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { InquiryStatusSelect } from "@/components/inquiry-status-select";
 import { InquiryReplyAction } from "@/components/inquiry-reply-action";
+import { InquiryDeleteAction } from "@/components/inquiry-delete-action";
 import { Link } from "@/i18n/routing";
 import { requireOwnerSession } from "@/lib/auth/owner-session";
 import { adminPath } from "@/lib/admin-path";
@@ -62,7 +63,7 @@ export default async function AdminRequestsPage({
         ) : (
           <div className="overflow-hidden rounded-md border border-line bg-background">
             <div className="overflow-x-auto">
-              <table className="w-full min-w-[900px] border-collapse text-left text-sm">
+              <table className="w-full min-w-[1020px] border-collapse text-left text-sm">
                 <thead className="bg-surface text-xs uppercase tracking-[0.16em] text-muted">
                   <tr>
                     <th className="px-5 py-4">{t("table.client")}</th>
@@ -73,6 +74,7 @@ export default async function AdminRequestsPage({
                     <th className="px-5 py-4">{t("table.status")}</th>
                     <th className="px-5 py-4">{t("table.reply")}</th>
                     <th className="px-5 py-4">{t("table.message")}</th>
+                    <th className="px-5 py-4">{t("table.actions")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -136,6 +138,12 @@ export default async function AdminRequestsPage({
                       </td>
                       <td className="max-w-md px-5 py-4 leading-6 text-muted">
                         {inquiry.message}
+                      </td>
+                      <td className="px-5 py-4">
+                        <InquiryDeleteAction
+                          inquiryId={inquiry.id}
+                          customerName={inquiry.name}
+                        />
                       </td>
                     </tr>
                   ))}

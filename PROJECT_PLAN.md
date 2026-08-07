@@ -125,7 +125,17 @@ Read this section first when continuing in a new Codex chat.
   naming individual technology vendors, keeping the notice accurate if a
   provider changes while still describing who can receive inquiry data. The
   controller is described simply as the owner of Parkov; the redundant
-  "operator" wording was removed in both languages.
+  "operator" wording was removed in both languages. The retention section now
+  states that stored inquiries are periodically reviewed and unnecessary data
+  is deleted or anonymized. The protected owner inquiries table includes a
+  permanent-delete action with a bilingual confirmation dialog; deleting an
+  inquiry preserves any linked booking and sets its inquiry link to `null`.
+  Verification on August 8: lint and the production-data build passed; a
+  temporary local inquiry confirmed that unauthenticated deletion returns 401,
+  authenticated deletion succeeds, and a linked booking remains safely
+  unlinked. Desktop and 390px browser checks confirmed the action is visible,
+  the mobile table remains horizontally scrollable, and the Bulgarian policy
+  shows the revised retention wording.
 
 ### Production Stack Decision
 

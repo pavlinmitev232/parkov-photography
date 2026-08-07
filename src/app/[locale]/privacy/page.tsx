@@ -100,7 +100,8 @@ const privacyCopy: Record<"bg" | "en", PrivacyCopy> = {
         id: "retention",
         title: "7. Колко дълго пазим данните",
         paragraphs: [
-          "Пазим запитванията, докато са необходими за комуникацията, подготовката на оферта и проследяването на проекта, след което ги преглеждаме и изтриваме, когато вече няма основание да бъдат съхранявани. Ако запитването доведе до резервация или договор, свързаните данни могат да се пазят по-дълго според приложимите договорни, счетоводни и законови срокове. Техническите дневници се пазят според кратките оперативни срокове на съответния доставчик.",
+          "Съхраняваме данните от запитванията само докато са необходими за комуникацията, подготовката и предоставянето на фотографски услуги или защитата на правни претенции. Периодично преглеждаме съхраняваните запитвания и изтриваме или анонимизираме данните, които вече не са необходими.",
+          "Данните, свързани с потвърдена резервация или договор, могат да бъдат съхранявани по-дълго, когато това се изисква от приложимото законодателство. Можете да поискате достъп или изтриване чрез посочения имейл.",
         ],
       },
       {
@@ -206,7 +207,8 @@ const privacyCopy: Record<"bg" | "en", PrivacyCopy> = {
         id: "retention",
         title: "7. How long we keep data",
         paragraphs: [
-          "We keep inquiries while needed for communication, quotation preparation, and project follow-up, then review and delete them when there is no longer a reason to retain them. If an inquiry leads to a booking or contract, related data may be kept longer in line with applicable contractual, accounting, and legal periods. Technical logs are retained according to each provider's short operational retention periods.",
+          "We retain inquiry data only for as long as necessary for communication, preparing and providing photography services, or establishing, exercising, or defending legal claims. We periodically review stored inquiries and delete or anonymize data that is no longer necessary.",
+          "Data connected to a confirmed booking or contract may be retained longer where required by applicable law. You may request access or deletion using the listed email address.",
         ],
       },
       {
