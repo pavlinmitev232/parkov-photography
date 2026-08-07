@@ -43,7 +43,7 @@ const privacyCopy: Record<"bg" | "en", PrivacyCopy> = {
         id: "controller",
         title: "1. Кой обработва данните ви",
         paragraphs: [
-          "Администратор на личните данни е собственикът и операторът на Parkov — фотографската услуга, представена на този уебсайт. Можете да се свържете с нас чрез посочения по-долу имейл.",
+          "Администратор на личните данни е собственикът на Parkov — фотографската услуга, представена на този уебсайт. Можете да се свържете с нас чрез посочения по-долу имейл.",
         ],
       },
       {
@@ -149,7 +149,7 @@ const privacyCopy: Record<"bg" | "en", PrivacyCopy> = {
         id: "controller",
         title: "1. Who controls your data",
         paragraphs: [
-          "The data controller is the owner and operator of Parkov, the photography service presented on this website. You can contact us using the email address below.",
+          "The data controller is the owner of Parkov, the photography service presented on this website. You can contact us using the email address below.",
         ],
       },
       {

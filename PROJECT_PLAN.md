@@ -123,7 +123,9 @@ Read this section first when continuing in a new Codex chat.
   form. The public wording uses recipient categories
   (database/storage, hosting/security, and transactional email) rather than
   naming individual technology vendors, keeping the notice accurate if a
-  provider changes while still describing who can receive inquiry data.
+  provider changes while still describing who can receive inquiry data. The
+  controller is described simply as the owner of Parkov; the redundant
+  "operator" wording was removed in both languages.
 
 ### Production Stack Decision
 
