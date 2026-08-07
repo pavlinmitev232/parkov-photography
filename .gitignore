@@ -48,3 +48,12 @@ next-env.d.ts
 
 # Local Netlify folder
 .netlify
+
+# Local project instructions, handoff notes, and audit reports
+/AGENTS.md
+/CLAUDE.md
+/PROJECT_PLAN.md
+/PROJECT_HANDOFF.md
+/DEVELOPMENT_LOG.md
+/DEPLOYMENT_AND_HANDOFF.md
+/security_best_practices_report.md
