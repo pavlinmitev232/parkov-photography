@@ -9,6 +9,8 @@ import { localizedSettings } from "@/lib/site-settings";
 export const dynamic = "force-static";
 export const revalidate = 300;
 
+const privacyEmail = "parkovvisualsparkov@gmail.com";
+
 type PrivacyCopy = {
   title: string;
   description: string;
@@ -41,7 +43,7 @@ const privacyCopy: Record<"bg" | "en", PrivacyCopy> = {
         id: "controller",
         title: "1. Кой обработва данните ви",
         paragraphs: [
-          "Администратор на личните данни е собственикът и операторът на Parkov — фотографската услуга, представена на този уебсайт. Можете да се свържете с нас чрез посочените по-долу имейл и телефон.",
+          "Администратор на личните данни е собственикът и операторът на Parkov — фотографската услуга, представена на този уебсайт. Можете да се свържете с нас чрез посочения по-долу имейл.",
         ],
       },
       {
@@ -147,7 +149,7 @@ const privacyCopy: Record<"bg" | "en", PrivacyCopy> = {
         id: "controller",
         title: "1. Who controls your data",
         paragraphs: [
-          "The data controller is the owner and operator of Parkov, the photography service presented on this website. You can contact us using the email address and telephone number below.",
+          "The data controller is the owner and operator of Parkov, the photography service presented on this website. You can contact us using the email address below.",
         ],
       },
       {
@@ -378,13 +380,8 @@ export default async function PrivacyPage({
                 <strong className="text-foreground">{content.brandName}</strong>
               </p>
               <p>
-                <a className="underline decoration-accent underline-offset-4" href={`mailto:${settings.email}`}>
-                  {settings.email}
-                </a>
-              </p>
-              <p>
-                <a className="underline decoration-accent underline-offset-4" href={`tel:${settings.phone.replace(/[^\d+]/g, "")}`}>
-                  {settings.phone}
+                <a className="underline decoration-accent underline-offset-4" href={`mailto:${privacyEmail}`}>
+                  {privacyEmail}
                 </a>
               </p>
               <p>

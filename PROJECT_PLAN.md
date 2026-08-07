@@ -115,10 +115,12 @@ Read this section first when continuing in a new Codex chat.
   retention criteria, visitor rights, cookies/local storage, and CPDP contact.
   The homepage footer and inquiry form now link to the policy. The public site
   has no analytics or advertising-cookie implementation, so no consent banner
-  was added. The controller's displayed brand/contact details come from the
-  owner-managed site settings; the owner should have the wording legally
-  reviewed and confirm that the displayed identity is sufficient for their
-  registered business form. The public wording uses recipient categories
+  was added. The controller's displayed brand comes from the owner-managed
+  site settings, while privacy requests use the dedicated contact address
+  `parkovvisualsparkov@gmail.com`; no telephone number is published on the
+  policy page. The owner should have the wording legally reviewed and confirm
+  that the displayed identity is sufficient for their registered business
+  form. The public wording uses recipient categories
   (database/storage, hosting/security, and transactional email) rather than
   naming individual technology vendors, keeping the notice accurate if a
   provider changes while still describing who can receive inquiry data.
