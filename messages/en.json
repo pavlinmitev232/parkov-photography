@@ -453,6 +453,12 @@
     "noContact": "Not specified",
     "saving": "Saving...",
     "statusError": "Could not save status.",
+    "pagination": {
+      "label": "Inquiry pages",
+      "summary": "Showing {shown} of {total} inquiries",
+      "newer": "Newer",
+      "older": "Older"
+    },
     "delete": {
       "action": "Delete inquiry",
       "shortAction": "Delete",
@@ -553,6 +559,12 @@
     "deleting": "Deleting...",
     "deleted": "Booking deleted",
     "deleteError": "The booking could not be deleted.",
+    "pagination": {
+      "label": "Booking pages",
+      "summary": "Showing {shown} of {total} bookings",
+      "earlier": "Earlier",
+      "later": "Later"
+    },
     "statuses": {
       "tentative": "Tentative",
       "confirmed": "Confirmed",

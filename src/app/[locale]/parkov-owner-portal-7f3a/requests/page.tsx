@@ -1,21 +1,35 @@
 import { ArrowLeft, Inbox } from "lucide-react";
+import type { Prisma } from "@prisma/client";
 import { getTranslations } from "next-intl/server";
+import { redirect } from "next/navigation";
+import { AdminPagination } from "@/components/admin-pagination";
 import { InquiryStatusSelect } from "@/components/inquiry-status-select";
 import { InquiryReplyAction } from "@/components/inquiry-reply-action";
 import { InquiryDeleteAction } from "@/components/inquiry-delete-action";
 import { Link } from "@/i18n/routing";
 import { requireOwnerSession } from "@/lib/auth/owner-session";
 import { adminPath } from "@/lib/admin-path";
+import {
+  decodeDateCursor,
+  encodeDateCursor,
+  getSearchParam,
+} from "@/lib/admin-pagination";
 import { prisma } from "@/lib/db/prisma";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminRequestsPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string }>;
+  searchParams: Promise<{
+    cursor?: string | string[];
+    direction?: string | string[];
+  }>;
 }) {
   const { locale } = await params;
+  const query = await searchParams;
   await requireOwnerSession(locale);
   const t = await getTranslations("adminRequests");
   const requestT = await getTranslations("request");
@@ -29,10 +43,75 @@ export default async function AdminRequestsPage({
     "family",
     "other",
   ];
-  const inquiries = await prisma.inquiry.findMany({
-    orderBy: { createdAt: "desc" },
-    take: 50,
-  });
+  const pageSize = 50;
+  const cursor = decodeDateCursor(getSearchParam(query.cursor));
+  const direction =
+    getSearchParam(query.direction) === "previous" ? "previous" : "next";
+  const cursorWhere: Prisma.InquiryWhereInput | undefined = cursor
+    ? direction === "previous"
+      ? {
+          OR: [
+            { createdAt: { gt: cursor.date } },
+            { createdAt: cursor.date, id: { gt: cursor.id } },
+          ],
+        }
+      : {
+          OR: [
+            { createdAt: { lt: cursor.date } },
+            { createdAt: cursor.date, id: { lt: cursor.id } },
+          ],
+        }
+    : undefined;
+  const [totalInquiries, pageInquiries] = await Promise.all([
+    prisma.inquiry.count(),
+    prisma.inquiry.findMany({
+      where: cursorWhere,
+      orderBy:
+        cursor && direction === "previous"
+          ? [{ createdAt: "asc" }, { id: "asc" }]
+          : [{ createdAt: "desc" }, { id: "desc" }],
+      take: pageSize,
+    }),
+  ]);
+  const inquiries =
+    cursor && direction === "previous" ? pageInquiries.reverse() : pageInquiries;
+
+  if (cursor && inquiries.length === 0 && totalInquiries > 0) {
+    redirect(`/${locale}${adminPath}/requests`);
+  }
+
+  const firstInquiry = inquiries[0];
+  const lastInquiry = inquiries.at(-1);
+  const [hasNewerInquiries, hasOlderInquiries] = await Promise.all([
+    firstInquiry
+      ? prisma.inquiry.findFirst({
+          where: {
+            OR: [
+              { createdAt: { gt: firstInquiry.createdAt } },
+              {
+                createdAt: firstInquiry.createdAt,
+                id: { gt: firstInquiry.id },
+              },
+            ],
+          },
+          select: { id: true },
+        })
+      : null,
+    lastInquiry
+      ? prisma.inquiry.findFirst({
+          where: {
+            OR: [
+              { createdAt: { lt: lastInquiry.createdAt } },
+              {
+                createdAt: lastInquiry.createdAt,
+                id: { lt: lastInquiry.id },
+              },
+            ],
+          },
+          select: { id: true },
+        })
+      : null,
+  ]);
 
   return (
     <main className="min-h-screen bg-surface px-5 py-10 md:px-8">
@@ -152,6 +231,26 @@ export default async function AdminRequestsPage({
                 </tbody>
               </table>
             </div>
+            <AdminPagination
+              basePath={`${adminPath}/requests`}
+              previousCursor={
+                hasNewerInquiries && firstInquiry
+                  ? encodeDateCursor(firstInquiry.createdAt, firstInquiry.id)
+                  : null
+              }
+              nextCursor={
+                hasOlderInquiries && lastInquiry
+                  ? encodeDateCursor(lastInquiry.createdAt, lastInquiry.id)
+                  : null
+              }
+              previousLabel={t("pagination.newer")}
+              nextLabel={t("pagination.older")}
+              summary={t("pagination.summary", {
+                shown: inquiries.length,
+                total: totalInquiries,
+              })}
+              ariaLabel={t("pagination.label")}
+            />
           </div>
         )}
       </div>

@@ -622,6 +622,28 @@ Implementation note on June 25, 2026:
   `app_metadata` owner-role check. Booking create, status update, calendar
   display, and delete all passed, and the temporary staging record was removed.
 
+### Admin Record Pagination
+
+- [x] Replace the fixed newest-50 inquiry view with cursor-based navigation so
+      every stored inquiry remains reachable, 50 records at a time.
+- [x] Replace the fixed first-250 booking view with cursor-based navigation so
+      every stored booking remains reachable, 50 records at a time.
+- [x] Add localized Bulgarian and English record totals and earlier/later or
+      newer/older controls with mobile-friendly touch targets.
+- [x] Keep inquiry deletion in the first table column on desktop and mobile.
+
+Verification on August 8, 2026:
+
+- `npm run lint`, `npx dotenv -e .env.owner.local -- npm run build`, and
+  `git diff --check` pass.
+- A local integration test with 105 temporary inquiries and 105 temporary
+  bookings verified forward and backward navigation across three pages for
+  both record types.
+- In-app browser checks at 1440 x 900 and 390 x 844 verified the inquiry delete
+  action remains first and the bilingual pagination controls do not overflow.
+- All 210 temporary database records were removed and their remaining counts
+  were verified as zero. The local app process and Docker services were stopped.
+
 ## Decisions
 
 - Admin lives in the same app under `/parkov-owner-portal-7f3a`.
