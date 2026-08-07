@@ -3,8 +3,10 @@ import {
   Camera,
   CheckCircle2,
   Languages,
+  Mail,
   MapPin,
   Music2,
+  Phone,
   Quote,
   Star,
   ThumbsUp,
@@ -82,6 +84,14 @@ export default async function HomePage({
     ? content.announcementText.trim()
     : "";
   const requestMethods = getContactMethods(settings);
+  const publicContactDetails: Partial<Record<string, string>> = {
+    phone: settings.phone,
+    email: settings.email,
+  };
+  const publicContactIcons = {
+    phone: Phone,
+    email: Mail,
+  };
   const socials = getSocialLinks(settings);
   const mapEmbedUrl = getMapEmbedUrl(settings);
   const socialIcons = {
@@ -479,16 +489,36 @@ export default async function HomePage({
             <h2 className="font-serif text-4xl font-bold md:text-6xl">{content.contactTitle}</h2>
             <p className="mt-6 leading-8 text-background/72">{content.contactCopy}</p>
             <div className="mt-8 grid gap-3">
-              {requestMethods.map((method) => (
-                <a
-                  href={method.href}
-                  className="inline-flex items-center gap-3 rounded-md border border-background/18 px-4 py-3 text-sm font-bold transition hover:border-accent hover:text-accent"
-                  key={method.key}
-                >
-                  <CheckCircle2 size={17} />
-                  {t(`contact.methods.${method.key}`)}
-                </a>
-              ))}
+              {requestMethods.map((method) => {
+                const ContactIcon =
+                  publicContactIcons[
+                    method.key as keyof typeof publicContactIcons
+                  ] ?? CheckCircle2;
+                const detail = publicContactDetails[method.key];
+
+                return (
+                  <a
+                    href={method.href}
+                    className="flex min-h-12 items-start gap-3 rounded-md border border-background/18 px-4 py-3 font-bold transition hover:border-accent hover:text-accent"
+                    key={method.key}
+                  >
+                    <ContactIcon
+                      className="size-5 h-lh shrink-0"
+                      aria-hidden="true"
+                    />
+                    <div className="min-w-0">
+                      <p className="text-base/7 sm:text-sm/6">
+                        {t(`contact.methods.${method.key}`)}
+                      </p>
+                      {detail && (
+                        <p className="break-all text-base/7 font-normal text-background/68 sm:text-sm/6">
+                          {detail}
+                        </p>
+                      )}
+                    </div>
+                  </a>
+                );
+              })}
             </div>
             <p className="mt-8 inline-flex items-center gap-2 text-sm text-background/62">
               <MapPin size={16} />
@@ -516,11 +546,29 @@ export default async function HomePage({
       </section>}
 
       <footer className="bg-background px-5 py-10 md:px-8">
-        <div className="mx-auto flex max-w-7xl flex-col justify-between gap-6 border-t border-line pt-8 md:flex-row md:items-center">
+        <div className="mx-auto grid max-w-7xl gap-8 border-t border-line pt-8 md:grid-cols-[1fr_auto_auto] md:items-end">
           <div>
             <strong className="font-serif text-2xl">{content.brandName}</strong>
             <p className="mt-2 text-sm text-muted">{content.footerCopy}</p>
           </div>
+          <address className="grid min-w-0 gap-2 not-italic">
+            <a
+              href={`tel:${settings.phone.replace(/[^\d+]/g, "")}`}
+              className="flex min-w-0 items-center gap-2 font-normal text-muted hover:text-foreground"
+              aria-label={`${t("contact.methods.phone")}: ${settings.phone}`}
+            >
+              <Phone className="size-4 shrink-0" aria-hidden="true" />
+              <span className="min-w-0 break-all">{settings.phone}</span>
+            </a>
+            <a
+              href={`mailto:${settings.email}`}
+              className="flex min-w-0 items-center gap-2 font-normal text-muted hover:text-foreground"
+              aria-label={`${t("contact.methods.email")}: ${settings.email}`}
+            >
+              <Mail className="size-4 shrink-0" aria-hidden="true" />
+              <span className="min-w-0 break-all">{settings.email}</span>
+            </a>
+          </address>
           <div className="flex flex-wrap items-center gap-3">
             <Link
               href="/privacy"

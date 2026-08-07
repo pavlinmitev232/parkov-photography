@@ -316,5 +316,7 @@ export function revalidatePublicHomeData(options?: { includeSettings?: boolean }
 
   if (options?.includeSettings) {
     revalidateTag(publicSiteSettingsTag, { expire: 0 });
+    revalidatePath("/bg/privacy");
+    revalidatePath("/en/privacy");
   }
 }

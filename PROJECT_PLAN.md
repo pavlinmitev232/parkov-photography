@@ -115,10 +115,9 @@ Read this section first when continuing in a new Codex chat.
   retention criteria, visitor rights, cookies/local storage, and CPDP contact.
   The homepage footer and inquiry form now link to the policy. The public site
   has no analytics or advertising-cookie implementation, so no consent banner
-  was added. The controller's displayed brand comes from the owner-managed
-  site settings, while privacy requests use the dedicated contact address
-  `parkovvisualsparkov@gmail.com`; no telephone number is published on the
-  policy page. The owner should have the wording legally reviewed and confirm
+  was added. The controller's displayed brand and privacy-request email come
+  from the owner-managed site settings; no telephone number is published on
+  the policy page. The owner should have the wording legally reviewed and confirm
   that the displayed identity is sufficient for their registered business
   form. The public wording uses recipient categories
   (database/storage, hosting/security, and transactional email) rather than
@@ -148,6 +147,14 @@ Read this section first when continuing in a new Codex chat.
   controls cover those records, including managed portfolio image objects.
   Erasure requests must be assessed record-by-record because contract, legal,
   or claims-related retention may justify keeping a specific booking or message.
+- August 8 public-contact follow-up: the privacy policy again reads its email
+  from the owner-managed site settings. The homepage contact section now shows
+  the actual phone number and email beneath their action labels, and the footer
+  exposes both as direct links in Bulgarian and English. Saving site settings
+  also explicitly revalidates both localized privacy routes. Desktop and 390px
+  in-app browser checks confirmed the contact cards and footer remain readable
+  without horizontal page overflow; the homepage and privacy page resolved to
+  the same current settings email.
 
 ### Production Stack Decision
 

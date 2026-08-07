@@ -9,8 +9,6 @@ import { localizedSettings } from "@/lib/site-settings";
 export const dynamic = "force-static";
 export const revalidate = 300;
 
-const privacyEmail = "parkovvisualsparkov@gmail.com";
-
 type PrivacyCopy = {
   title: string;
   description: string;
@@ -376,8 +374,8 @@ export default async function PrivacyPage({
                 <strong className="text-foreground">{content.brandName}</strong>
               </p>
               <p>
-                <a className="underline decoration-accent underline-offset-4" href={`mailto:${privacyEmail}`}>
-                  {privacyEmail}
+                <a className="underline decoration-accent underline-offset-4" href={`mailto:${settings.email}`}>
+                  {settings.email}
                 </a>
               </p>
               <p>
