@@ -170,6 +170,7 @@
     },
     "footer": {
       "copy": "Photography for people, events, businesses, and spaces across Bulgaria.",
+      "privacy": "Privacy Policy",
       "socials": {
         "instagram": "Instagram",
         "facebook": "Facebook",
@@ -209,6 +210,8 @@
     "submit": "Send request",
     "submitting": "Sending...",
     "success": "Thank you. Your request has been saved and is ready for the owner to review.",
+    "privacyNotice": "By sending this form, you confirm that you have read the",
+    "privacyLink": "Privacy Policy",
     "submitError": "Something went wrong while sending. Please try again or use phone, Viber, WhatsApp, or email.",
     "error": "Please fill this correctly.",
     "nameError": "Enter a name with at least 2 characters.",

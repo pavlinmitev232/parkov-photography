@@ -521,7 +521,13 @@ export default async function HomePage({
             <strong className="font-serif text-2xl">{content.brandName}</strong>
             <p className="mt-2 text-sm text-muted">{content.footerCopy}</p>
           </div>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap items-center gap-3">
+            <Link
+              href="/privacy"
+              className="flex min-h-11 items-center px-2 text-sm font-normal text-muted underline decoration-line underline-offset-4 hover:text-foreground"
+            >
+              {t("footer.privacy")}
+            </Link>
             {socials.map((social) => (
               (() => {
                 const Icon =

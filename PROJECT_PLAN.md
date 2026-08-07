@@ -109,6 +109,16 @@ Read this section first when continuing in a new Codex chat.
   optimized image URLs, and showed no broken images or browser errors. Lint and
   the production-data build pass. The performance fix targets upstream `main`;
   the Netlify production site still requires the client fork to sync that commit.
+- August 8 privacy/GDPR transparency update: added bilingual `/bg/privacy` and
+  `/en/privacy` pages based on the inquiry system's actual data flow, including
+  the collected fields, legal bases, processors, international transfers,
+  retention criteria, visitor rights, cookies/local storage, and CPDP contact.
+  The homepage footer and inquiry form now link to the policy. The public site
+  has no analytics or advertising-cookie implementation, so no consent banner
+  was added. The controller's displayed brand/contact details come from the
+  owner-managed site settings; the owner should have the wording legally
+  reviewed and confirm that the displayed identity is sufficient for their
+  registered business form.
 
 ### Production Stack Decision
 
