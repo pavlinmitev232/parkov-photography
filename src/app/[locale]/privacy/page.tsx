@@ -97,7 +97,7 @@ const privacyCopy: Record<"bg" | "en", PrivacyCopy> = {
         title: "7. Колко дълго пазим данните",
         paragraphs: [
           "Съхраняваме данните от запитванията само докато са необходими за комуникацията, подготовката и предоставянето на фотографски услуги или защитата на правни претенции. Периодично преглеждаме съхраняваните запитвания и изтриваме или анонимизираме данните, които вече не са необходими.",
-          "Данните, свързани с потвърдена резервация или договор, могат да бъдат съхранявани по-дълго, когато това се изисква от приложимото законодателство. Можете да поискате достъп или изтриване чрез посочения имейл.",
+          "Данните могат да бъдат съхранявани по-дълго, когато това се изисква от приложимото законодателство. Можете да поискате достъп или изтриване чрез посочения имейл.",
         ],
       },
       {
@@ -203,7 +203,7 @@ const privacyCopy: Record<"bg" | "en", PrivacyCopy> = {
         title: "7. How long we keep data",
         paragraphs: [
           "We retain inquiry data only for as long as necessary for communication, preparing and providing photography services, or establishing, exercising, or defending legal claims. We periodically review stored inquiries and delete or anonymize data that is no longer necessary.",
-          "Data connected to a confirmed booking or contract may be retained longer where required by applicable law. You may request access or deletion using the listed email address.",
+          "The data may be retained longer where required by applicable law. You may request access or deletion using the listed email address.",
         ],
       },
       {
