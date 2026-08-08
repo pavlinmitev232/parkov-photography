@@ -5,7 +5,6 @@ import { Send } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { type FieldErrors, useForm, useWatch } from "react-hook-form";
-import { Link } from "@/i18n/routing";
 import {
   inquirySchema,
   type InquiryFormValues,
@@ -281,15 +280,6 @@ export function RequestForm() {
           </p>
         )}
       </label>
-      <p className="text-base leading-7 text-muted sm:text-sm sm:leading-6">
-        {t("privacyNotice")}{" "}
-        <Link
-          href="/privacy"
-          className="font-semibold text-foreground underline decoration-accent underline-offset-4"
-        >
-          {t("privacyLink")}
-        </Link>
-      </p>
       <button
         type="submit"
         disabled={isSubmitting}
